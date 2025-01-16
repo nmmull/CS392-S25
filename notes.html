@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-01-14 Tue 14:39 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Course Notes</title>
+<meta name="author" content="Nathan  Mull" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="myStyle.css" />
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="index.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Course Notes</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#intro">1. What is this course?</a></li>
+<li><a href="#set-up">2. Set Up</a>
+<ul>
+<li><a href="#org40b6dcc">2.1. Cargo</a></li>
+</ul>
+</li>
+<li><a href="#orge2d56a0">3. The Basics</a>
+<ul>
+<li><a href="#orgf72dbd1">3.1. Variables and Mutability</a></li>
+<li><a href="#org1c32070">3.2. Constants</a></li>
+<li><a href="#orgdd76cd7">3.3. Data Types</a></li>
+<li><a href="#org44fcfca">3.4. Functions</a></li>
+<li><a href="#org9b8e958">3.5. Statements and Expressions</a></li>
+<li><a href="#orga6cbf01">3.6. Comments</a></li>
+<li><a href="#org0db1c9a">3.7. Control Flow</a></li>
+</ul>
+</li>
+<li><a href="#orgff7ba55">4. Ownership</a>
+<ul>
+<li><a href="#orgaf95ef5">4.1. Stack and Heap</a></li>
+<li><a href="#org30cf805">4.2. References and Borrowing</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+This is very rough draft set of notes (more of a collection of
+thoughts) for the course CAS CS 392 at Boston University.  It's
+primarily a supplement to <a href="https://doc.rust-lang.org/stable/book/title-page.html">The Rust Programming Language (RPL)</a>.  It's
+full of typos and dumb jokes.
+</p>
+
+<div id="outline-container-intro" class="outline-2">
+<h2 id="intro"><span class="section-number-2">1.</span> What is this course?</h2>
+<div class="outline-text-2" id="text-intro">
+<p>
+We usually learn PLs the "wrong" way: throw spaghetti code at the wall
+and see what sticks.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>  This course is an experiment in
+learning a PL the "right" way: give an airtight specification of a PL
+using the mathematical framework of PL theory.
+</p>
+
+<p>
+Rust is an excellent testbed for this kind of experiment. It's a PL
+that's gaining in popularity but has some bizzaro features in its type
+systems<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> that turn out to be incredibly useful for
+addressing some of the more egregious bugs in low-level programming.
+Add to that the fact the theoretical underpinnings of Rust are
+simultaneously very old (it's based on <i>linear logic</i>, an innovation
+of Jean-Yves Girard from the 80s, based on ideas that came long before
+it) and very young (the formalization of Rust-proper postdates its own
+conception and popularity, as evidenced by the publication year (2021)
+of the paper we'll use in the second half of the course). This gives
+us a wide range of sources to better understand what the heck is going
+on with this language.
+</p>
+
+<p>
+The points is not to learn Rust, at least not entirely.<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>  The point is to <i>understand the core of Rust</i>.
+Per the previous paragraph, this means learning a bit of mathematics.
+It also means dipping into research from <i>this decade</i>, which means
+learning to read academic papers (more of a skill than you might
+expect).  And since we're learning a PL, we might as well build
+something with it.  The proverbial "they" say that you don't know a PL
+until you've done a project in it.  The less-proverbial "they" might
+say you don't know a PL until you understand it's formal
+specification.  We'll kill two birds with one stone<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
+and build an interpreter in Rust for a subset of Rust.  So our rough
+plan:
+</p>
+
+<ul class="org-ul">
+<li>learn enough Rust to be dangerous</li>
+<li>learn to read/practice reading research papers in PL, so that we can
+read a paper which gives a formal specification of a subset of Rust
+(we'll do this together as a group)</li>
+<li>Test our knowledge by <i>implementing</i> that subset of Rust <i>in Rust</i></li>
+</ul>
+
+<p>
+Now, admittedly, I'd like to believe that's all the motivation we'll
+need.  If you're interested in this course, I'd hope you also have some
+iota of preexisting interest in Rust.  But it is my duty to
+(begrudgingly) motivate why you should learn something interesting.
+</p>
+<ul class="org-ul">
+<li><b>For those interested in PL:</b> Linear types, affine types, types for
+concurrency, these are <i>current</i> research areas.  Rust is something
+of a success story, one of those rare instances of a PL becoming
+popular for being both interesting and usable.  If you took CS320,
+it's one thing to give a formal specification of a clean functional
+PL, applying these ideas to Rust and friends will be a formative
+challenge.</li>
+<li><b>For those interested in programming:</b> I am of the opinion that it's
+always valuable to learn a new language paradigm, but maybe that's
+not enough motivation──Rust is ranked 14th according to the
+<a href="https://www.tiobe.com/tiobe-index/">December 2024 TIOBE index</a>
+with one of the most <a href="https://www.tiobe.com/tiobe-index/rust/">generally uptrending graphs</a> in the top 20.
+It's being adopted by large companies like Amazon and Microsoft, but
+also smaller companies, anyone who needs safe low-level code.  Rust
+is an <i>ahead-of-time compiled</i> language; it's good to have one of
+those in your back pocket, and I think Rust is one of the more
+interesting choices (over, say, C).</li>
+<li><b>For those interested in systems:</b> I can't pretend to really know
+what's going on in the world of systems, but Rust touts itself as
+having a lot of potential in this area.  It may be worthwhile to
+understand it, even if just to be able to adequately respond to the
+hype.</li>
+<li><b>Everyone else:</b> I dunno, good luck. If you're not one of the above,
+I honestly don't see any reason why you should learn Rust.</li>
+</ul>
+
+<p>
+Enough preamble, let's Rust.
+</p>
+</div>
+</div>
+
+<div id="outline-container-set-up" class="outline-2">
+<h2 id="set-up"><span class="section-number-2">2.</span> Set Up</h2>
+<div class="outline-text-2" id="text-set-up">
+<p>
+Set up and installation of Rust is comparatively easy.  We'll
+primarily be using <b>Cargo</b>, a build system for Rust akin to OCaml's Dune
+(but quite a bit better).  You should follow the <code>rustup</code> <a href="https://doc.rust-lang.org/stable/book/ch01-01-installation.html">installation
+instructions</a> in RPL for your OS.
+</p>
+
+
+<blockquote>
+<p>
+<b>Note:</b> If you're running Windows, then I'll assume that you're
+using WSL.  You're welcome to try to install directly, but <i>I will not
+help you troubleshoot.</i> Not so much because I don't want (also, I
+don't) but because I don't really know how.
+</p>
+</blockquote>
+
+<p>
+If you'd like, you can go through the <a href="https://doc.rust-lang.org/stable/book/ch01-02-hello-world.html">Hello, World!</a> section of RPL,
+but we won't be using the rust compiler directly in this course.
+Instead, we'll follow RPL's recommendations on project hygiene and
+always assume a Cargo project.  You <i>should</i> go through the <a href="https://doc.rust-lang.org/stable/book/ch01-03-hello-cargo.html">Hello,
+Cargo!</a> section of RPL (we'll also go over it in lecture).
+</p>
+</div>
+
+<div id="outline-container-org40b6dcc" class="outline-3">
+<h3 id="org40b6dcc"><span class="section-number-3">2.1.</span> Cargo</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org437e6e4"></a><span class="todo TODO">TODO</span> Cargo Section<br /></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orge2d56a0" class="outline-2">
+<h2 id="orge2d56a0"><span class="section-number-2">3.</span> The Basics</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This is a collection of concepts that are common to all programming
+languages.  I expect that you're already familiar with all of these
+concepts.  The goal here is to provide a more careful analysis of
+these concepts than what is given in the Rust book, primarily with
+respect to syntax, and a bit of the typing
+</p>
+</div>
+
+<div id="outline-container-orgf72dbd1" class="outline-3">
+<h3 id="orgf72dbd1"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
+<div class="outline-text-3" id="text-3-1">
+<blockquote>
+<p>
+<b>Grammar:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">var-decl</span>&gt;  <span style="color: #008b8b;">::=</span> let &lt;<span style="color: #483d8b;">var-ident</span>&gt; = &lt;<span style="color: #483d8b;">expr</span>&gt;
+              <span style="color: #ff0000; font-weight: bold;">|</span> let mut &lt;<span style="color: #483d8b;">var-ident</span>&gt; = &lt;<span style="color: #483d8b;">expr</span>&gt;
+&lt;<span style="color: #0000ff;">var-ident</span>&gt; <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; snake_case ;</span>
+</pre>
+</div>
+</blockquote>
+
+<p>
+Variables are immutable by default.  This is generally safer
+(mutability is the root of much evil).  If you attempt to mutate an
+immutable variable, you'll get a compiler error.  You can reuse (i.e.,
+shadow) variable names with declarations.
+</p>
+
+<blockquote>
+<p>
+<b>Example:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">let</span> <span style="color: #a0522d;">x</span> = 1;
+<span style="color: #483d8b;">assert_eq!</span>(x, 1);
+</pre>
+</div>
+</blockquote>
+
+<p>
+We use the <code>mut</code> keyword to declare mutable variables, which are
+allowed to be reassigned/mutated.
+</p>
+
+<blockquote>
+<p>
+<b>Example:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">x</span> = 1;
+x = 2;
+<span style="color: #483d8b;">assert_eq!</span>(x, 2);
+</pre>
+</div>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org1c32070" class="outline-3">
+<h3 id="org1c32070"><span class="section-number-3">3.2.</span> Constants</h3>
+<div class="outline-text-3" id="text-3-2">
+<blockquote>
+<p>
+<b>Grammar:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">const-decl</span>&gt;  <span style="color: #008b8b;">::=</span> const &lt;<span style="color: #483d8b;">const-ident</span>&gt; : &lt;<span style="color: #483d8b;">ty</span>&gt; = &lt;<span style="color: #483d8b;">expr</span>&gt;
+&lt;<span style="color: #0000ff;">const-ident</span>&gt; <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; SCREAMING_SNAKE_CASE ;</span>
+</pre>
+</div>
+</blockquote>
+
+<p>
+Constants are like immutable variables except that:
+</p>
+<ul class="org-ul">
+<li>they are declared with the <code>const</code> keyword</li>
+<li>by convention, they are named using <code>SCREAMING_SNAKE_CASE</code></li>
+<li>they must be type annotated (I don't know why yet)</li>
+<li>they must be assigned to a value that can be computed at
+compile-time (e.g., no stdin reads)</li>
+</ul>
+
+<p>
+As in most PLs, constants are primarily useful for code clarity and
+maintenance.
+</p>
+
+<blockquote>
+<p>
+<b>Example:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">const</span> <span style="color: #a0522d;">SPEED_OF_LIGHT</span> : <span style="color: #228b22;">u32</span> = 299792458;
+<span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">SPEED_OF_LIGHT</span>, 299792458);
+</pre>
+</div>
+</blockquote>
+</div>
+</div>
+
+
+<div id="outline-container-orgdd76cd7" class="outline-3">
+<h3 id="orgdd76cd7"><span class="section-number-3">3.3.</span> Data Types</h3>
+<div class="outline-text-3" id="text-3-3">
+<blockquote>
+<p>
+<b>Grammar:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">ty</span>&gt;          <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">scalar-ty</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">compound-ty</span>&gt;
+&lt;<span style="color: #0000ff;">scalar-ty</span>&gt;   <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">int-ty</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">float-ty</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> bool <span style="color: #ff0000; font-weight: bold;">|</span> char
+&lt;<span style="color: #0000ff;">int-ty</span>&gt;      <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">sint-ty</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">uint-ty</span>&gt;
+&lt;<span style="color: #0000ff;">sint-ty</span>&gt;     <span style="color: #008b8b;">::=</span> i16 <span style="color: #ff0000; font-weight: bold;">|</span> i32 <span style="color: #ff0000; font-weight: bold;">|</span> i64 <span style="color: #ff0000; font-weight: bold;">|</span> i128 <span style="color: #ff0000; font-weight: bold;">|</span> isize
+&lt;<span style="color: #0000ff;">uint-ty</span>&gt;     <span style="color: #008b8b;">::=</span> u16 <span style="color: #ff0000; font-weight: bold;">|</span> u32 <span style="color: #ff0000; font-weight: bold;">|</span> u64 <span style="color: #ff0000; font-weight: bold;">|</span> u128 <span style="color: #ff0000; font-weight: bold;">|</span> usize
+&lt;<span style="color: #0000ff;">float-ty</span>&gt;    <span style="color: #008b8b;">::=</span> f32 <span style="color: #ff0000; font-weight: bold;">|</span> f64
+&lt;<span style="color: #0000ff;">compound-ty</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">tuple-ty</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">array-ty</span>&gt;
+&lt;<span style="color: #0000ff;">tuple-ty</span>&gt;    <span style="color: #008b8b;">::=</span> ( &lt;<span style="color: #483d8b;">tys</span>&gt; )
+&lt;<span style="color: #0000ff;">tys</span>&gt;         <span style="color: #008b8b;">::=</span> &#1013; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">ty</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">ty</span>&gt; , &lt;<span style="color: #483d8b;">tys</span>&gt;
+&lt;<span style="color: #0000ff;">array-ty</span>&gt;    <span style="color: #008b8b;">::=</span> [&lt;<span style="color: #483d8b;">ty</span>&gt;&#65307;&lt;<span style="color: #483d8b;">usize-lit</span>&gt;]
+</pre>
+</div>
+</blockquote>
+
+<p>
+Rust is statically typed, i.e., the type of every variable is known at
+compile-time.  Rust does some amount of type inference (except for
+constant, it seems).  When in doubt, type annotate variables. It
+doesn't hurt, and can act as a simple form of documentation.
+</p>
+
+<p>
+There are two kinds of data types: <b>scalar</b> and <b>compound</b>.  We'll do
+a quick outline of these types below, most of this should be familiar.
+</p>
+
+<ul class="org-ul">
+<li>Scalar:
+<ul class="org-ul">
+<li>Integers:
+<ul class="org-ul">
+<li><code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code>, <code>i128</code>, and <code>u8</code>, <code>u16</code>, <code>u32</code>, <code>u64</code>, <code>u128</code></li>
+<li>The number indicates the number of bits used to represent the
+integer. <b>The default for type inference is i32.</b></li>
+<li>There is also <code>isize</code> and <code>usize</code> used for indexing</li>
+<li>There are standard literals for decimal, hex, octal, binary, and
+bytes.  Look them up if you need them.</li>
+<li>Rust's compiler can check for integer overflow in debug mode, but
+wraps by default for release mode.  We're gonna ignore this for
+now (as if we'll be writing any production code&#x2026;)</li>
+</ul></li>
+<li>Floating-point numbers:
+<ul class="org-ul">
+<li><code>f32</code> and <code>f64</code>. <b>The default for type inference is <code>f64</code>.</b></li>
+<li>Represented using IEEE-754 (of course)</li>
+</ul></li>
+<li>Booleans:
+<ul class="org-ul">
+<li>type: <code>bool</code></li>
+<li>two literals: <code>true</code> and <code>false</code></li>
+</ul></li>
+<li>Characters:
+<ul class="org-ul">
+<li>type: <code>char</code></li>
+<li>example: <code>'q'</code>, <code>'✗'</code></li>
+<li>four bytes, represent unicode scalars (characters are weird but
+I don't care at the moment though)</li>
+</ul></li>
+</ul></li>
+<li>Compound:
+<ul class="org-ul">
+<li>Tuples:
+<ul class="org-ul">
+<li>type: <code>(t1, t2,..., tk)</code></li>
+<li>literal: <code>(e1, e2,..., ek)</code></li>
+<li><p>
+accessor: <code>p.i</code>
+</p>
+<blockquote>
+<p>
+<b>Example:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">let</span> <span style="color: #a0522d;">tup</span>: (<span style="color: #228b22;">i32</span>, <span style="color: #228b22;">bool</span>, <span style="color: #228b22;">u32</span>) = (2, <span style="color: #a020f0;">true</span>, 2);
+<span style="color: #483d8b;">assert_eq!</span>(tup.1, <span style="color: #a020f0;">true</span>);
+</pre>
+</div>
+</blockquote></li>
+</ul></li>
+<li>Arrays:
+<ul class="org-ul">
+<li>type: <code>[t; n]</code> where <code>t</code> is a type and <code>n</code> is a <code>usize</code> for the
+number of elements. <b>IMPORTANT: Arrays are fixed length.</b></li>
+<li>Arrays are allocated on the stack. Rust panics if an index is
+out of bounds (in particular, it <i>actually checks</i> at runtime).</li>
+<li><p>
+indexing: <code>a[i]</code>, where <code>i</code> is a <code>usize</code>.
+</p>
+<blockquote>
+<p>
+<b>Example:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">const</span> <span style="color: #a0522d;">J</span> : <span style="color: #228b22;">usize</span> = 5;
+<span style="color: #a020f0;">let</span> <span style="color: #a0522d;">a</span> : [<span style="color: #228b22;">u32</span>; <span style="color: #228b22;">J</span>] = [1, 2, 3, 4, 5];
+<span style="color: #a020f0;">let</span> <span style="color: #a0522d;">i</span> : <span style="color: #228b22;">usize</span> = 2;
+<span style="color: #483d8b;">assert_eq!</span>(a[i], 3);
+</pre>
+</div>
+</blockquote></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>
+Check <a href="https://doc.rust-lang.org/stable/book/appendix-02-operators.html#operators">here</a> for details on operators, arithmetic, Boolean or otherwise.
+We will, of course, see more types as the course goes on (and define
+our own types).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org44fcfca" class="outline-3">
+<h3 id="org44fcfca"><span class="section-number-3">3.4.</span> Functions</h3>
+<div class="outline-text-3" id="text-3-4">
+<blockquote>
+<p>
+<b>Grammar:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">fun-decl</span>&gt;  <span style="color: #008b8b;">::=</span> fn &lt;<span style="color: #483d8b;">fun-ident</span>&gt;(&lt;<span style="color: #483d8b;">params</span>&gt;) &lt;<span style="color: #483d8b;">block</span>&gt;
+              <span style="color: #ff0000; font-weight: bold;">|</span> fn &lt;<span style="color: #483d8b;">fun-ident</span>&gt;(&lt;<span style="color: #483d8b;">params</span>&gt;) -&gt; &lt;<span style="color: #483d8b;">ty</span>&gt; &lt;<span style="color: #483d8b;">block</span>&gt;
+&lt;<span style="color: #0000ff;">params</span>&gt;    <span style="color: #008b8b;">::=</span> &#1013; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">param</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">param</span>&gt; , &lt;<span style="color: #483d8b;">params</span>&gt;
+&lt;<span style="color: #0000ff;">param</span>&gt;     <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">var-ident</span>&gt; : &lt;<span style="color: #483d8b;">ty</span>&gt;
+&lt;<span style="color: #0000ff;">block</span>&gt;     <span style="color: #008b8b;">::=</span> { &lt;<span style="color: #483d8b;">stmts</span>&gt; }
+&lt;<span style="color: #0000ff;">fun-ident</span>&gt; <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; snake_case ;</span>
+</pre>
+</div>
+</blockquote>
+
+<p>
+Functions in Rust behave much like functions in other languages.  A couple key notes:
+</p>
+<ul class="org-ul">
+<li>parameters must be type-annotated</li>
+<li>the return type must be given if the function returns a value</li>
+</ul>
+
+<p>
+There is a <code>return</code> keyword, but we don't often use it; the return
+value is the last expression in the function block. If no last
+expression is given then the return value is <code>()</code> of type <code>()</code> (i.e.,
+the unit type); see the <code>&lt;block&gt;</code> case in the given grammar for more
+details about how the bodies of functions might look (there's a bit of
+trickiness with regards to semicolons but I'm not going to dwell on it
+since the compiler is pretty good at catching these things).
+</p>
+
+<blockquote>
+<p>
+<b>Example:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">sum_of_squares</span>(<span style="color: #a0522d;">x</span> : <span style="color: #228b22;">u32</span>, <span style="color: #a0522d;">y</span> : <span style="color: #228b22;">u32</span>) -&gt; <span style="color: #228b22;">u32</span> {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">x_squared</span> = x * x;
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">y_squared</span> = y * y;
+    x_squared + y_squared
+}
+</pre>
+</div>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org9b8e958" class="outline-3">
+<h3 id="org9b8e958"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
+<div class="outline-text-3" id="text-3-5">
+<blockquote>
+<p>
+<b>Grammar:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">stmts</span>&gt;      <span style="color: #008b8b;">::=</span> &#1013;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">fun-decl</span>&gt; &lt;<span style="color: #483d8b;">stmts</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">stmt</span>&gt; &#65307;&lt;<span style="color: #483d8b;">stmts</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr</span>&gt; &#65307;&lt;<span style="color: #483d8b;">stmts</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr-no-sc</span>&gt; &lt;<span style="color: #483d8b;">stmts</span>&gt;
+&lt;<span style="color: #0000ff;">stmt</span>&gt;       <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">var-decl</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">const-decl</span>&gt;
+&lt;<span style="color: #0000ff;">expr-no-sc</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">if-expr</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">while-expr</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">for-expr</span>&gt;
+&lt;<span style="color: #0000ff;">expr</span>&gt;       <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">block</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">lit</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">uop-expr</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">bop-expr</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">call-expr</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> ( &lt;<span style="color: #483d8b;">expr</span>&gt; )
+&lt;<span style="color: #0000ff;">lit</span>&gt;        <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">int-lit</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">float-lit</span>&gt;
+               <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">char-lit</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> bool-lit&gt;
+&lt;<span style="color: #0000ff;">int-lit</span>&gt;    <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; see docs ;</span>
+&lt;<span style="color: #0000ff;">float-lit</span>&gt;  <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; see docs ;</span>
+&lt;<span style="color: #0000ff;">char-lit</span>&gt;   <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; see docs ;</span>
+&lt;<span style="color: #0000ff;">bool-lit</span>&gt;   <span style="color: #008b8b;">::=</span> true <span style="color: #ff0000; font-weight: bold;">|</span> false
+&lt;<span style="color: #0000ff;">uop-expr</span>&gt;   <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">uop</span>&gt; &lt;<span style="color: #483d8b;">expr</span>&gt;
+&lt;<span style="color: #0000ff;">bop-expr</span>&gt;   <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">expr</span>&gt; &lt;<span style="color: #483d8b;">bop</span>&gt; &lt;<span style="color: #483d8b;">expr</span>&gt;
+&lt;<span style="color: #0000ff;">uop</span>&gt;        <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; see docs ;</span>
+&lt;<span style="color: #0000ff;">bop</span>&gt;        <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; see docs ;</span>
+&lt;<span style="color: #0000ff;">call-expr</span>&gt;  <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">fn-ident</span>&gt;(&lt;<span style="color: #483d8b;">exprs</span>&gt;)<span style="color: #b22222;">;</span>
+&lt;<span style="color: #0000ff;">exprs</span>&gt;      <span style="color: #008b8b;">::=</span> &#1013; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr</span>&gt; , &lt;<span style="color: #483d8b;">exprs</span>&gt;
+</pre>
+</div>
+</blockquote>
+
+<p>
+Statements perform actions and do not have a value.  Expressions have
+values, and are evaluated.  The only statements we've seen so far are
+declarations.  Any expression can be assigned to a variable (you
+should check this, it works even for things like <code>while</code> expressions).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga6cbf01" class="outline-3">
+<h3 id="orga6cbf01"><span class="section-number-3">3.6.</span> Comments</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+Use them or don't, I don't really care.
+</p>
+
+<blockquote>
+<p>
+<b>Example:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #b22222;">// </span><span style="color: #b22222;">a comment</span>
+<span style="color: #b22222;">// </span><span style="color: #b22222;">another comment</span>
+</pre>
+</div>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org0db1c9a" class="outline-3">
+<h3 id="org0db1c9a"><span class="section-number-3">3.7.</span> Control Flow</h3>
+<div class="outline-text-3" id="text-3-7">
+<blockquote>
+<p>
+<b>Grammar:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">if-expr</span>&gt;      <span style="color: #008b8b;">::=</span> if &lt;<span style="color: #483d8b;">expr</span>&gt; { &lt;<span style="color: #483d8b;">stmts</span>&gt; } &lt;<span style="color: #483d8b;">else-if-expr</span>&gt;
+&lt;<span style="color: #0000ff;">else-if-expr</span>&gt; <span style="color: #008b8b;">::=</span> &#1013; <span style="color: #ff0000; font-weight: bold;">|</span> else { &lt;<span style="color: #483d8b;">stmts</span>&gt; } <span style="color: #ff0000; font-weight: bold;">|</span> else if { &lt;<span style="color: #483d8b;">stmts</span>&gt; } &lt;<span style="color: #483d8b;">else-if-expr</span>&gt;
+&lt;<span style="color: #0000ff;">while-expr</span>&gt;   <span style="color: #008b8b;">::=</span> while &lt;<span style="color: #483d8b;">expr</span>&gt; { &lt;<span style="color: #483d8b;">stmts</span>&gt; }
+&lt;<span style="color: #0000ff;">for-expr</span>&gt;     <span style="color: #008b8b;">::=</span> for &lt;<span style="color: #483d8b;">var-ident</span>&gt; in &lt;<span style="color: #483d8b;">expr</span>&gt; { &lt;<span style="color: #483d8b;">stmts</span>&gt; }
+</pre>
+</div>
+</blockquote>
+
+<p>
+Control flow is also pretty standard. A couple things to keep in mind:
+</p>
+<ul class="org-ul">
+<li>control flow is defined by <i>expressions</i>. This means they can be
+used as the values of variables; this is particularly nice for
+if-expressions</li>
+<li>the then-case and the else-case blocks must be the same type</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgff7ba55" class="outline-2">
+<h2 id="orgff7ba55"><span class="section-number-2">4.</span> Ownership</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Ownership accounts for the first plateau in the learning curve of
+Rust.
+</p>
+</div>
+
+<div id="outline-container-orgaf95ef5" class="outline-3">
+<h3 id="orgaf95ef5"><span class="section-number-3">4.1.</span> Stack and Heap</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>there are two kinds of memory we need to think about: <b>stack</b> and <b>heap</b>
+<ul class="org-ul">
+<li>We won't care too much about this except up to it's usefulness as an analogy.</li>
+<li>Stack memory is simple. If all we needed to do was work with the
+stack, then we wouldn't be having this conversation.
+<ul class="org-ul">
+<li>The restriction: the stack needs to have fixed size.
+<ul class="org-ul">
+<li>I still don't really know why, why not store dynamic sized
+memory on the stack? (Let's just assume this)</li>
+</ul></li>
+</ul></li>
+<li>The heap is less organized
+<ul class="org-ul">
+<li>You must request space, and it must be allocated, you work with a pointer to the memory.</li>
+<li>In rust we won't often think in terms of pointers, this is part of the point</li>
+</ul></li>
+<li>pushing to the stack is faster, accessing is faster, but data must
+be fixed size, and is ephemeral. Why would we want to put anything
+on the stack?  If it's size can change, or if it needs to persist</li>
+<li>The problem: if we put things on the heap, we need to know when we can deallocate to free up memory.
+<ul class="org-ul">
+<li>In C, you have to do this by hand</li>
+<li>In modern programming languages, there is so-called garbage collecting</li>
+<li>In Swift, there is automatic reference counting
+<ul class="org-ul">
+<li>What are the benefits of GC? Not sure. I think it's a bit of magic.</li>
+</ul></li>
+<li>We also don't want to DUPLICATE</li>
+</ul></li>
+</ul></li>
+<li>The main idea: every value has a single owner (variable). When the owner goes out of scope, so does the value.
+<ul class="org-ul">
+<li>This requires carefully understanding scope.
+<ul class="org-ul">
+<li>The scope of a variable is: after it is declared up to the end of the block in which it is declared.</li>
+<li>expression which update must be updating something on the heap</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org30cf805" class="outline-3">
+<h3 id="org30cf805"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>Rust automatically calls <code>drop</code> function when a any variable goes out of scope</li>
+<li>(We should say something about static memory)</li>
+<li>Values which implement the <code>Copy</code> trait are types which can be copied assignment, no moving.</li>
+<li>There are three things: copy, move, (mutable) borrow</li>
+<li>Exercise how can we implement the swap function? (We can't really)</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">My nature does not allow me to introduce
+anything without a wannabe-hybrid-Salinger-Wallace-esqe preamble.  I
+wish it didn't have to be this way but at some point, we can't break
+from our aesthetic inclinations.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">An uncommon pairing, most popular languages are beige
+wallpaper boring.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">I don't
+even like Rust that much, to be honest.  It's probably most
+fascinating to me from a social theoretical perspective than from a PL
+design perspective.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">I had a
+conversation with some folks about possible alternative idioms.  PETA
+recommends "feed two birds with one scone." Not punchy enough in my
+opinion.  My dad came up with two pretty good ones: "strike out to
+batters with one pitch" (nonsensical in a pleasant way) and "destroy
+two planets with one deathstar" (to better align with nerd culture).</p></div></div>
+
+
+</div>
+</div></div>
+</body>
+</html>

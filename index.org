@@ -1,0 +1,82 @@
+#+title: CAS CS 392
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:nil num:nil
+#+HTML_LINK_HOME: http://nmmull.github.io
+
+| Title    | Rust, in Practice and in Theory |
+| Location | Boston University               |
+| Semester | Spring 2025                     |
+
+This is a course about the PL Rust.  We'll spend the first half of
+this course learning how to program in Rust, then we'll shift to
+/implementing/ a subset of Rust /in/ Rust based on [[https://dl.acm.org/doi/10.1145/3443420][a very nice
+calculus]] defined by David J. Pearce.  See the [[file:schedule.org][schedule]] and [[file:Syllabus/syllabus.org][syllabus]]
+for more details.
+
+* Pages
+
++ [[file:schedule.org][Schedule (Full)]]
++ [[file:material.org][Material]]
++ [[file:Syllabus/syllabus.org][Syllabus]]
++ [[file:notes.org][Course Notes]]
+
+* Links
+
++ [[https://piazza.com/class/m5rfqa1vsoy2i/][Piazza]]
++ [[https://www.gradescope.com/courses/953489][Gradescope]]
++ [[https://www.rust-lang.org][Rust]]
++ Reading:
+  + [[https://doc.rust-lang.org/stable/book/][The Rust Programming Language]]
+  + [[https://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf][A taste of linear logic]]
+  + [[https://dl.acm.org/doi/10.1145/3443420][A Lightweight Formalism for Reference Lifetimes and Borrowing in Rust]]
+
+* Schedule (Overview)
+
+|-------+---------------------------------------------+-----------------|
+| Date  | Topic                                       | Notes           |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#01-21][01-21]] | Basics I: Introduction, Installation, Cargo |                 |
+| [[file:schedule.org::#01-23][01-23]] | Basics II: Common Programming Concepts      | A1 out          |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#01-28][01-28]] | Ownership I: The Stack and Heap             |                 |
+| [[file:schedule.org::#01-30][01-30]] | Ownership II: References, Borrowing         | A2 out, A1 due  |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#02-04][02-04]] | Data I: Structures, Enumerations            |                 |
+| [[file:schedule.org::#02-06][02-06]] | Data II: Collections, Slices                | A3 out, A2 due  |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#02-11][02-11]] | Functions I: Generics and Traits            |                 |
+| [[file:schedule.org::#02-13][02-13]] | Functions II: Closures, Iterators           | A4 out, A3 due  |
+|-------+---------------------------------------------+-----------------|
+| 02-18 | *NO CLASS*                                  | Presidents' Day |
+| [[file:schedule.org::#02-20][02-20]] | Lifetimes                                   | A5 out, A4 due  |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#02-25][02-25]] | Smart Pointers I: Boxes, Recursive Data     |                 |
+| [[file:schedule.org::#02-27][02-27]] | Smart Pointers II: ~Rc<T>~ and ~RefCell<T>~ | A6 out, A5 due  |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#03-04][03-04]] | TBD                                         |                 |
+| [[file:schedule.org::#03-06][03-06]] | *Midterm Exam*                              | A6 due          |
+|-------+---------------------------------------------+-----------------|
+| 03-11 | *NO CLASS*                                  | Spring Recess   |
+| 03-13 | *NO CLASS*                                  | Spring Recess   |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#03-18][03-18]] | Theory I: Crash Course in Logic             |                 |
+| [[file:schedule.org::#03-20][03-20]] | Theory II: Linear Types                     | A7 out          |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#03-25][03-25]] | Theory III: Crafting Interpreters |                 |
+| [[file:schedule.org::#03-27][03-27]] | Workshop: An Interpreter for LTLC           | A8 out, A7 due  |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#04-01][04-01]] | FR Calculus I: Introduction                 |                 |
+| [[file:schedule.org::#04-03][04-03]] | FR Calculus II: Syntax                      | FP out, A8 due  |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#04-08][04-08]] | Workshop: A Parser                          |                 |
+| [[file:schedule.org::#04-10][04-10]] | FR Calculus III: Semantics                  | FP part 1 due   |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#04-15][04-15]] | Workshop: An Evaluator                      |                 |
+| [[file:schedule.org::#04-17][04-17]] | FR Calculus IV: Type and Borrow Checking    | FP part 2 due   |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#04-22][04-22]] | Workshop: A Type/Borrow Checker             |                 |
+| [[file:schedule.org::#04-24][04-24]] | FR Calculus V: Extensions                   | FP part 3 due   |
+|-------+---------------------------------------------+-----------------|
+| [[file:schedule.org::#04-29][04-29]] | Advanced I: Soundness (Part 1)              |                 |
+| [[file:schedule.org::#05-01][05-01]] | Advanced II: Soundness (Part 2)             | FP due          |
+|-------+---------------------------------------------+-----------------|

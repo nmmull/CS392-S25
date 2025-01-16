@@ -1,0 +1,260 @@
+#+title: Schedule
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:1 num:nil
+#+HTML_LINK_HOME: index.html
+* Week 1: Basics
+** TUE 01-21 Lecture 1
+:PROPERTIES:
+:CUSTOM_ID: 01-21
+:END:
+*** Title: *Course Introduction*
+*** Topics:
++ Discuss how the course structure, expectations, etc.
++ Briefly talk about Rust
++ Install Rust and Cargo
++ Set up our first Cargo project
+*** Reading:
++ Syllabus
++ The Rust Programming Language (RPL): [[https://doc.rust-lang.org/book/foreword.html][Forward]]
++ RPL: [[https://doc.rust-lang.org/book/ch00-00-introduction.html][Introduction]]
++ RPL 1: [[https://doc.rust-lang.org/book/ch01-00-getting-started.html][Getting Started]]
++ Course Notes (CN) 1: [[file:notes.org::#intro][What is this course?]]
++ CN 2: [[file:notes.org::#set-up][Set up]]
+*** Discussion Questions:
++ Why are you taking this course?  What do you want to get out of it?
++ Have you heard of Rust before this course?
++ Do you like using a low-level programming language like C?
+** THU 01-23 Lecture 2
+:PROPERTIES:
+:CUSTOM_ID: 01-23
+:END:
+*** Title: *Basic Programming*
+*** Topics:
++ Do some "normal" programming with Rust
++ Look more carefully at the grammar of Rust
+*** Reading:
++ RPL 2: [[https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html][Programming a Guessing Game]]
++ RPL 3: [[https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html][Common Programming Concepts]]
+* Week 2: Ownership
+** TUE 01-28 Lecture 3
+:PROPERTIES:
+:CUSTOM_ID: 01-28
+:END:
+*** Title: *The Stack and Heap*
+*** Topics:
+*** Reading:
++ RPL 4.1: [[https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html][What is Ownership?]]
+*** Reminders:
+** THU 01-30 Lecture 4
+:PROPERTIES:
+:CUSTOM_ID: 01-30
+:END:
+*** Title: *References and Borrowing*
+*** Topics:
+*** Reading:
++ RPL 4.2: [[https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html][References and Borrowing]]
+*** Reminders:
+* Week 3: Data
+** TUE 02-04 Lecture 5
+:PROPERTIES:
+:CUSTOM_ID: 02-04
+:END:
+*** Title: *Structures and Enumerations*
+*** Topics:
+*** Reading:
++ RPL 5: [[https://doc.rust-lang.org/book/ch05-00-structs.html][Using Structs to Structure Related Data]]
++ PRL 6: [[https://doc.rust-lang.org/book/ch06-00-enums.html][Enums and Pattern Matching]]
++ RPL 18: [[https://doc.rust-lang.org/book/ch18-00-patterns.html][Patterns and Matching]]
+*** Reminders:
+** THU 02-06 Lecture 6
+:PROPERTIES:
+:CUSTOM_ID: 02-06
+:END:
+*** Title: *Collections and Slices*
+*** Topics:
+*** Reading:
++ RPL 4.3: [[https://doc.rust-lang.org/book/ch04-03-slices.html][The Slice Type]]
++ RPL 8: [[https://doc.rust-lang.org/book/ch08-00-common-collections.html][Common Collections]]
+*** Reminders:
+* Week 4: Functions
+** TUE 02-11 Lecture 7
+:PROPERTIES:
+:CUSTOM_ID: 02-11
+:END:
+*** Title: *Generics and Traits*
+*** Topics:
++ RPL 10.1: [[https://doc.rust-lang.org/book/ch10-01-syntax.html][Generic Data Types]]
++ RPL 10.2: [[https://doc.rust-lang.org/book/ch10-02-traits.html][Traits: Defining Shared Behavior]]
+*** Reading:
+*** Reminders:
+** THU 02-13 Lecture 8
+:PROPERTIES:
+:CUSTOM_ID: 02-13
+:END:
+*** Title: *Closures and Iterators*
+*** Topics:
+*** Reading:
++ RPL 13: [[https://doc.rust-lang.org/book/ch13-00-functional-features.html][Functional Language Features: Iterators and Closures]]
+*** Reminders:
+* Week 5: Lifetimes
+** THU 02-20 Lecture 9
+:PROPERTIES:
+:CUSTOM_ID: 02-20
+:END:
+*** Title: *Lifetimes*
+*** Topics:
+*** Reading:
++ RPL 10.3: [[https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html][Validating References with Lifetimes]]
+*** Reminders:
+* Week 6: Smart Pointers
+** TUE 02-25 Lecture 10
+:PROPERTIES:
+:CUSTOM_ID: 02-25
+:END:
+*** Title: *Boxes and Recursive Data*
+*** Topics:
+*** Reading:
+*** Reminders:
+** THU 02-27 Lecture 11
+:PROPERTIES:
+:CUSTOM_ID: 02-27
+:END:
+*** Title: *Reference Counting and Internal Mutability*
+*** Topics:
+*** Reading:
+*** Reminders:
+
+* Week 7
+** TUE 03-04 Lecture 12
+:PROPERTIES:
+:CUSTOM_ID: 03-04
+:END:
+*** Title: *TBD*
+*** Topics:
+*** Reading:
+*** Reminders:
+
+** THU 03-06 Midterm Exam
+:PROPERTIES:
+:CUSTOM_ID: 03-06
+:END:
+* Week 8: SPRING RECESS
+* Week 9: Theory
+** TUE 03-18 Lecture 13
+:PROPERTIES:
+:CUSTOM_ID: 03-18
+:END:
+*** Title: *Logic and Type Theory*
+*** Topics:
+*** Reading:
+*** Reminders:
+** THU 03-20 Lecture 14
+:PROPERTIES:
+:CUSTOM_ID: 03-20
+:END:
+*** Title: *Linear Types*
+*** Topics:
+*** Reading:
+*** Reminders:
+* Week 10: Interpreters
+** TUE 03-25 Lecture 15
+:PROPERTIES:
+:CUSTOM_ID: 03-25
+:END:
+*** Title: *Crafting Interpreters*
+*** Topics:
+*** Reading:
+*** Reminders:
+** THU 03-27 Lecture 16
+:PROPERTIES:
+:CUSTOM_ID: 03-27
+:END:
+*** Title: *Workshop: An Interpreter for STLC*
+*** Topics:
+*** Reading:
+*** Reminders:
+* Week 11: FR Syntax
+** TUE 04-01 Lecture 17
+:PROPERTIES:
+:CUSTOM_ID: 04-01
+:END:
+*** Title: *FR Calculus: Introduction*
+*** Topics:
+*** Reading:
+*** Reminders:
+** THU 04-03 Lecture 18
+:PROPERTIES:
+:CUSTOM_ID: 04-03
+:END:
+*** Title: *FR Calculus: Syntax*
+*** Topics:
+*** Reading:
+*** Reminders:
+* Week 12: FR Semantics
+** TUE 04-08 Lecture 19
+:PROPERTIES:
+:CUSTOM_ID: 04-08
+:END:
+*** Title: *Workshop: A Parser*
+*** Topics:
+*** Reading:
+*** Reminders:
+** THU 04-10 Lecture 20
+:PROPERTIES:
+:CUSTOM_ID: 04-10
+:END:
+*** Title: *FR Calculus: Semantics*
+*** Topics:
+*** Reading:
+*** Reminders:
+* Week 13: FR Borrow Checking
+** TUE 04-15 Lecture 21
+:PROPERTIES:
+:CUSTOM_ID: 04-15
+:END:
+*** Title: *Workshop: An Evaluator*
+*** Topics:
+*** Reading:
+*** Reminders:
+** THU 04-17 Lecture 22
+:PROPERTIES:
+:CUSTOM_ID: 04-17
+:END:
+*** Title: *FR Calculus: Type and Borrow Checking*
+*** Topics:
+*** Reading:
+*** Reminders:
+* Week 14: FR Extensions
+** TUE 04-22 Lecture 23
+:PROPERTIES:
+:CUSTOM_ID: 04-22
+:END:
+*** Title: *Workshop: A Type/Borrow Checker*
+*** Topics:
+*** Reading:
+*** Reminders:
+** THU 04-24 Lecture 24
+:PROPERTIES:
+:CUSTOM_ID: 04-24
+:END:
+*** Title: *FR Calculus: Extensions*
+*** Topics:
+*** Reading:
+*** Reminders:
+* Week 15: FR Soundness
+** TUE 04-29 Lecture 25
+:PROPERTIES:
+:CUSTOM_ID: 04-29
+:END:
+*** Title: *Progress and Preservation (Part 1)*
+*** Topics:
+*** Reading:
+*** Reminders:
+** TUE 05-01 Lecture 26
+:PROPERTIES:
+:CUSTOM_ID: 05-01
+:END:
+*** Title: *Progress and Preservation (Part 2)*
+*** Topics:
+*** Reading:
+*** Reminders:

@@ -1,0 +1,8 @@
+#+title: Material
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:1 num:nil
+#+HTML_LINK_HOME: index.html
+* Assignments
+* Slides
+* Midterm
+* Final Project

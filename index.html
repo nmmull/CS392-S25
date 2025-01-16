@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-01-14 Tue 17:54 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CAS CS 392</title>
+<meta name="author" content="Nathan  Mull" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="myStyle.css" />
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="http://nmmull.github.io">↩</a></div><div id="content" class="content">
+<h1 class="title">CAS CS 392</h1>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Title</td>
+<td class="org-left">Rust, in Practice and in Theory</td>
+</tr>
+
+<tr>
+<td class="org-left">Location</td>
+<td class="org-left">Boston University</td>
+</tr>
+
+<tr>
+<td class="org-left">Semester</td>
+<td class="org-left">Spring 2025</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+This is a course about the PL Rust.  We'll spend the first half of
+this course learning how to program in Rust, then we'll shift to
+<i>implementing</i> a subset of Rust <i>in</i> Rust based on <a href="https://dl.acm.org/doi/10.1145/3443420">a very nice
+calculus</a> defined by David J. Pearce.  See the <a href="schedule.html">schedule</a> and <a href="Syllabus/syllabus.html">syllabus</a>
+for more details.
+</p>
+
+<div id="outline-container-org726b787" class="outline-2">
+<h2 id="org726b787">Pages</h2>
+<div class="outline-text-2" id="text-org726b787">
+<ul class="org-ul">
+<li><a href="schedule.html">Schedule (Full)</a></li>
+<li><a href="material.html">Material</a></li>
+<li><a href="Syllabus/syllabus.html">Syllabus</a></li>
+<li><a href="notes.html">Course Notes</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgaaef057" class="outline-2">
+<h2 id="orgaaef057">Links</h2>
+<div class="outline-text-2" id="text-orgaaef057">
+<ul class="org-ul">
+<li><a href="https://piazza.com/class/m5rfqa1vsoy2i/">Piazza</a></li>
+<li><a href="https://www.gradescope.com/courses/953489">Gradescope</a></li>
+<li><a href="https://www.rust-lang.org">Rust</a></li>
+<li>Reading:
+<ul class="org-ul">
+<li><a href="https://doc.rust-lang.org/stable/book/">The Rust Programming Language</a></li>
+<li><a href="https://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf">A taste of linear logic</a></li>
+<li><a href="https://dl.acm.org/doi/10.1145/3443420">A Lightweight Formalism for Reference Lifetimes and Borrowing in Rust</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8c0f205" class="outline-2">
+<h2 id="org8c0f205">Schedule (Overview)</h2>
+<div class="outline-text-2" id="text-org8c0f205">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Date</th>
+<th scope="col" class="org-left">Topic</th>
+<th scope="col" class="org-left">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#01-21">01-21</a></td>
+<td class="org-left">Basics I: Introduction, Installation, Cargo</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#01-23">01-23</a></td>
+<td class="org-left">Basics II: Common Programming Concepts</td>
+<td class="org-left">A1 out</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#01-28">01-28</a></td>
+<td class="org-left">Ownership I: The Stack and Heap</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#01-30">01-30</a></td>
+<td class="org-left">Ownership II: References, Borrowing</td>
+<td class="org-left">A2 out, A1 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#02-04">02-04</a></td>
+<td class="org-left">Data I: Structures, Enumerations</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#02-06">02-06</a></td>
+<td class="org-left">Data II: Collections, Slices</td>
+<td class="org-left">A3 out, A2 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#02-11">02-11</a></td>
+<td class="org-left">Functions I: Generics and Traits</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#02-13">02-13</a></td>
+<td class="org-left">Functions II: Closures, Iterators</td>
+<td class="org-left">A4 out, A3 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">02-18</td>
+<td class="org-left"><b>NO CLASS</b></td>
+<td class="org-left">Presidents' Day</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#02-20">02-20</a></td>
+<td class="org-left">Lifetimes</td>
+<td class="org-left">A5 out, A4 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#02-25">02-25</a></td>
+<td class="org-left">Smart Pointers I: Boxes, Recursive Data</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#02-27">02-27</a></td>
+<td class="org-left">Smart Pointers II: <code>Rc&lt;T&gt;</code> and <code>RefCell&lt;T&gt;</code></td>
+<td class="org-left">A6 out, A5 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#03-04">03-04</a></td>
+<td class="org-left">TBD</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#03-06">03-06</a></td>
+<td class="org-left"><b>Midterm Exam</b></td>
+<td class="org-left">A6 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">03-11</td>
+<td class="org-left"><b>NO CLASS</b></td>
+<td class="org-left">Spring Recess</td>
+</tr>
+
+<tr>
+<td class="org-left">03-13</td>
+<td class="org-left"><b>NO CLASS</b></td>
+<td class="org-left">Spring Recess</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#03-18">03-18</a></td>
+<td class="org-left">Background I: Crash Course in Logic</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#03-20">03-20</a></td>
+<td class="org-left">Background II: Linear Types</td>
+<td class="org-left">A7 out</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#03-25">03-25</a></td>
+<td class="org-left">Background III: Crafting Interpreters</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#03-27">03-27</a></td>
+<td class="org-left">Workshop: An Interpreter for LTLC</td>
+<td class="org-left">A8 out, A7 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#04-01">04-01</a></td>
+<td class="org-left">FR Calculus I: Introduction</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#04-03">04-03</a></td>
+<td class="org-left">FR Calculus II: Syntax</td>
+<td class="org-left">FP out, A8 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#04-08">04-08</a></td>
+<td class="org-left">Workshop: A Parser</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#04-10">04-10</a></td>
+<td class="org-left">FR Calculus III: Semantics</td>
+<td class="org-left">FP part 1 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#04-15">04-15</a></td>
+<td class="org-left">Workshop: An Evaluator</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#04-17">04-17</a></td>
+<td class="org-left">FR Calculus IV: Type and Borrow Checking</td>
+<td class="org-left">FP part 2 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#04-22">04-22</a></td>
+<td class="org-left">Workshop: A Type/Borrow Checker</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#04-24">04-24</a></td>
+<td class="org-left">FR Calculus V: Extensions</td>
+<td class="org-left">FP part 3 due</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="schedule.html#04-29">04-29</a></td>
+<td class="org-left">Advanced I: Soundness (Part 1)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="schedule.html#05-01">05-01</a></td>
+<td class="org-left">Advanced II: Soundness (Part 2)</td>
+<td class="org-left">FP due</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

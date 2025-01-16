@@ -1,0 +1,5 @@
+Rust is a type-safe, memory-safe programming language that is becoming a popular alternative to C and C++ in settings where performance and memory usage are major concerns.  It's self-described as having "high-level ergonomics" and "low-level control." Practically speaking, this means clear, concise code with fewer memory bugs.  Theoretically speaking, this means the use of a rich type system based on the notion of linearity to enforce memory-safety before any code has actually been run.
+
+Despite its popularity, Rust is still daunting to learn, even for experienced programmers.  There are several concepts in Rust that don't appear in any other popular languages.  And even if you become a proficient Rust programmer, it doesn't mean you have a deep understanding how Rust works, or why it is a better alternative to other low-level languages.
+
+In this course, we'll spend the first half of the semester learning Rust.  This can include topics like borrowing, lifetimes, traits, smart pointers, and concurrency.  We'll spend the second half implementing a subset of Rust.  This will help us better understand the details of Rusts type system and borrow checker.

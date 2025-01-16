@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-01-14 Tue 17:55 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Schedule</title>
+<meta name="author" content="Nathan  Mull" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="myStyle.css" />
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="index.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Schedule</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org2ea6da1">Week 1: Basics</a></li>
+<li><a href="#org84337c9">Week 2: Ownership</a></li>
+<li><a href="#org02018dc">Week 3: Data</a></li>
+<li><a href="#org2f88a52">Week 4: Functions</a></li>
+<li><a href="#org5bfb00a">Week 5: Lifetimes</a></li>
+<li><a href="#org66a8c79">Week 6: Smart Pointers</a></li>
+<li><a href="#org2321089">Week 7</a></li>
+<li><a href="#org8e0aa18">Week 8: SPRING RECESS</a></li>
+<li><a href="#org88d0b00">Week 9: Theory</a></li>
+<li><a href="#orgdb57e0a">Week 10: Interpreters</a></li>
+<li><a href="#org0062026">Week 11: FR Syntax</a></li>
+<li><a href="#orgdd708f5">Week 12: FR Semantics</a></li>
+<li><a href="#org188a3d2">Week 13: FR Borrow Checking</a></li>
+<li><a href="#orgd1a2292">Week 14: FR Extensions</a></li>
+<li><a href="#org8308312">Week 15: FR Soundness</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2ea6da1" class="outline-2">
+<h2 id="org2ea6da1">Week 1: Basics</h2>
+<div class="outline-text-2" id="text-org2ea6da1">
+</div>
+<div id="outline-container-01-21" class="outline-3">
+<h3 id="01-21">TUE 01-21 Lecture 1</h3>
+<div class="outline-text-3" id="text-01-21">
+</div>
+<ul class="org-ul">
+<li><a id="orgedb953f"></a>Title: <b>Course Introduction</b><br /></li>
+<li><a id="orgfde6022"></a>Topics:<br />
+<div class="outline-text-4" id="text-orgfde6022">
+<ul class="org-ul">
+<li>Discuss how the course structure, expectations, etc.</li>
+<li>Briefly talk about Rust</li>
+<li>Install Rust and Cargo</li>
+<li>Set up our first Cargo project</li>
+</ul>
+</div>
+</li>
+<li><a id="org1273607"></a>Reading:<br />
+<div class="outline-text-4" id="text-org1273607">
+<ul class="org-ul">
+<li>Syllabus</li>
+<li>The Rust Programming Language (RPL): <a href="https://doc.rust-lang.org/book/foreword.html">Forward</a></li>
+<li>RPL: <a href="https://doc.rust-lang.org/book/ch00-00-introduction.html">Introduction</a></li>
+<li>RPL 1: <a href="https://doc.rust-lang.org/book/ch01-00-getting-started.html">Getting Started</a></li>
+<li>Course Notes (CN) 1: <a href="notes.html#intro">What is this course?</a></li>
+<li>CN 2: <a href="notes.html#set-up">Set up</a></li>
+</ul>
+</div>
+</li>
+<li><a id="org7a84901"></a>Discussion Questions:<br />
+<div class="outline-text-4" id="text-org7a84901">
+<ul class="org-ul">
+<li>Why are you taking this course?  What do you want to get out of it?</li>
+<li>Have you heard of Rust before this course?</li>
+<li>Do you like using a low-level programming language like C?</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-01-23" class="outline-3">
+<h3 id="01-23">THU 01-23 Lecture 2</h3>
+<div class="outline-text-3" id="text-01-23">
+</div>
+<ul class="org-ul">
+<li><a id="orgcf5d5db"></a>Title: <b>Basic Programming</b><br /></li>
+<li><a id="org9d77e63"></a>Topics:<br />
+<div class="outline-text-4" id="text-org9d77e63">
+<ul class="org-ul">
+<li>Do some "normal" programming with Rust</li>
+<li>Look more carefully at the grammar of Rust</li>
+</ul>
+</div>
+</li>
+<li><a id="org57be3c5"></a>Reading:<br />
+<div class="outline-text-4" id="text-org57be3c5">
+<ul class="org-ul">
+<li>RPL 2: <a href="https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html">Programming a Guessing Game</a></li>
+<li>RPL 3: <a href="https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html">Common Programming Concepts</a></li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org84337c9" class="outline-2">
+<h2 id="org84337c9">Week 2: Ownership</h2>
+<div class="outline-text-2" id="text-org84337c9">
+</div>
+<div id="outline-container-01-28" class="outline-3">
+<h3 id="01-28">TUE 01-28 Lecture 3</h3>
+<div class="outline-text-3" id="text-01-28">
+</div>
+<ul class="org-ul">
+<li><a id="orgae10665"></a>Title: <b>The Stack and Heap</b><br /></li>
+<li><a id="org20d74f1"></a>Topics:<br /></li>
+<li><a id="org61b707e"></a>Reading:<br />
+<div class="outline-text-4" id="text-org61b707e">
+<ul class="org-ul">
+<li>RPL 4.1: <a href="https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html">What is Ownership?</a></li>
+</ul>
+</div>
+</li>
+<li><a id="org0275e42"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-01-30" class="outline-3">
+<h3 id="01-30">THU 01-30 Lecture 4</h3>
+<div class="outline-text-3" id="text-01-30">
+</div>
+<ul class="org-ul">
+<li><a id="orga02d18b"></a>Title: <b>References and Borrowing</b><br /></li>
+<li><a id="org256658a"></a>Topics:<br /></li>
+<li><a id="orga17de8c"></a>Reading:<br />
+<div class="outline-text-4" id="text-orga17de8c">
+<ul class="org-ul">
+<li>RPL 4.2: <a href="https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html">References and Borrowing</a></li>
+</ul>
+</div>
+</li>
+<li><a id="orgb934211"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org02018dc" class="outline-2">
+<h2 id="org02018dc">Week 3: Data</h2>
+<div class="outline-text-2" id="text-org02018dc">
+</div>
+<div id="outline-container-02-04" class="outline-3">
+<h3 id="02-04">TUE 02-04 Lecture 5</h3>
+<div class="outline-text-3" id="text-02-04">
+</div>
+<ul class="org-ul">
+<li><a id="orgdc3b26a"></a>Title: <b>Structures and Enumerations</b><br /></li>
+<li><a id="org126d0f6"></a>Topics:<br /></li>
+<li><a id="org03c8e3f"></a>Reading:<br />
+<div class="outline-text-4" id="text-org03c8e3f">
+<ul class="org-ul">
+<li>RPL 5: <a href="https://doc.rust-lang.org/book/ch05-00-structs.html">Using Structs to Structure Related Data</a></li>
+<li>PRL 6: <a href="https://doc.rust-lang.org/book/ch06-00-enums.html">Enums and Pattern Matching</a></li>
+<li>RPL 18: <a href="https://doc.rust-lang.org/book/ch18-00-patterns.html">Patterns and Matching</a></li>
+</ul>
+</div>
+</li>
+<li><a id="orgfbaecbf"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-02-06" class="outline-3">
+<h3 id="02-06">THU 02-06 Lecture 6</h3>
+<div class="outline-text-3" id="text-02-06">
+</div>
+<ul class="org-ul">
+<li><a id="org1868c3f"></a>Title: <b>Collections and Slices</b><br /></li>
+<li><a id="org4409c3b"></a>Topics:<br /></li>
+<li><a id="org80dfa51"></a>Reading:<br />
+<div class="outline-text-4" id="text-org80dfa51">
+<ul class="org-ul">
+<li>RPL 4.3: <a href="https://doc.rust-lang.org/book/ch04-03-slices.html">The Slice Type</a></li>
+<li>RPL 8: <a href="https://doc.rust-lang.org/book/ch08-00-common-collections.html">Common Collections</a></li>
+</ul>
+</div>
+</li>
+<li><a id="orgb74bb54"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2f88a52" class="outline-2">
+<h2 id="org2f88a52">Week 4: Functions</h2>
+<div class="outline-text-2" id="text-org2f88a52">
+</div>
+<div id="outline-container-02-11" class="outline-3">
+<h3 id="02-11">TUE 02-11 Lecture 7</h3>
+<div class="outline-text-3" id="text-02-11">
+</div>
+<ul class="org-ul">
+<li><a id="orgc3dcc5d"></a>Title: <b>Generics and Traits</b><br /></li>
+<li><a id="orga0dcb7a"></a>Topics:<br />
+<div class="outline-text-4" id="text-orga0dcb7a">
+<ul class="org-ul">
+<li>RPL 10.1: <a href="https://doc.rust-lang.org/book/ch10-01-syntax.html">Generic Data Types</a></li>
+<li>RPL 10.2: <a href="https://doc.rust-lang.org/book/ch10-02-traits.html">Traits: Defining Shared Behavior</a></li>
+</ul>
+</div>
+</li>
+<li><a id="orga761cfb"></a>Reading:<br /></li>
+<li><a id="org920bbc2"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-02-13" class="outline-3">
+<h3 id="02-13">THU 02-13 Lecture 8</h3>
+<div class="outline-text-3" id="text-02-13">
+</div>
+<ul class="org-ul">
+<li><a id="orgdc17888"></a>Title: <b>Closures and Iterators</b><br /></li>
+<li><a id="org4826485"></a>Topics:<br /></li>
+<li><a id="org5db3fc3"></a>Reading:<br />
+<div class="outline-text-4" id="text-org5db3fc3">
+<ul class="org-ul">
+<li>RPL 13: <a href="https://doc.rust-lang.org/book/ch13-00-functional-features.html">Functional Language Features: Iterators and Closures</a></li>
+</ul>
+</div>
+</li>
+<li><a id="orgeefd32e"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5bfb00a" class="outline-2">
+<h2 id="org5bfb00a">Week 5: Lifetimes</h2>
+<div class="outline-text-2" id="text-org5bfb00a">
+</div>
+<div id="outline-container-02-20" class="outline-3">
+<h3 id="02-20">THU 02-20 Lecture 9</h3>
+<div class="outline-text-3" id="text-02-20">
+</div>
+<ul class="org-ul">
+<li><a id="org062c7fd"></a>Title: <b>Lifetimes</b><br /></li>
+<li><a id="org3b77ee9"></a>Topics:<br /></li>
+<li><a id="org9ec7046"></a>Reading:<br />
+<div class="outline-text-4" id="text-org9ec7046">
+<ul class="org-ul">
+<li>RPL 10.3: <a href="https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html">Validating References with Lifetimes</a></li>
+</ul>
+</div>
+</li>
+<li><a id="org491e79d"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org66a8c79" class="outline-2">
+<h2 id="org66a8c79">Week 6: Smart Pointers</h2>
+<div class="outline-text-2" id="text-org66a8c79">
+</div>
+<div id="outline-container-02-25" class="outline-3">
+<h3 id="02-25">TUE 02-25 Lecture 10</h3>
+<div class="outline-text-3" id="text-02-25">
+</div>
+<ul class="org-ul">
+<li><a id="org678083d"></a>Title: <b>Boxes and Recursive Data</b><br /></li>
+<li><a id="org177e3c8"></a>Topics:<br /></li>
+<li><a id="org434bd61"></a>Reading:<br /></li>
+<li><a id="org4f1566b"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-02-27" class="outline-3">
+<h3 id="02-27">THU 02-27 Lecture 11</h3>
+<div class="outline-text-3" id="text-02-27">
+</div>
+<ul class="org-ul">
+<li><a id="org6f2194a"></a>Title: <b>Reference Counting and Internal Mutability</b><br /></li>
+<li><a id="org6ae01bd"></a>Topics:<br /></li>
+<li><a id="org24122db"></a>Reading:<br /></li>
+<li><a id="org7b10f90"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2321089" class="outline-2">
+<h2 id="org2321089">Week 7</h2>
+<div class="outline-text-2" id="text-org2321089">
+</div>
+<div id="outline-container-03-04" class="outline-3">
+<h3 id="03-04">TUE 03-04 Lecture 12</h3>
+<div class="outline-text-3" id="text-03-04">
+</div>
+<ul class="org-ul">
+<li><a id="org9bb6c53"></a>Title: <b>TBD</b><br /></li>
+<li><a id="orgb11f177"></a>Topics:<br /></li>
+<li><a id="org1b46dde"></a>Reading:<br /></li>
+<li><a id="orgf53eae9"></a>Reminders:<br /></li>
+</ul>
+</div>
+
+<div id="outline-container-03-06" class="outline-3">
+<h3 id="03-06">THU 03-06 Midterm Exam</h3>
+<div class="outline-text-3" id="text-03-06">
+</div>
+</div>
+</div>
+<div id="outline-container-org8e0aa18" class="outline-2">
+<h2 id="org8e0aa18">Week 8: SPRING RECESS</h2>
+</div>
+<div id="outline-container-org88d0b00" class="outline-2">
+<h2 id="org88d0b00">Week 9: Theory</h2>
+<div class="outline-text-2" id="text-org88d0b00">
+</div>
+<div id="outline-container-03-18" class="outline-3">
+<h3 id="03-18">TUE 03-18 Lecture 13</h3>
+<div class="outline-text-3" id="text-03-18">
+</div>
+<ul class="org-ul">
+<li><a id="orgd6895de"></a>Title: <b>Logic and Type Theory</b><br /></li>
+<li><a id="org91999c0"></a>Topics:<br /></li>
+<li><a id="org01d2a46"></a>Reading:<br /></li>
+<li><a id="org59709a9"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-03-20" class="outline-3">
+<h3 id="03-20">THU 03-20 Lecture 14</h3>
+<div class="outline-text-3" id="text-03-20">
+</div>
+<ul class="org-ul">
+<li><a id="orgb153a28"></a>Title: <b>Linear Types</b><br /></li>
+<li><a id="org0ba3752"></a>Topics:<br /></li>
+<li><a id="org43c37f5"></a>Reading:<br /></li>
+<li><a id="org04b147e"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdb57e0a" class="outline-2">
+<h2 id="orgdb57e0a">Week 10: Interpreters</h2>
+<div class="outline-text-2" id="text-orgdb57e0a">
+</div>
+<div id="outline-container-03-25" class="outline-3">
+<h3 id="03-25">TUE 03-25 Lecture 15</h3>
+<div class="outline-text-3" id="text-03-25">
+</div>
+<ul class="org-ul">
+<li><a id="org8b44af9"></a>Title: <b>Crafting Interpreters</b><br /></li>
+<li><a id="orgd598731"></a>Topics:<br /></li>
+<li><a id="org8811257"></a>Reading:<br /></li>
+<li><a id="org44ed883"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-03-27" class="outline-3">
+<h3 id="03-27">THU 03-27 Lecture 16</h3>
+<div class="outline-text-3" id="text-03-27">
+</div>
+<ul class="org-ul">
+<li><a id="org3e3d498"></a>Title: <b>Workshop: An Interpreter for STLC</b><br /></li>
+<li><a id="org26e19a6"></a>Topics:<br /></li>
+<li><a id="orgcaae9fa"></a>Reading:<br /></li>
+<li><a id="orge7d709c"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0062026" class="outline-2">
+<h2 id="org0062026">Week 11: FR Syntax</h2>
+<div class="outline-text-2" id="text-org0062026">
+</div>
+<div id="outline-container-04-01" class="outline-3">
+<h3 id="04-01">TUE 04-01 Lecture 17</h3>
+<div class="outline-text-3" id="text-04-01">
+</div>
+<ul class="org-ul">
+<li><a id="orgf616ffa"></a>Title: <b>FR Calculus: Introduction</b><br /></li>
+<li><a id="org9a08f34"></a>Topics:<br /></li>
+<li><a id="org704c437"></a>Reading:<br /></li>
+<li><a id="org271ba8a"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-04-03" class="outline-3">
+<h3 id="04-03">THU 04-03 Lecture 18</h3>
+<div class="outline-text-3" id="text-04-03">
+</div>
+<ul class="org-ul">
+<li><a id="orgf97409d"></a>Title: <b>FR Calculus: Syntax</b><br /></li>
+<li><a id="org8cce4bd"></a>Topics:<br /></li>
+<li><a id="org1e004ee"></a>Reading:<br /></li>
+<li><a id="org737ae77"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdd708f5" class="outline-2">
+<h2 id="orgdd708f5">Week 12: FR Semantics</h2>
+<div class="outline-text-2" id="text-orgdd708f5">
+</div>
+<div id="outline-container-04-08" class="outline-3">
+<h3 id="04-08">TUE 04-08 Lecture 19</h3>
+<div class="outline-text-3" id="text-04-08">
+</div>
+<ul class="org-ul">
+<li><a id="org6e32253"></a>Title: <b>Workshop: A Parser</b><br /></li>
+<li><a id="org9093c1a"></a>Topics:<br /></li>
+<li><a id="orgb91a09f"></a>Reading:<br /></li>
+<li><a id="org79e21c8"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-04-10" class="outline-3">
+<h3 id="04-10">THU 04-10 Lecture 20</h3>
+<div class="outline-text-3" id="text-04-10">
+</div>
+<ul class="org-ul">
+<li><a id="org72462af"></a>Title: <b>FR Calculus: Semantics</b><br /></li>
+<li><a id="org6e688ea"></a>Topics:<br /></li>
+<li><a id="org6b92c87"></a>Reading:<br /></li>
+<li><a id="orgc3612c1"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org188a3d2" class="outline-2">
+<h2 id="org188a3d2">Week 13: FR Borrow Checking</h2>
+<div class="outline-text-2" id="text-org188a3d2">
+</div>
+<div id="outline-container-04-15" class="outline-3">
+<h3 id="04-15">TUE 04-15 Lecture 21</h3>
+<div class="outline-text-3" id="text-04-15">
+</div>
+<ul class="org-ul">
+<li><a id="org0122176"></a>Title: <b>Workshop: An Evaluator</b><br /></li>
+<li><a id="org63c9873"></a>Topics:<br /></li>
+<li><a id="org83f119e"></a>Reading:<br /></li>
+<li><a id="orgbb2e4c9"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-04-17" class="outline-3">
+<h3 id="04-17">THU 04-17 Lecture 22</h3>
+<div class="outline-text-3" id="text-04-17">
+</div>
+<ul class="org-ul">
+<li><a id="org7111bcf"></a>Title: <b>FR Calculus: Type and Borrow Checking</b><br /></li>
+<li><a id="org424bfc8"></a>Topics:<br /></li>
+<li><a id="orgdadf168"></a>Reading:<br /></li>
+<li><a id="org2c61716"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd1a2292" class="outline-2">
+<h2 id="orgd1a2292">Week 14: FR Extensions</h2>
+<div class="outline-text-2" id="text-orgd1a2292">
+</div>
+<div id="outline-container-04-22" class="outline-3">
+<h3 id="04-22">TUE 04-22 Lecture 23</h3>
+<div class="outline-text-3" id="text-04-22">
+</div>
+<ul class="org-ul">
+<li><a id="org904d036"></a>Title: <b>Workshop: A Type/Borrow Checker</b><br /></li>
+<li><a id="orga458f8f"></a>Topics:<br /></li>
+<li><a id="orga7790ef"></a>Reading:<br /></li>
+<li><a id="org611675e"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-04-24" class="outline-3">
+<h3 id="04-24">THU 04-24 Lecture 24</h3>
+<div class="outline-text-3" id="text-04-24">
+</div>
+<ul class="org-ul">
+<li><a id="org8a4c5ff"></a>Title: <b>FR Calculus: Extensions</b><br /></li>
+<li><a id="org2a5e0b7"></a>Topics:<br /></li>
+<li><a id="orgbf983e5"></a>Reading:<br /></li>
+<li><a id="org36ee55e"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8308312" class="outline-2">
+<h2 id="org8308312">Week 15: FR Soundness</h2>
+<div class="outline-text-2" id="text-org8308312">
+</div>
+<div id="outline-container-04-29" class="outline-3">
+<h3 id="04-29">TUE 04-29 Lecture 25</h3>
+<div class="outline-text-3" id="text-04-29">
+</div>
+<ul class="org-ul">
+<li><a id="orgc8c9ba5"></a>Title: <b>Progress and Preservation (Part 1)</b><br /></li>
+<li><a id="org3101a92"></a>Topics:<br /></li>
+<li><a id="org1b385f3"></a>Reading:<br /></li>
+<li><a id="orgfbfde32"></a>Reminders:<br /></li>
+</ul>
+</div>
+<div id="outline-container-05-01" class="outline-3">
+<h3 id="05-01">TUE 05-01 Lecture 26</h3>
+<div class="outline-text-3" id="text-05-01">
+</div>
+<ul class="org-ul">
+<li><a id="org0183e7f"></a>Title: <b>Progress and Preservation (Part 2)</b><br /></li>
+<li><a id="orgd3680ad"></a>Topics:<br /></li>
+<li><a id="org59a05ae"></a>Reading:<br /></li>
+<li><a id="orge931722"></a>Reminders:<br /></li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>
