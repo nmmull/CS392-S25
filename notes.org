@@ -216,15 +216,15 @@ Constants are primarily useful for code clarity.
   <char-lit>    ::= ; see docs ;
   <bool-lit>    ::= true | false
 
-  <exprs>      ::= ϵ | <expr> | <expr> , <exprs>
-  <tuple-lit>  ::= ( <exprs> )
-  <field>      ::= ; see docs ;
-  <expr>       ::= <expr>.<field>
+  <exprs>       ::= ϵ | <expr> | <expr> , <exprs>
+  <tuple-lit>   ::= ( <exprs> )
+  <field>       ::= ; see docs ;
+  <expr>        ::= <expr>.<field>
 
-  <list-lit>   ::= [ <exprs> ]
-  <expr>       ::= <expr>[<expr>]
+  <list-lit>    ::= [ <exprs> ]
+  <expr>        ::= <expr>[<expr>]
 
-  <lit>        ::= <int-lit> | <float-lit>
+  <lit>         ::= <int-lit> | <float-lit>
 		 | <char-lit> | <bool-lit>
 		 | <tuple-lit> | <string-lit>
 #+end_src
@@ -361,10 +361,10 @@ should check this, it works even for things like ~while~ expressions).
 #+begin_quote
 *Grammar:*
 #+begin_src bnf
-  <if-expr>      ::= if <expr> { <stmts> } <else-if-expr>
-  <else-if-expr> ::= ϵ | else { <stmts> } | else if { <stmts> } <else-if-expr>
-  <while-expr>   ::= while <expr> { <stmts> }
-  <for-expr>     ::= for <var-ident> in <expr> { <stmts> }
+  <if-expr>      ::= if <expr> <block> <else-if-expr>
+  <else-if-expr> ::= ϵ | else <block> | else if <block> <else-if-expr>
+  <while-expr>   ::= while <expr> <block>
+  <for-expr>     ::= for <var-ident> in <expr> <block>
   <ret-expr>     ::= return <expr>
   <expr>         ::= <if-expr> | <while-expr> | <for-expr> | <ret-expr>
 #+end_src

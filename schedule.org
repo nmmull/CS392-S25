@@ -30,11 +30,21 @@
 :END:
 *** Title: *Basic Programming*
 *** Topics:
++ Reminder ourselves how to read BNF grammars
 + Do some "normal" programming with Rust
 + Look more carefully at the grammar of Rust
 *** Reading:
 + RPL 2: [[https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html][Programming a Guessing Game]]
 + RPL 3: [[https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html][Common Programming Concepts]]
++ PL@BU 2: [[https://nmmull.github.io/PL-at-BU/Formal-Grammar/notes.html][Formal Grammar]]
+*** Discussion Questions:
++ How well does Python or C++ programming transfer to basic Rust
+  programming?  Do you feel you could write any program on integers in
+  Rust that you could already write in Python?  Why or why not?
++ One somewhat strange feature of Rust's parser is that it allows
+  trailing commas.  Why do you think this is?
++ Are there features you wish Rust had?  Are there features it has
+  (that we've seen so far) that you don't like?
 * Week 2: Ownership
 ** TUE 01-28 Lecture 3
 :PROPERTIES:

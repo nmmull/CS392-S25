@@ -12,26 +12,21 @@ this course learning how to program in Rust, then we'll shift to
 /implementing/ a subset of Rust /in/ Rust based on [[https://dl.acm.org/doi/10.1145/3443420][a very nice
 calculus]] defined by David J. Pearce.  See the [[file:schedule.org][schedule]] and [[file:Syllabus/syllabus.org][syllabus]]
 for more details.
-
 * Pages
-
 + [[file:schedule.org][Schedule (Full)]]
 + [[file:material.org][Material]]
 + [[file:Syllabus/syllabus.org][Syllabus]]
 + [[file:notes.org][Course Notes]]
-
 * Links
-
 + [[https://piazza.com/class/m5rfqa1vsoy2i/][Piazza]]
 + [[https://www.gradescope.com/courses/953489][Gradescope]]
 + [[https://www.rust-lang.org][Rust]]
 + Reading:
   + [[https://doc.rust-lang.org/stable/book/][The Rust Programming Language]]
+  + [[https://doc.rust-lang.org/stable/rust-by-example/index.html][Rust by Example]]
   + [[https://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf][A taste of linear logic]]
   + [[https://dl.acm.org/doi/10.1145/3443420][A Lightweight Formalism for Reference Lifetimes and Borrowing in Rust]]
-
 * Schedule (Overview)
-
 |-------+---------------------------------------------+-----------------|
 | Date  | Topic                                       | Notes           |
 |-------+---------------------------------------------+-----------------|

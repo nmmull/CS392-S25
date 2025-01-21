@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-20 Mon 13:14 -->
+<!-- 2025-01-20 Mon 16:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Course Notes</title>
@@ -21,23 +21,23 @@
 <li><a href="#intro">1. What is this course?</a></li>
 <li><a href="#set-up">2. Set Up</a>
 <ul>
-<li><a href="#org591c97d">2.1. Cargo</a></li>
+<li><a href="#org9e0f47e">2.1. Cargo</a></li>
 </ul>
 </li>
-<li><a href="#orge779a7f">3. The Basics</a>
+<li><a href="#orga66606c">3. The Basics</a>
 <ul>
-<li><a href="#org4294f2a">3.1. Variables and Mutability</a></li>
-<li><a href="#org8cae4bc">3.2. Constants</a></li>
-<li><a href="#org5b4ad7f">3.3. Data Types</a></li>
-<li><a href="#orgdd6d285">3.4. Functions</a></li>
-<li><a href="#org6f83579">3.5. Statements and Expressions</a></li>
-<li><a href="#orgc7ded78">3.6. Control Flow</a></li>
+<li><a href="#org052ece8">3.1. Variables and Mutability</a></li>
+<li><a href="#orgab73248">3.2. Constants</a></li>
+<li><a href="#org17b6aff">3.3. Data Types</a></li>
+<li><a href="#org21515c4">3.4. Functions</a></li>
+<li><a href="#org93bb8bb">3.5. Statements and Expressions</a></li>
+<li><a href="#org7e19632">3.6. Control Flow</a></li>
 </ul>
 </li>
-<li><a href="#orgaf1cc2e">4. Ownership</a>
+<li><a href="#orga3200b5">4. Ownership</a>
 <ul>
-<li><a href="#org6d965a4">4.1. Stack and Heap</a></li>
-<li><a href="#org321f05d">4.2. References and Borrowing</a></li>
+<li><a href="#org2a66cdc">4.1. Stack and Heap</a></li>
+<li><a href="#org71a9067">4.2. References and Borrowing</a></li>
 </ul>
 </li>
 </ul>
@@ -162,8 +162,8 @@ Cargo!</a> section of RPL (we'll also go over it in lecture).
 </p>
 </div>
 
-<div id="outline-container-org591c97d" class="outline-3">
-<h3 id="org591c97d"><span class="section-number-3">2.1.</span> Cargo</h3>
+<div id="outline-container-org9e0f47e" class="outline-3">
+<h3 id="org9e0f47e"><span class="section-number-3">2.1.</span> Cargo</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Cargo is a build system for Rust.  As usual, you can use
@@ -194,8 +194,8 @@ this process.
 </div>
 </div>
 </div>
-<div id="outline-container-orge779a7f" class="outline-2">
-<h2 id="orge779a7f"><span class="section-number-2">3.</span> The Basics</h2>
+<div id="outline-container-orga66606c" class="outline-2">
+<h2 id="orga66606c"><span class="section-number-2">3.</span> The Basics</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 This is a collection of concepts that are common to all PLs.  I expect
@@ -206,8 +206,8 @@ specification of the Rust syntax.  These specifications are
 approximations, but for simple programs are sufficient.
 </p>
 </div>
-<div id="outline-container-org4294f2a" class="outline-3">
-<h3 id="org4294f2a"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
+<div id="outline-container-org052ece8" class="outline-3">
+<h3 id="org052ece8"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
 <div class="outline-text-3" id="text-3-1">
 <blockquote>
 <p>
@@ -258,8 +258,8 @@ x = 2;
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org8cae4bc" class="outline-3">
-<h3 id="org8cae4bc"><span class="section-number-3">3.2.</span> Constants</h3>
+<div id="outline-container-orgab73248" class="outline-3">
+<h3 id="orgab73248"><span class="section-number-3">3.2.</span> Constants</h3>
 <div class="outline-text-3" id="text-3-2">
 <blockquote>
 <p>
@@ -300,8 +300,8 @@ Constants are primarily useful for code clarity.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org5b4ad7f" class="outline-3">
-<h3 id="org5b4ad7f"><span class="section-number-3">3.3.</span> Data Types</h3>
+<div id="outline-container-org17b6aff" class="outline-3">
+<h3 id="org17b6aff"><span class="section-number-3">3.3.</span> Data Types</h3>
 <div class="outline-text-3" id="text-3-3">
 <blockquote>
 <p>
@@ -324,15 +324,15 @@ Constants are primarily useful for code clarity.
 &lt;<span style="color: #0000ff;">char-lit</span>&gt;    <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; see docs ;</span>
 &lt;<span style="color: #0000ff;">bool-lit</span>&gt;    <span style="color: #008b8b;">::=</span> true <span style="color: #ff0000; font-weight: bold;">|</span> false
 
-&lt;<span style="color: #0000ff;">exprs</span>&gt;      <span style="color: #008b8b;">::=</span> &#1013; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr</span>&gt; , &lt;<span style="color: #483d8b;">exprs</span>&gt;
-&lt;<span style="color: #0000ff;">tuple-lit</span>&gt;  <span style="color: #008b8b;">::=</span> ( &lt;<span style="color: #483d8b;">exprs</span>&gt; )
-&lt;<span style="color: #0000ff;">field</span>&gt;      <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; see docs ;</span>
-&lt;<span style="color: #0000ff;">expr</span>&gt;       <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">expr</span>&gt;.&lt;<span style="color: #483d8b;">field</span>&gt;
+&lt;<span style="color: #0000ff;">exprs</span>&gt;       <span style="color: #008b8b;">::=</span> &#1013; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">expr</span>&gt; , &lt;<span style="color: #483d8b;">exprs</span>&gt;
+&lt;<span style="color: #0000ff;">tuple-lit</span>&gt;   <span style="color: #008b8b;">::=</span> ( &lt;<span style="color: #483d8b;">exprs</span>&gt; )
+&lt;<span style="color: #0000ff;">field</span>&gt;       <span style="color: #008b8b;">::=</span> <span style="color: #b22222;">; see docs ;</span>
+&lt;<span style="color: #0000ff;">expr</span>&gt;        <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">expr</span>&gt;.&lt;<span style="color: #483d8b;">field</span>&gt;
 
-&lt;<span style="color: #0000ff;">list-lit</span>&gt;   <span style="color: #008b8b;">::=</span> [ &lt;<span style="color: #483d8b;">exprs</span>&gt; ]
-&lt;<span style="color: #0000ff;">expr</span>&gt;       <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">expr</span>&gt;[&lt;<span style="color: #483d8b;">expr</span>&gt;]
+&lt;<span style="color: #0000ff;">list-lit</span>&gt;    <span style="color: #008b8b;">::=</span> [ &lt;<span style="color: #483d8b;">exprs</span>&gt; ]
+&lt;<span style="color: #0000ff;">expr</span>&gt;        <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">expr</span>&gt;[&lt;<span style="color: #483d8b;">expr</span>&gt;]
 
-&lt;<span style="color: #0000ff;">lit</span>&gt;        <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">int-lit</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">float-lit</span>&gt;
+&lt;<span style="color: #0000ff;">lit</span>&gt;         <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">int-lit</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">float-lit</span>&gt;
                <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">char-lit</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">bool-lit</span>&gt;
                <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">tuple-lit</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">string-lit</span>&gt;
 </pre>
@@ -436,8 +436,8 @@ as the course goes on (and define our own types).
 </p>
 </div>
 </div>
-<div id="outline-container-orgdd6d285" class="outline-3">
-<h3 id="orgdd6d285"><span class="section-number-3">3.4.</span> Functions</h3>
+<div id="outline-container-org21515c4" class="outline-3">
+<h3 id="org21515c4"><span class="section-number-3">3.4.</span> Functions</h3>
 <div class="outline-text-3" id="text-3-4">
 <blockquote>
 <p>
@@ -488,8 +488,8 @@ since the compiler is pretty good at catching these things).
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org6f83579" class="outline-3">
-<h3 id="org6f83579"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
+<div id="outline-container-org93bb8bb" class="outline-3">
+<h3 id="org93bb8bb"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
 <div class="outline-text-3" id="text-3-5">
 <blockquote>
 <p>
@@ -527,18 +527,18 @@ should check this, it works even for things like <code>while</code> expressions)
 </p>
 </div>
 </div>
-<div id="outline-container-orgc7ded78" class="outline-3">
-<h3 id="orgc7ded78"><span class="section-number-3">3.6.</span> Control Flow</h3>
+<div id="outline-container-org7e19632" class="outline-3">
+<h3 id="org7e19632"><span class="section-number-3">3.6.</span> Control Flow</h3>
 <div class="outline-text-3" id="text-3-6">
 <blockquote>
 <p>
 <b>Grammar:</b>
 </p>
 <div class="org-src-container">
-<pre class="src src-bnf">&lt;<span style="color: #0000ff;">if-expr</span>&gt;      <span style="color: #008b8b;">::=</span> if &lt;<span style="color: #483d8b;">expr</span>&gt; { &lt;<span style="color: #483d8b;">stmts</span>&gt; } &lt;<span style="color: #483d8b;">else-if-expr</span>&gt;
-&lt;<span style="color: #0000ff;">else-if-expr</span>&gt; <span style="color: #008b8b;">::=</span> &#1013; <span style="color: #ff0000; font-weight: bold;">|</span> else { &lt;<span style="color: #483d8b;">stmts</span>&gt; } <span style="color: #ff0000; font-weight: bold;">|</span> else if { &lt;<span style="color: #483d8b;">stmts</span>&gt; } &lt;<span style="color: #483d8b;">else-if-expr</span>&gt;
-&lt;<span style="color: #0000ff;">while-expr</span>&gt;   <span style="color: #008b8b;">::=</span> while &lt;<span style="color: #483d8b;">expr</span>&gt; { &lt;<span style="color: #483d8b;">stmts</span>&gt; }
-&lt;<span style="color: #0000ff;">for-expr</span>&gt;     <span style="color: #008b8b;">::=</span> for &lt;<span style="color: #483d8b;">var-ident</span>&gt; in &lt;<span style="color: #483d8b;">expr</span>&gt; { &lt;<span style="color: #483d8b;">stmts</span>&gt; }
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">if-expr</span>&gt;      <span style="color: #008b8b;">::=</span> if &lt;<span style="color: #483d8b;">expr</span>&gt; &lt;<span style="color: #483d8b;">block</span>&gt; &lt;<span style="color: #483d8b;">else-if-expr</span>&gt;
+&lt;<span style="color: #0000ff;">else-if-expr</span>&gt; <span style="color: #008b8b;">::=</span> &#1013; <span style="color: #ff0000; font-weight: bold;">|</span> else &lt;<span style="color: #483d8b;">block</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> else if &lt;<span style="color: #483d8b;">block</span>&gt; &lt;<span style="color: #483d8b;">else-if-expr</span>&gt;
+&lt;<span style="color: #0000ff;">while-expr</span>&gt;   <span style="color: #008b8b;">::=</span> while &lt;<span style="color: #483d8b;">expr</span>&gt; &lt;<span style="color: #483d8b;">block</span>&gt;
+&lt;<span style="color: #0000ff;">for-expr</span>&gt;     <span style="color: #008b8b;">::=</span> for &lt;<span style="color: #483d8b;">var-ident</span>&gt; in &lt;<span style="color: #483d8b;">expr</span>&gt; &lt;<span style="color: #483d8b;">block</span>&gt;
 &lt;<span style="color: #0000ff;">ret-expr</span>&gt;     <span style="color: #008b8b;">::=</span> return &lt;<span style="color: #483d8b;">expr</span>&gt;
 &lt;<span style="color: #0000ff;">expr</span>&gt;         <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">if-expr</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">while-expr</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">for-expr</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">ret-expr</span>&gt;
 </pre>
@@ -575,8 +575,8 @@ if-expressions</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgaf1cc2e" class="outline-2">
-<h2 id="orgaf1cc2e"><span class="section-number-2">4.</span> Ownership</h2>
+<div id="outline-container-orga3200b5" class="outline-2">
+<h2 id="orga3200b5"><span class="section-number-2">4.</span> Ownership</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Ownership accounts for the first plateau in the learning curve of
@@ -593,8 +593,8 @@ about this memory management model in order to motivate the way Rust
 is designed.
 </p>
 </div>
-<div id="outline-container-org6d965a4" class="outline-3">
-<h3 id="org6d965a4"><span class="section-number-3">4.1.</span> Stack and Heap</h3>
+<div id="outline-container-org2a66cdc" class="outline-3">
+<h3 id="org2a66cdc"><span class="section-number-3">4.1.</span> Stack and Heap</h3>
 <div class="outline-text-3" id="text-4-1">
 <ul class="org-ul">
 <li>there are two kinds of memory we need to think about: <b>stack</b> and <b>heap</b>
@@ -639,8 +639,8 @@ on the stack?  If it's size can change, or if it needs to persist</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org321f05d" class="outline-3">
-<h3 id="org321f05d"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
+<div id="outline-container-org71a9067" class="outline-3">
+<h3 id="org71a9067"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
 <div class="outline-text-3" id="text-4-2">
 <ul class="org-ul">
 <li>Rust automatically calls <code>drop</code> function when a any variable goes out of scope</li>
