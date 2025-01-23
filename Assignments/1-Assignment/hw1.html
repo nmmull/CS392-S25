@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-01-23 Thu 11:34 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 1</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../../material.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Assignment 1</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org3320790">1. Euclidean Distance</a></li>
+<li><a href="#org6d62869">2. n<sup>th</sup> Prime</a></li>
+<li><a href="#org16efc11">3. Taxicab Numbers</a></li>
+<li><a href="#org016a00e">4. Slice</a></li>
+</ul>
+</div>
+</div>
+<p>
+The following assignment is due <b>Thursday 1/30 by 8:00 PM</b>.  You'll
+need to submit a <code>.zip</code> file containing two Cargo packages in
+Gradescope.  You can start the setup with:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">cargo new hw1
+carge new slice
+</pre>
+</div>
+
+<p>
+For all but the last question, put your solution in the file
+<code>hw1/src/main.ml</code>.
+</p>
+
+<p>
+<i>Note.</i> This assignment is shorter than usual because it's the first
+one.  It should be a litmus for you in deciding whether or not to take
+the course.
+</p>
+
+<div id="outline-container-org3320790" class="outline-2">
+<h2 id="org3320790"><span class="section-number-2">1.</span> Euclidean Distance</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Implement a function called <code>distance</code> which, given two points in
+\(\mathbb R^2\) of type <code>(f64, f64)</code> returns the Euclidean between
+them.
+</p>
+
+<p>
+Also implement a function <code>is_close</code> which, given two numbers in
+\(\mathbb R\) of type <code>f64</code>, determines if they are within \(1^{-10}\) of
+each other.
+</p>
+
+<p>
+Verify your solution (sort of) by asserting within the function <code>main</code>
+that the distance between \((5, 5)\) and \((4, 4)\) is close to
+\(\sqrt{2}\).
+</p>
+
+<p>
+<i>Note.</i> This problem (as with many others) may require looking at the
+documentation for <a href="https://doc.rust-lang.org/stable/std/index.html">The Rust Standard Library</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org6d62869" class="outline-2">
+<h2 id="org6d62869"><span class="section-number-2">2.</span> n<sup>th</sup> Prime</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Implement a function called <code>nth_prime</code> which, given a nonnegative
+integer \(n\) of type <code>u32</code>, returns the \(n^{\textsf{th}}\) prime number as a <code>u32</code>.
+</p>
+
+<p>
+Verify your solution by asserting within <code>main</code> that the 22nd prime
+is 83.
+</p>
+
+<p>
+<i>Note:</i> This is a problem which can be sped up quite a bit.  You can
+solve it however you'd like, but if you're up for it, I'd definitely
+recommend looking into some faster algorithms.
+</p>
+</div>
+</div>
+<div id="outline-container-org16efc11" class="outline-2">
+<h2 id="org16efc11"><span class="section-number-2">3.</span> Taxicab Numbers</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Implement a function called <code>is_taxicab</code> which, given a nonnegative
+integer \(n\) of type <code>u32</code>, determines if the \(n\) can be represented as
+the sum of a pair of positive cubes is more than one way.
+</p>
+
+<p>
+Include this function in <code>hw/src/main.rs</code>.  Verify your solution by
+asserting within main that <code>1729</code> is a taxicab number.
+</p>
+</div>
+</div>
+<div id="outline-container-org016a00e" class="outline-2">
+<h2 id="org016a00e"><span class="section-number-2">4.</span> Slice</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+You should put your solution to this problem in the Cargo package
+<code>slice</code>.
+</p>
+
+<p>
+It's not uncommon to have a document containing problem and solutions
+to an assignment or exam, and it's to nice to have a way of extracting
+just the problems.  One simple way of doing this is to introduce a
+special delimiter, e.g.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-txt">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+</pre>
+</div>
+
+<p>
+which can be used to delimit the solution parts of the document.
+</p>
+
+<p>
+In this problem, you'll write a Rust program to do this.  It should
+take input at stdin and remove all lines between and including the
+delimiters (in the case that there are an odd number of delimiters,
+you should take EOF to be the final delimiter).  For example, given a
+file <code>test.txt</code> containing
+</p>
+
+<div class="org-src-container">
+<pre class="src src-txt">EXAM
+
+Question 1. Write a function in python which squares its input.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+Solution.
+
+def square(n):
+    return n * n
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+Question 2.  Show that 1 + 1 = 2.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+Solution.
+
+I'm not sure, this one seems tricky...ask Russell.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+END OF EXAM
+</pre>
+</div>
+
+<p>
+you should be able to run:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">cargo run &lt; test.txt
+</pre>
+</div>
+
+<p>
+and it should print:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-txt">EXAM
+
+Question 1. Write a function in python which squares its input.
+
+Question 2.  Show that 1 + 1 = 2.
+
+END OF EXAM
+</pre>
+</div>
+
+<p>
+Furthermore, we will only require that the line <i>contains</i> the
+delimiter.  That way, we can put delimiters in comments when we're
+dealing with code, e.g.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ocaml"><span style="color: #000000; font-weight: bold;">let</span> <span style="color: #0000ff;">incr</span> <span style="color: #a0522d;">x</span> = x + 1
+<span style="color: #b22222;">(* </span><span style="color: #b22222;">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><span style="color: #b22222;"> *)</span>
+
+<span style="color: #000000; font-weight: bold;">let</span> <span style="color: #0000ff;">dumb_function</span> <span style="color: #a0522d;">x</span> = x + 1
+<span style="color: #b22222;">(* </span><span style="color: #b22222;">not sure why I put this here</span><span style="color: #b22222;"> *)</span>
+
+<span style="color: #b22222;">(* </span><span style="color: #b22222;">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><span style="color: #b22222;"> *)</span>
+</pre>
+</div>
+
+<p>
+should become:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ocaml"><span style="color: #000000; font-weight: bold;">let</span> <span style="color: #0000ff;">incr</span> <span style="color: #a0522d;">x</span> = x + 1
+</pre>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

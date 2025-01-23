@@ -1,0 +1,132 @@
+#+title: Assignment 1
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:2 todo:nil author:nil date:nil
+#+HTML_LINK_HOME: ../../material.html
+The following assignment is due *Thursday 1/30 by 8:00 PM*.  You'll
+need to submit a ~.zip~ file containing two Cargo packages in
+Gradescope.  You can start the setup with:
+
+#+begin_src bash
+  cargo new hw1
+  carge new slice
+#+end_src
+
+For all but the last question, put your solution in the file
+~hw1/src/main.ml~.
+
+/Note./ This assignment is shorter than usual because it's the first
+one.  It should be a litmus for you in deciding whether or not to take
+the course.
+
+* Euclidean Distance
+Implement a function called ~distance~ which, given two points in
+$\mathbb R^2$ of type ~(f64, f64)~ returns the Euclidean between
+them.
+
+Also implement a function ~is_close~ which, given two numbers in
+$\mathbb R$ of type ~f64~, determines if they are within $1^{-10}$ of
+each other.
+
+Verify your solution (sort of) by asserting within the function ~main~
+that the distance between $(5, 5)$ and $(4, 4)$ is close to
+$\sqrt{2}$.
+
+/Note./ This problem (as with many others) may require looking at the
+documentation for [[https://doc.rust-lang.org/stable/std/index.html][The Rust Standard Library]].
+* n^th Prime
+Implement a function called ~nth_prime~ which, given a nonnegative
+integer $n$ of type ~u32~, returns the $n^{\textsf{th}}$ prime number as a ~u32~.
+
+Verify your solution by asserting within ~main~ that the 22nd prime
+is 83.
+
+/Note:/ This is a problem which can be sped up quite a bit.  You can
+solve it however you'd like, but if you're up for it, I'd definitely
+recommend looking into some faster algorithms.
+* Taxicab Numbers
+Implement a function called ~is_taxicab~ which, given a nonnegative
+integer $n$ of type ~u32~, determines if the $n$ can be represented as
+the sum of a pair of positive cubes is more than one way.
+
+Include this function in ~hw/src/main.rs~.  Verify your solution by
+asserting within main that ~1729~ is a taxicab number.
+* Slice
+You should put your solution to this problem in the Cargo package
+~slice~.
+
+It's not uncommon to have a document containing problem and solutions
+to an assignment or exam, and it's to nice to have a way of extracting
+just the problems.  One simple way of doing this is to introduce a
+special delimiter, e.g.
+
+#+begin_src txt
+>>>>>>>>>>>>>>>>>>>>
+#+end_src
+
+which can be used to delimit the solution parts of the document.
+
+In this problem, you'll write a Rust program to do this.  It should
+take input at stdin and remove all lines between and including the
+delimiters (in the case that there are an odd number of delimiters,
+you should take EOF to be the final delimiter).  For example, given a
+file ~test.txt~ containing
+
+#+begin_src txt
+EXAM
+
+Question 1. Write a function in python which squares its input.
+>>>>>>>>>>>>>>>>>>>>
+Solution.
+
+def square(n):
+    return n * n
+>>>>>>>>>>>>>>>>>>>>
+
+Question 2.  Show that 1 + 1 = 2.
+>>>>>>>>>>>>>>>>>>>>
+Solution.
+
+I'm not sure, this one seems tricky...ask Russell.
+>>>>>>>>>>>>>>>>>>>>
+
+END OF EXAM
+#+end_src
+
+you should be able to run:
+
+#+begin_src bash
+  cargo run < test.txt
+#+end_src
+
+and it should print:
+
+#+begin_src txt
+EXAM
+
+Question 1. Write a function in python which squares its input.
+
+Question 2.  Show that 1 + 1 = 2.
+
+END OF EXAM
+#+end_src
+
+Furthermore, we will only require that the line /contains/ the
+delimiter.  That way, we can put delimiters in comments when we're
+dealing with code, e.g.
+
+#+begin_src ocaml
+  let incr x = x + 1
+  (* >>>>>>>>>>>>>>>>>>>> *)
+
+  let dumb_function x = x + 1
+  (* not sure why I put this here *)
+
+  (* >>>>>>>>>>>>>>>>>>>> *)
+#+end_src
+
+should become:
+
+#+begin_src ocaml
+  let incr x = x + 1
+#+end_src
