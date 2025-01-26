@@ -1,6 +1,6 @@
 #+title: Course Notes
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
-#+OPTIONS: html-style:nil H:2 toc:2
+#+OPTIONS: html-style:nil H:3 toc:2
 #+HTML_LINK_HOME: index.html
 This is very rough draft set of notes (more of a collection of
 thoughts) for the course CAS CS 392 at Boston University.  It's
@@ -392,40 +392,379 @@ fn is_prime(n: i32) -> bool {
 #+end_quote
 * Ownership
 Ownership accounts for the first plateau in the learning curve of
-Rust.  In rough terms, /variables own their values/.  This means
-values aren't necessarily copied on reassignment.  In Rust we're able
-to /specify/ whether something is copied on reassignments (using a
-mechanism called /traits/, similar to interfaces or type classes).
-
-Ownership is necessitated in part by the way that Rust (and many
-low-level PLs) manages memory.  We have to spend some time learning
-about this memory management model in order to motivate the way Rust
-is designed.
+Rust.  In rough terms, /values have owners/, e.g., values aren't
+necessarily copied on reassignment.[fn::In Rust we're able to
+/specify/ whether something is copied on reassignments (using a
+mechanism called /traits/, similar to interfaces or type classes).]
+Ownership is motivated by the way that Rust (and many systems PLs)
+manages memory, so we have to spend some a bit of time learning about
+this.
 ** Stack and Heap
 
-+ there are two kinds of memory we need to think about: *stack* and *heap*
-  + We won't care too much about this except up to it's usefulness as an analogy.
-  + Stack memory is simple. If all we needed to do was work with the
-    stack, then we wouldn't be having this conversation.
-    + The restriction: the stack needs to have fixed size.
-      + I still don't really know why, why not store dynamic sized
-        memory on the stack? (Let's just assume this)
-  + The heap is less organized
-    + You must request space, and it must be allocated, you work with a pointer to the memory.
-    + In rust we won't often think in terms of pointers, this is part of the point
-  + pushing to the stack is faster, accessing is faster, but data must
-    be fixed size, and is ephemeral. Why would we want to put anything
-    on the stack?  If it's size can change, or if it needs to persist
-  + The problem: if we put things on the heap, we need to know when we can deallocate to free up memory.
-    + In C, you have to do this by hand
-    + In modern programming languages, there is so-called garbage collecting
-    + In Swift, there is automatic reference counting
-      + What are the benefits of GC? Not sure. I think it's a bit of magic.
-    + We also don't want to DUPLICATE
-+ The main idea: every value has a single owner (variable). When the owner goes out of scope, so does the value.
-  + This requires carefully understanding scope.
-    + The scope of a variable is: after it is declared up to the end of the block in which it is declared.
-    + expression which update must be updating something on the heap
+Rust is a systems PL, which means that we need to care at least a
+little bit about how memory is managed.  We won't be going all the way
+to the hardware; we'll take a sufficiently detailed view to be able to
+appreciate the interesting aspects of Rust's type/borrow system, and a
+sufficiently abstract view as to not get caught up in implementation
+details, e.g., of the memory allocator.
+
+There are, in rough terms, three kinds of memory we need to care about
+(though we'll primarily focus on the latter two):
+
+1. static memory
+2. the stack
+3. the heap
+
+Static memory consists of constants used throughout the execution of a
+program; it's located in a fixed place which is accessible during
+execution and the values therein never change.  For example, when we
+define a variable whose value is a /string slice/:
+
+#+begin_src rust
+  let x : &str = "hello world"
+#+end_src
+
+The ~"hello world"~ part is stored in static memory and ~x~ is given a
+reference to this location.  This is about all we'll say about static
+memory.[fn::We include this brief note about it basically to answer the
+question: /If we have a parameter to a function which is a string
+slice, where is that slice actually stored?/ It can't be be on the
+stack because the size of data on the stack has to be known at compile
+time.]
+
+Next up, the *stack*. The stack consists of the values of parameters and
+local variables relevant to a function call.[fn::The stack is also
+occasionally called the /call stack/, but prefer to be a bit cagey on
+this, as there are certainly examples of programming languages which
+draw a distinction between the call stack and the stack used during
+the execution of a program, e.g., some implementations of Forth.]
+There are a lot of positive things to say about the stack:
+
++ Values put on the stack are very quick to access─they're "right
+  there", so to speak, when a function is called.
++ The stack is compactly organized; it's first-in first-out, there's
+  no wasted space, everything relevant to the function is there when
+  we need it, and thrown away when we're done with it.
+
+This seems ideal.[fn::And this is, in essence, the motivation behind
+stack-oriented PLs like Forth: fine-grained control of the stack means
+more efficient program.]  The problem: there are three major
+restrictions on the kind of data that can be put on the stack:
+
+1. The data must be fixed-size, known at compile time.
+2. The data cannot change size throughout the execution of the
+   program.
+3. The data on the stack relevant to a function does not persist after
+   control is returned to the caller.
+
+It's worth noting before moving on that, although these are common
+restrictions among systems PLs, they are ultimately design decisions;
+this optimization allows the Rust compiler to know /exactly/ how much
+memory to allocate when a function is called.  There is nothing
+inherent to a stack which makes it so we can't store data whose size
+is unknown at compile time (variable-size data is a different
+question, that would be much harder to deal with in a stack).
+
+So, if we want to do "reasonable" programming, i.e., programming with
+potentially persistent data of potentially variable size, we need to
+put it somewhere else in memory.
+
+The *heap* is where we store this variable-size persistent data.
+Because the size is unknown at runtime, the program itself has to
+/allocate/ that memory, i.e., it has to ask a memory allocator for the
+amount of memory that it wants.  And because the data may be
+persistent, we have to tell the memory allocator when we're done with
+it.  This also means that, when we work with data on the heap, we need
+a level of indirection; if a function call needs access to data on the
+heap we put a /reference/ on the stack, which we can follow to get to
+that data.
+
+There are a lot of negative things to say about the
+heap:
+
++ Access is slower; the processor has to potentially jump around;
+  there may (read: are likely to) be references to references to
+  references, and following these references takes time.
++ The heap is organized less compactly; if we tell the memory
+  allocator we no longer need some data on the heap, the memory
+  allocator can /free/ it so that it can be used later, but this may
+  /fragment/ the heap, leaving "holes" that add up to a large amount
+  of memory, but cannot be used to hold a contiguous piece of data.
++ The system of allocation/deallocation is /exactly/ the source of
+  memory bugs:
+  + A /dangling point/ is what you get when you keep around a
+    reference to a location on the heap that no longer contains valid
+    data.
+  + A /memory leak/ is what you get when you allocate memory, but lose
+    the reference to it so that it can't be freed.
+  + A /data race/ is what you get when you have multiple processes
+    vying for the same data on the heap.
+
+It's a kind of Pandora's box; the reality is we need the heap, we need to
+be able to work with variable-sized persistent data. And maybe part of
+our goal will be to minimize heap allocation where possible in the
+case that memory allocation/deallocation becomes a bottleneck, but we
+can't do much without it.[fn::And we should generally be wary of
+pre-mature optimization]
+
+#+begin_quote
+*The Picture.* You'll often see diagrams of this form to describe the
+layout of memory.  The stack and heap grow in opposite directions.
+And there may be "holes" on the heap due to freed memory.  It's a bit
+of a caricature but is sufficient for our purposes.
+
+#+begin_src text
+    (HIGH ADDRS)
+  ┌───────────────┐
+  │ FN1 PARAM     │ STACK
+  ├───────────────┤ ↓↓↓↓↓
+  │ FN1 LOCAL VAR │
+  ├───────────────┤
+  │ FN1 LOCAL VAR │
+  ├───────────────┤
+  │ FN2 PARAM     │
+  ├───────────────┤
+  │ FN2 PARAM     │
+  ├───────────────┤
+  │ FN2 LOCAL VAR │
+  ├───────────────┤
+  │ FN2 LOCAL VAR │
+  ├───────────────┤
+	  ⋮
+	  ⋮
+	  ⋮
+  ├───────────────┤
+  │ HEAP DATA     │
+  ├───────────────┤
+  │ FREE          │
+  ├───────────────┤
+  │ FREE          │
+  ├───────────────┤
+  │ HEAP DATA     │
+  ├───────────────┤ ↑↑↑↑
+  │ HEAP DATA     │ HEAP
+  ├───────────────┤╮
+  │ CONSTANTS     ││
+  ├───────────────┤├STATIC
+  │ CONSTANTS     ││
+  └───────────────┘╯
+    (LOW ADDRS)
+#+end_src
+#+end_quote
+
+Okay, so we have the stack and the heap, and all systems PLs have to
+deal with the tradeoffs presented by these two kinds of memory.  There
+are, in broad strokes, four ways that have become common approaches
+(in order roughly of decreasing user control):
+
+1. Explicit allocation/deallocation (C)
+2. *Ownership (Rust)*
+3. Automatic Reference Counting (Swift, C++ via smart pointers)
+4. Garbage Collection (Python, Java, OCaml, pretty much all high-level
+   PLs)
+
+*** Explicit Allocation
+
+In "traditional" systems PLs like C, the programmer is in charge of
+when to allocate and deallocate heap memory.[fn::Hard-core C
+programmers like to point out that there is no notion of stack and
+heap in the C specification.  I can't claim to have a strong argument
+against this─I'm not a systems programmer─except that everyone already
+thinks of allocation as heap allocation in C, and this underlying some
+C compilers.]  This is done using the methods ~malloc~ (for
+allocating) and ~free~ (for deallocating).  Pretty simple, for every
+~malloc~, we need exactly one ~free~ when were done with the memory we
+allocated.  Except that, as we learn from Uncle Ben, with great power
+comes great responsibility.  Having control over allocation is what
+also gives us the ability to introduce memory bugs, and experience has
+shown us that these kinds of bugs are prevalent and difficult to track
+down.
+
+#+begin_quote
+*Example.* A dangling pointer in C.
+
+#+begin_src c
+int main(void) {
+  int *x = (int*)malloc(sizeof(int));
+  *x = 2;
+  free(x);
+  printf("%d\n", *x);
+  return 0;
+}
+#+end_src
+#+end_quote
+
+#+begin_quote
+*Example.* A memory leak in C.
+
+#+begin_src c
+void leak(void) {
+  int *x = (int*)malloc(sizeof(int));
+  *x = 2;
+  printf("%d\n", *x);
+}
+
+int main(void) {
+  leak();
+  return 0;
+}
+#+end_src
+#+end_quote
+
+*** Garbage Collection
+
+On the other side of the user-control spectrum is garbage collection,
+which is an automatic way of allocating and deallocating memory.  It's
+another idea which is simple in concept and complicated in detail:
+periodically during the execution of the program we:
++ mark all the data on the heap that still has a reference in the
+  stack;
++ deallocate everything that on the heap which isn't marked.
+
+The process that does this is called the /garbage collector/ (GC).  No
+more memory bugs, no more thinking about memory at all, /data is
+data./ The drawback: with less responsibility comes less power.  We
+give up compute to periodically clean up the heap.  And in most cases
+this is fine, if we don't need performance then we don't need
+performance.  But if we /do/ need performance, there isn't much we can
+do with a GC except maybe choose a better GC (some algorithms are
+better than others, and performance can depend on the application
+domain).
+
+*** Automatic Reference Counting
+
+Before going into borrowing, I thought I'd point out one more
+alternative to memory management, automatic reference counting,
+notably used by Swift.  The idea:
+
++ keep track of the number of references to a piece of data on the
+  heap;
++ deallocate when that number is 0.
+
+#+begin_quote
+*Example.* The Swift documentation has a nice example of this.  This
+ program only prints ~allocating~ and ~deallocating~ once, even though
+ a reference goes out of scope several times.
+
+#+begin_src swift
+class Stuff {
+    init() {
+        print("allocating")
+    }
+    deinit {
+        print("deallocating")
+    }
+}
+
+var r1 : Stuff? = Stuff()
+var r2 : Stuff? = r1
+var r3 : Stuff? = r2
+
+r1 = nil
+r2 = nil
+r3 = nil
+#+end_src
+
+#+begin_src
+allocating
+deallocating
+#+end_src
+#+end_quote
+
+
+
+This is a nice idea, it has its benefits and drawbacks, some of which
+we'll discuss more later.  Rust also supports this style of memory
+management, so the community must see something in it.
+
+*** Ownership
+
+Finally, the protagonist of our story, Rust's ownership.  This
+approach lies somewhere between explicit allocation and reference
+counting; you never have to allocate memory explicitly in Rust, but
+there's no unspoken runtime computations (like reference count
+updating) happening in the background.
+
+According to the RPL, the ownership rules of Rust are:
+
++ Every value has a single owner.
++ When the owner goes out of scope, any memory associated with the
+  value is freed.
+
+I think the best way to understand these rules is to focus on the
+second one: /when a variable goes out of scope, we free its associated
+memory./ This is a stupid-simple policy, and it certainly solves the
+problem of memory leaks; every variable /must/ go out of scope at some
+point, so there's at least one deallocation for every allocation.
+
+But this is an awful policy when it comes to dangling pointers.  How
+do we know that there isn't some other reference to the same data when
+we go to free it?  Not to mention it's problematic with respect to
+freeing memory that's not allocated (i.e., more than one deallocation
+for one allocation).
+
+This is where the first rule comes in: when a variable goes out of
+scope, they must /own/ the data. No one else can refer to it.  In
+other words, ownership (the idea that every value has an owner) allows
+us to adopt a stupid-simple policy on freeing data (free when your
+owner goes out of scope).  Another way to think about it: it's like
+automatic reference counting, except you're not allowed to have a
+reference count greater than 1.
+
+
+#+begin_quote
+*Example.* This policy means there are things we just /cannot/ do,
+e.g., we can't have two references to the same data on the heap.  If
+one goes out of scope, it will free its associated data, leaving the
+second one referring to data that is no longer valid.
+#+begin_src rust
+  fn main() {
+      let x = String::from("hello world");
+      let y = x;
+      println!("{x}");
+      println!("{y}");
+  }
+#+end_src
+#+begin_src
+error[E0382]: borrow of moved value: `x`
+  --> src/main.rs:49:15
+   |
+47 |     let x = String::from("hello world");
+   |         - move occurs because `x` has type `String`, which does not implement the `Copy` trait
+48 |     let y = x;
+   |             - value moved here
+49 |     println!("{x}");
+   |               ^^^ value borrowed here after move
+   |
+#+end_src
+
+When we try this, we get a /type error/. And this is important to
+emphasize, it's not a runtime error.  It's also worth noting there
+nothing inherently wrong with this code from a computational
+perspective.  Consider the equivalent C code:
+
+#+begin_src c
+  int main(void) {
+    char* x = "hello world";
+    char* y = x;
+    printf("%s\n", x);
+    printf("%s\n", y);
+    return 0;
+  }
+#+end_src
+
+#+begin_src
+hello world
+hello world
+#+end_src
+
+But it is the philosophy of Rust that we should program
+conservatively, disallowing some things, and thank ourselves in the
+long run, instead of coding fast-and-loose, doing whatever we want,
+and potentially paying for it later.[fn::As we will see, this
+philosophy also pays off when we want to parallelize our code.]
+#+end_quote
+
 ** References and Borrowing
 + Rust automatically calls ~drop~ function when a any variable goes out of scope
 + (We should say something about static memory)

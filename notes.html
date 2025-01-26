@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-20 Mon 16:52 -->
+<!-- 2025-01-26 Sun 18:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Course Notes</title>
@@ -21,23 +21,23 @@
 <li><a href="#intro">1. What is this course?</a></li>
 <li><a href="#set-up">2. Set Up</a>
 <ul>
-<li><a href="#org9e0f47e">2.1. Cargo</a></li>
+<li><a href="#org1434ed9">2.1. Cargo</a></li>
 </ul>
 </li>
-<li><a href="#orga66606c">3. The Basics</a>
+<li><a href="#orgbbe05cf">3. The Basics</a>
 <ul>
-<li><a href="#org052ece8">3.1. Variables and Mutability</a></li>
-<li><a href="#orgab73248">3.2. Constants</a></li>
-<li><a href="#org17b6aff">3.3. Data Types</a></li>
-<li><a href="#org21515c4">3.4. Functions</a></li>
-<li><a href="#org93bb8bb">3.5. Statements and Expressions</a></li>
-<li><a href="#org7e19632">3.6. Control Flow</a></li>
+<li><a href="#orgadb630a">3.1. Variables and Mutability</a></li>
+<li><a href="#org790dcab">3.2. Constants</a></li>
+<li><a href="#org490ba45">3.3. Data Types</a></li>
+<li><a href="#org64529ab">3.4. Functions</a></li>
+<li><a href="#org5b7909f">3.5. Statements and Expressions</a></li>
+<li><a href="#org883362c">3.6. Control Flow</a></li>
 </ul>
 </li>
-<li><a href="#orga3200b5">4. Ownership</a>
+<li><a href="#org3bd318e">4. Ownership</a>
 <ul>
-<li><a href="#org2a66cdc">4.1. Stack and Heap</a></li>
-<li><a href="#org71a9067">4.2. References and Borrowing</a></li>
+<li><a href="#orgc2b6242">4.1. Stack and Heap</a></li>
+<li><a href="#org1fa150b">4.2. References and Borrowing</a></li>
 </ul>
 </li>
 </ul>
@@ -162,8 +162,8 @@ Cargo!</a> section of RPL (we'll also go over it in lecture).
 </p>
 </div>
 
-<div id="outline-container-org9e0f47e" class="outline-3">
-<h3 id="org9e0f47e"><span class="section-number-3">2.1.</span> Cargo</h3>
+<div id="outline-container-org1434ed9" class="outline-3">
+<h3 id="org1434ed9"><span class="section-number-3">2.1.</span> Cargo</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Cargo is a build system for Rust.  As usual, you can use
@@ -194,8 +194,8 @@ this process.
 </div>
 </div>
 </div>
-<div id="outline-container-orga66606c" class="outline-2">
-<h2 id="orga66606c"><span class="section-number-2">3.</span> The Basics</h2>
+<div id="outline-container-orgbbe05cf" class="outline-2">
+<h2 id="orgbbe05cf"><span class="section-number-2">3.</span> The Basics</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 This is a collection of concepts that are common to all PLs.  I expect
@@ -206,8 +206,8 @@ specification of the Rust syntax.  These specifications are
 approximations, but for simple programs are sufficient.
 </p>
 </div>
-<div id="outline-container-org052ece8" class="outline-3">
-<h3 id="org052ece8"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
+<div id="outline-container-orgadb630a" class="outline-3">
+<h3 id="orgadb630a"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
 <div class="outline-text-3" id="text-3-1">
 <blockquote>
 <p>
@@ -258,8 +258,8 @@ x = 2;
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgab73248" class="outline-3">
-<h3 id="orgab73248"><span class="section-number-3">3.2.</span> Constants</h3>
+<div id="outline-container-org790dcab" class="outline-3">
+<h3 id="org790dcab"><span class="section-number-3">3.2.</span> Constants</h3>
 <div class="outline-text-3" id="text-3-2">
 <blockquote>
 <p>
@@ -300,8 +300,8 @@ Constants are primarily useful for code clarity.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org17b6aff" class="outline-3">
-<h3 id="org17b6aff"><span class="section-number-3">3.3.</span> Data Types</h3>
+<div id="outline-container-org490ba45" class="outline-3">
+<h3 id="org490ba45"><span class="section-number-3">3.3.</span> Data Types</h3>
 <div class="outline-text-3" id="text-3-3">
 <blockquote>
 <p>
@@ -436,8 +436,8 @@ as the course goes on (and define our own types).
 </p>
 </div>
 </div>
-<div id="outline-container-org21515c4" class="outline-3">
-<h3 id="org21515c4"><span class="section-number-3">3.4.</span> Functions</h3>
+<div id="outline-container-org64529ab" class="outline-3">
+<h3 id="org64529ab"><span class="section-number-3">3.4.</span> Functions</h3>
 <div class="outline-text-3" id="text-3-4">
 <blockquote>
 <p>
@@ -488,8 +488,8 @@ since the compiler is pretty good at catching these things).
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org93bb8bb" class="outline-3">
-<h3 id="org93bb8bb"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
+<div id="outline-container-org5b7909f" class="outline-3">
+<h3 id="org5b7909f"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
 <div class="outline-text-3" id="text-3-5">
 <blockquote>
 <p>
@@ -527,8 +527,8 @@ should check this, it works even for things like <code>while</code> expressions)
 </p>
 </div>
 </div>
-<div id="outline-container-org7e19632" class="outline-3">
-<h3 id="org7e19632"><span class="section-number-3">3.6.</span> Control Flow</h3>
+<div id="outline-container-org883362c" class="outline-3">
+<h3 id="org883362c"><span class="section-number-3">3.6.</span> Control Flow</h3>
 <div class="outline-text-3" id="text-3-6">
 <blockquote>
 <p>
@@ -575,72 +575,467 @@ if-expressions</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orga3200b5" class="outline-2">
-<h2 id="orga3200b5"><span class="section-number-2">4.</span> Ownership</h2>
+<div id="outline-container-org3bd318e" class="outline-2">
+<h2 id="org3bd318e"><span class="section-number-2">4.</span> Ownership</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Ownership accounts for the first plateau in the learning curve of
-Rust.  In rough terms, <i>variables own their values</i>.  This means
-values aren't necessarily copied on reassignment.  In Rust we're able
-to <i>specify</i> whether something is copied on reassignments (using a
-mechanism called <i>traits</i>, similar to interfaces or type classes).
+Rust.  In rough terms, <i>values have owners</i>, e.g., values aren't
+necessarily copied on reassignment.<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>
+Ownership is motivated by the way that Rust (and many systems PLs)
+manages memory, so we have to spend some a bit of time learning about
+this.
+</p>
+</div>
+<div id="outline-container-orgc2b6242" class="outline-3">
+<h3 id="orgc2b6242"><span class="section-number-3">4.1.</span> Stack and Heap</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Rust is a systems PL, which means that we need to care at least a
+little bit about how memory is managed.  We won't be going all the way
+to the hardware; we'll take a sufficiently detailed view to be able to
+appreciate the interesting aspects of Rust's type/borrow system, and a
+sufficiently abstract view as to not get caught up in implementation
+details, e.g., of the memory allocator.
 </p>
 
 <p>
-Ownership is necessitated in part by the way that Rust (and many
-low-level PLs) manages memory.  We have to spend some time learning
-about this memory management model in order to motivate the way Rust
-is designed.
+There are, in rough terms, three kinds of memory we need to care about
+(though we'll primarily focus on the latter two):
 </p>
+
+<ol class="org-ol">
+<li>static memory</li>
+<li>the stack</li>
+<li>the heap</li>
+</ol>
+
+<p>
+Static memory consists of constants used throughout the execution of a
+program; it's located in a fixed place which is accessible during
+execution and the values therein never change.  For example, when we
+define a variable whose value is a <i>string slice</i>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">let</span> <span style="color: #a0522d;">x</span> : <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">str</span> = <span style="color: #8b2252;">"hello world"</span>
+</pre>
 </div>
-<div id="outline-container-org2a66cdc" class="outline-3">
-<h3 id="org2a66cdc"><span class="section-number-3">4.1.</span> Stack and Heap</h3>
-<div class="outline-text-3" id="text-4-1">
+
+<p>
+The <code>"hello world"</code> part is stored in static memory and <code>x</code> is given a
+reference to this location.  This is about all we'll say about static
+memory.<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>
+</p>
+
+<p>
+Next up, the <b>stack</b>. The stack consists of the values of parameters and
+local variables relevant to a function call.<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>
+There are a lot of positive things to say about the stack:
+</p>
+
 <ul class="org-ul">
-<li>there are two kinds of memory we need to think about: <b>stack</b> and <b>heap</b>
+<li>Values put on the stack are very quick to access─they're "right
+there", so to speak, when a function is called.</li>
+<li>The stack is compactly organized; it's first-in first-out, there's
+no wasted space, everything relevant to the function is there when
+we need it, and thrown away when we're done with it.</li>
+</ul>
+
+<p>
+This seems ideal.<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>  The problem: there are three major
+restrictions on the kind of data that can be put on the stack:
+</p>
+
+<ol class="org-ol">
+<li>The data must be fixed-size, known at compile time.</li>
+<li>The data cannot change size throughout the execution of the
+program.</li>
+<li>The data on the stack relevant to a function does not persist after
+control is returned to the caller.</li>
+</ol>
+
+<p>
+It's worth noting before moving on that, although these are common
+restrictions among systems PLs, they are ultimately design decisions;
+this optimization allows the Rust compiler to know <i>exactly</i> how much
+memory to allocate when a function is called.  There is nothing
+inherent to a stack which makes it so we can't store data whose size
+is unknown at compile time (variable-size data is a different
+question, that would be much harder to deal with in a stack).
+</p>
+
+<p>
+So, if we want to do "reasonable" programming, i.e., programming with
+potentially persistent data of potentially variable size, we need to
+put it somewhere else in memory.
+</p>
+
+<p>
+The <b>heap</b> is where we store this variable-size persistent data.
+Because the size is unknown at runtime, the program itself has to
+<i>allocate</i> that memory, i.e., it has to ask a memory allocator for the
+amount of memory that it wants.  And because the data may be
+persistent, we have to tell the memory allocator when we're done with
+it.  This also means that, when we work with data on the heap, we need
+a level of indirection; if a function call needs access to data on the
+heap we put a <i>reference</i> on the stack, which we can follow to get to
+that data.
+</p>
+
+<p>
+There are a lot of negative things to say about the
+heap:
+</p>
+
 <ul class="org-ul">
-<li>We won't care too much about this except up to it's usefulness as an analogy.</li>
-<li>Stack memory is simple. If all we needed to do was work with the
-stack, then we wouldn't be having this conversation.
+<li>Access is slower; the processor has to potentially jump around;
+there may (read: are likely to) be references to references to
+references, and following these references takes time.</li>
+<li>The heap is organized less compactly; if we tell the memory
+allocator we no longer need some data on the heap, the memory
+allocator can <i>free</i> it so that it can be used later, but this may
+<i>fragment</i> the heap, leaving "holes" that add up to a large amount
+of memory, but cannot be used to hold a contiguous piece of data.</li>
+<li>The system of allocation/deallocation is <i>exactly</i> the source of
+memory bugs:
 <ul class="org-ul">
-<li>The restriction: the stack needs to have fixed size.
-<ul class="org-ul">
-<li>I still don't really know why, why not store dynamic sized
-memory on the stack? (Let's just assume this)</li>
-</ul></li>
-</ul></li>
-<li>The heap is less organized
-<ul class="org-ul">
-<li>You must request space, and it must be allocated, you work with a pointer to the memory.</li>
-<li>In rust we won't often think in terms of pointers, this is part of the point</li>
-</ul></li>
-<li>pushing to the stack is faster, accessing is faster, but data must
-be fixed size, and is ephemeral. Why would we want to put anything
-on the stack?  If it's size can change, or if it needs to persist</li>
-<li>The problem: if we put things on the heap, we need to know when we can deallocate to free up memory.
-<ul class="org-ul">
-<li>In C, you have to do this by hand</li>
-<li>In modern programming languages, there is so-called garbage collecting</li>
-<li>In Swift, there is automatic reference counting
-<ul class="org-ul">
-<li>What are the benefits of GC? Not sure. I think it's a bit of magic.</li>
-</ul></li>
-<li>We also don't want to DUPLICATE</li>
-</ul></li>
-</ul></li>
-<li>The main idea: every value has a single owner (variable). When the owner goes out of scope, so does the value.
-<ul class="org-ul">
-<li>This requires carefully understanding scope.
-<ul class="org-ul">
-<li>The scope of a variable is: after it is declared up to the end of the block in which it is declared.</li>
-<li>expression which update must be updating something on the heap</li>
-</ul></li>
+<li>A <i>dangling point</i> is what you get when you keep around a
+reference to a location on the heap that no longer contains valid
+data.</li>
+<li>A <i>memory leak</i> is what you get when you allocate memory, but lose
+the reference to it so that it can't be freed.</li>
+<li>A <i>data race</i> is what you get when you have multiple processes
+vying for the same data on the heap.</li>
 </ul></li>
 </ul>
+
+<p>
+It's a kind of Pandora's box; the reality is we need the heap, we need to
+be able to work with variable-sized persistent data. And maybe part of
+our goal will be to minimize heap allocation where possible in the
+case that memory allocation/deallocation becomes a bottleneck, but we
+can't do much without it.<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup>
+</p>
+
+<blockquote>
+<p>
+<b>The Picture.</b> You'll often see diagrams of this form to describe the
+layout of memory.  The stack and heap grow in opposite directions.
+And there may be "holes" on the heap due to freed memory.  It's a bit
+of a caricature but is sufficient for our purposes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">  (HIGH ADDRS)
+&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474; FN1 PARAM     &#9474; STACK
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508; &#8595;&#8595;&#8595;&#8595;&#8595;
+&#9474; FN1 LOCAL VAR &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; FN1 LOCAL VAR &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; FN2 PARAM     &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; FN2 PARAM     &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; FN2 LOCAL VAR &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; FN2 LOCAL VAR &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+        &#8942;
+        &#8942;
+        &#8942;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; HEAP DATA     &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; FREE          &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; FREE          &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474; HEAP DATA     &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508; &#8593;&#8593;&#8593;&#8593;
+&#9474; HEAP DATA     &#9474; HEAP
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;&#9582;
+&#9474; CONSTANTS     &#9474;&#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;&#9500;STATIC
+&#9474; CONSTANTS     &#9474;&#9474;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;&#9583;
+  (LOW ADDRS)
+</pre>
+</div>
+</blockquote>
+
+<p>
+Okay, so we have the stack and the heap, and all systems PLs have to
+deal with the tradeoffs presented by these two kinds of memory.  There
+are, in broad strokes, four ways that have become common approaches
+(in order roughly of decreasing user control):
+</p>
+
+<ol class="org-ol">
+<li>Explicit allocation/deallocation (C)</li>
+<li><b>Ownership (Rust)</b></li>
+<li>Automatic Reference Counting (Swift, C++ via smart pointers)</li>
+<li>Garbage Collection (Python, Java, OCaml, pretty much all high-level
+PLs)</li>
+</ol>
+</div>
+
+<div id="outline-container-orgb04a5fe" class="outline-4">
+<h4 id="orgb04a5fe"><span class="section-number-4">4.1.1.</span> Explicit Allocation</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+In "traditional" systems PLs like C, the programmer is in charge of
+when to allocate and deallocate heap memory.<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup>  This is done using the methods <code>malloc</code> (for
+allocating) and <code>free</code> (for deallocating).  Pretty simple, for every
+<code>malloc</code>, we need exactly one <code>free</code> when were done with the memory we
+allocated.  Except that, as we learn from Uncle Ben, with great power
+comes great responsibility.  Having control over allocation is what
+also gives us the ability to introduce memory bugs, and experience has
+shown us that these kinds of bugs are prevalent and difficult to track
+down.
+</p>
+
+<blockquote>
+<p>
+<b>Example.</b> A dangling pointer in C.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #0000ff;">main</span>(<span style="color: #228b22;">void</span>) {
+  <span style="color: #228b22;">int</span> *<span style="color: #a0522d;">x</span> = (<span style="color: #228b22;">int</span>*)malloc(<span style="color: #a020f0;">sizeof</span>(<span style="color: #228b22;">int</span>));
+  *x = 2;
+  free(x);
+  printf(<span style="color: #8b2252;">"%d\n"</span>, *x);
+  <span style="color: #a020f0;">return</span> 0;
+}
+</pre>
+</div>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> A memory leak in C.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #228b22;">void</span> <span style="color: #0000ff;">leak</span>(<span style="color: #228b22;">void</span>) {
+  <span style="color: #228b22;">int</span> *<span style="color: #a0522d;">x</span> = (<span style="color: #228b22;">int</span>*)malloc(<span style="color: #a020f0;">sizeof</span>(<span style="color: #228b22;">int</span>));
+  *x = 2;
+  printf(<span style="color: #8b2252;">"%d\n"</span>, *x);
+}
+
+<span style="color: #228b22;">int</span> <span style="color: #0000ff;">main</span>(<span style="color: #228b22;">void</span>) {
+  leak();
+  <span style="color: #a020f0;">return</span> 0;
+}
+</pre>
+</div>
+</blockquote>
 </div>
 </div>
-<div id="outline-container-org71a9067" class="outline-3">
-<h3 id="org71a9067"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
+
+<div id="outline-container-orgc816aa6" class="outline-4">
+<h4 id="orgc816aa6"><span class="section-number-4">4.1.2.</span> Garbage Collection</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+On the other side of the user-control spectrum is garbage collection,
+which is an automatic way of allocating and deallocating memory.  It's
+another idea which is simple in concept and complicated in detail:
+periodically during the execution of the program we:
+</p>
+<ul class="org-ul">
+<li>mark all the data on the heap that still has a reference in the
+stack;</li>
+<li>deallocate everything that on the heap which isn't marked.</li>
+</ul>
+
+<p>
+The process that does this is called the <i>garbage collector</i> (GC).  No
+more memory bugs, no more thinking about memory at all, <i>data is
+data.</i> The drawback: with less responsibility comes less power.  We
+give up compute to periodically clean up the heap.  And in most cases
+this is fine, if we don't need performance then we don't need
+performance.  But if we <i>do</i> need performance, there isn't much we can
+do with a GC except maybe choose a better GC (some algorithms are
+better than others, and performance can depend on the application
+domain).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbdd53b2" class="outline-4">
+<h4 id="orgbdd53b2"><span class="section-number-4">4.1.3.</span> Automatic Reference Counting</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+Before going into borrowing, I thought I'd point out one more
+alternative to memory management, automatic reference counting,
+notably used by Swift.  The idea:
+</p>
+
+<ul class="org-ul">
+<li>keep track of the number of references to a piece of data on the
+heap;</li>
+<li>deallocate when that number is 0.</li>
+</ul>
+
+<blockquote>
+<p>
+<b>Example.</b> The Swift documentation has a nice example of this.  This
+ program only prints <code>allocating</code> and <code>deallocating</code> once, even though
+ a reference goes out of scope several times.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-swift"><span style="color: #a020f0;">class</span> <span style="color: #0000ff;">Stuff</span> {
+    <span style="color: #a020f0;">init</span>() {
+        <span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"allocating"</span>)
+    }
+    <span style="color: #a020f0;">deinit</span> {
+        <span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"deallocating"</span>)
+    }
+}
+
+<span style="color: #a020f0;">var</span> r1 : Stuff? = <span style="color: #0000ff;">Stuff</span>()
+<span style="color: #a020f0;">var</span> r2 : Stuff? = r1
+<span style="color: #a020f0;">var</span> r3 : Stuff? = r2
+
+r1 = <span style="color: #008b8b;">nil</span>
+r2 = <span style="color: #008b8b;">nil</span>
+r3 = <span style="color: #008b8b;">nil</span>
+</pre>
+</div>
+
+<pre class="example">
+allocating
+deallocating
+</pre>
+</blockquote>
+
+
+
+<p>
+This is a nice idea, it has its benefits and drawbacks, some of which
+we'll discuss more later.  Rust also supports this style of memory
+management, so the community must see something in it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc8e9b68" class="outline-4">
+<h4 id="orgc8e9b68"><span class="section-number-4">4.1.4.</span> Ownership</h4>
+<div class="outline-text-4" id="text-4-1-4">
+<p>
+Finally, the protagonist of our story, Rust's ownership.  This
+approach lies somewhere between explicit allocation and reference
+counting; you never have to allocate memory explicitly in Rust, but
+there's no unspoken runtime computations (like reference count
+updating) happening in the background.
+</p>
+
+<p>
+According to the RPL, the ownership rules of Rust are:
+</p>
+
+<ul class="org-ul">
+<li>Every value has a single owner.</li>
+<li>When the owner goes out of scope, any memory associated with the
+value is freed.</li>
+</ul>
+
+<p>
+I think the best way to understand these rules is to focus on the
+second one: <i>when a variable goes out of scope, we free its associated
+memory.</i> This is a stupid-simple policy, and it certainly solves the
+problem of memory leaks; every variable <i>must</i> go out of scope at some
+point, so there's at least one deallocation for every allocation.
+</p>
+
+<p>
+But this is an awful policy when it comes to dangling pointers.  How
+do we know that there isn't some other reference to the same data when
+we go to free it?  Not to mention it's problematic with respect to
+freeing memory that's not allocated (i.e., more than one deallocation
+for one allocation).
+</p>
+
+<p>
+This is where the first rule comes in: when a variable goes out of
+scope, they must <i>own</i> the data. No one else can refer to it.  In
+other words, ownership (the idea that every value has an owner) allows
+us to adopt a stupid-simple policy on freeing data (free when your
+owner goes out of scope).  Another way to think about it: it's like
+automatic reference counting, except you're not allowed to have a
+reference count greater than 1.
+</p>
+
+
+<blockquote>
+<p>
+<b>Example.</b> This policy means there are things we just <i>cannot</i> do,
+e.g., we can't have two references to the same data on the heap.  If
+one goes out of scope, it will free its associated data, leaving the
+second one referring to data that is no longer valid.
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">main</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">x</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"hello world"</span>);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">y</span> = x;
+    <span style="color: #483d8b;">println!</span>(<span style="color: #8b2252;">"</span><span style="color: #8b2252; font-style: italic;">{x}</span><span style="color: #8b2252;">"</span>);
+    <span style="color: #483d8b;">println!</span>(<span style="color: #8b2252;">"</span><span style="color: #8b2252; font-style: italic;">{y}</span><span style="color: #8b2252;">"</span>);
+}
+</pre>
+</div>
+<pre class="example">
+error[E0382]: borrow of moved value: `x`
+  --&gt; src/main.rs:49:15
+   |
+47 |     let x = String::from("hello world");
+   |         - move occurs because `x` has type `String`, which does not implement the `Copy` trait
+48 |     let y = x;
+   |             - value moved here
+49 |     println!("{x}");
+   |               ^^^ value borrowed here after move
+   |
+</pre>
+
+<p>
+When we try this, we get a <i>type error</i>. And this is important to
+emphasize, it's not a runtime error.  It's also worth noting there
+nothing inherently wrong with this code from a computational
+perspective.  Consider the equivalent C code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #0000ff;">main</span>(<span style="color: #228b22;">void</span>) {
+  <span style="color: #228b22;">char</span>* <span style="color: #a0522d;">x</span> = <span style="color: #8b2252;">"hello world"</span>;
+  <span style="color: #228b22;">char</span>* <span style="color: #a0522d;">y</span> = x;
+  printf(<span style="color: #8b2252;">"%s\n"</span>, x);
+  printf(<span style="color: #8b2252;">"%s\n"</span>, y);
+  <span style="color: #a020f0;">return</span> 0;
+}
+</pre>
+</div>
+
+<pre class="example">
+hello world
+hello world
+</pre>
+
+<p>
+But it is the philosophy of Rust that we should program
+conservatively, disallowing some things, and thank ourselves in the
+long run, instead of coding fast-and-loose, doing whatever we want,
+and potentially paying for it later.<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1fa150b" class="outline-3">
+<h3 id="org1fa150b"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
 <div class="outline-text-3" id="text-4-2">
 <ul class="org-ul">
 <li>Rust automatically calls <code>drop</code> function when a any variable goes out of scope</li>
@@ -675,6 +1070,39 @@ recommends "feed two birds with one scone." Not punchy enough in my
 opinion.  My dad came up with two pretty good ones: "strike out to
 batters with one pitch" (nonsensical in a pleasant way) and "destroy
 two planets with one deathstar" (to better align with nerd culture).</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">In Rust we're able to
+<i>specify</i> whether something is copied on reassignments (using a
+mechanism called <i>traits</i>, similar to interfaces or type classes).</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">We include this brief note about it basically to answer the
+question: <i>If we have a parameter to a function which is a string
+slice, where is that slice actually stored?</i> It can't be be on the
+stack because the size of data on the stack has to be known at compile
+time.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">The stack is also
+occasionally called the <i>call stack</i>, but prefer to be a bit cagey on
+this, as there are certainly examples of programming languages which
+draw a distinction between the call stack and the stack used during
+the execution of a program, e.g., some implementations of Forth.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">And this is, in essence, the motivation behind
+stack-oriented PLs like Forth: fine-grained control of the stack means
+more efficient program.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">And we should generally be wary of
+pre-mature optimization</p></div></div>
+
+<div class="footdef"><sup><a id="fn.10" class="footnum" href="#fnr.10" role="doc-backlink">10</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Hard-core C
+programmers like to point out that there is no notion of stack and
+heap in the C specification.  I can't claim to have a strong argument
+against this─I'm not a systems programmer─except that everyone already
+thinks of allocation as heap allocation in C, and this underlying some
+C compilers.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.11" class="footnum" href="#fnr.11" role="doc-backlink">11</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">As we will see, this
+philosophy also pays off when we want to parallelize our code.</p></div></div>
 
 
 </div>
