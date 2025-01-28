@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-26 Sun 18:26 -->
+<!-- 2025-01-27 Mon 23:30 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Course Notes</title>
@@ -21,23 +21,23 @@
 <li><a href="#intro">1. What is this course?</a></li>
 <li><a href="#set-up">2. Set Up</a>
 <ul>
-<li><a href="#org1434ed9">2.1. Cargo</a></li>
+<li><a href="#org231af23">2.1. Cargo</a></li>
 </ul>
 </li>
-<li><a href="#orgbbe05cf">3. The Basics</a>
+<li><a href="#basics">3. The Basics</a>
 <ul>
-<li><a href="#orgadb630a">3.1. Variables and Mutability</a></li>
-<li><a href="#org790dcab">3.2. Constants</a></li>
-<li><a href="#org490ba45">3.3. Data Types</a></li>
-<li><a href="#org64529ab">3.4. Functions</a></li>
-<li><a href="#org5b7909f">3.5. Statements and Expressions</a></li>
-<li><a href="#org883362c">3.6. Control Flow</a></li>
+<li><a href="#org981a061">3.1. Variables and Mutability</a></li>
+<li><a href="#org2bfc54c">3.2. Constants</a></li>
+<li><a href="#orgcf9fb76">3.3. Data Types</a></li>
+<li><a href="#orgc1373d6">3.4. Functions</a></li>
+<li><a href="#org8dc8ad2">3.5. Statements and Expressions</a></li>
+<li><a href="#org1a74184">3.6. Control Flow</a></li>
 </ul>
 </li>
-<li><a href="#org3bd318e">4. Ownership</a>
+<li><a href="#org4e58314">4. Ownership</a>
 <ul>
-<li><a href="#orgc2b6242">4.1. Stack and Heap</a></li>
-<li><a href="#org1fa150b">4.2. References and Borrowing</a></li>
+<li><a href="#stack_and_heap">4.1. Stack and Heap</a></li>
+<li><a href="#org76119f4">4.2. References and Borrowing</a></li>
 </ul>
 </li>
 </ul>
@@ -162,8 +162,8 @@ Cargo!</a> section of RPL (we'll also go over it in lecture).
 </p>
 </div>
 
-<div id="outline-container-org1434ed9" class="outline-3">
-<h3 id="org1434ed9"><span class="section-number-3">2.1.</span> Cargo</h3>
+<div id="outline-container-org231af23" class="outline-3">
+<h3 id="org231af23"><span class="section-number-3">2.1.</span> Cargo</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Cargo is a build system for Rust.  As usual, you can use
@@ -194,9 +194,9 @@ this process.
 </div>
 </div>
 </div>
-<div id="outline-container-orgbbe05cf" class="outline-2">
-<h2 id="orgbbe05cf"><span class="section-number-2">3.</span> The Basics</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-basics" class="outline-2">
+<h2 id="basics"><span class="section-number-2">3.</span> The Basics</h2>
+<div class="outline-text-2" id="text-basics">
 <p>
 This is a collection of concepts that are common to all PLs.  I expect
 that you're already familiar with all of these concepts.  The goal
@@ -206,8 +206,8 @@ specification of the Rust syntax.  These specifications are
 approximations, but for simple programs are sufficient.
 </p>
 </div>
-<div id="outline-container-orgadb630a" class="outline-3">
-<h3 id="orgadb630a"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
+<div id="outline-container-org981a061" class="outline-3">
+<h3 id="org981a061"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
 <div class="outline-text-3" id="text-3-1">
 <blockquote>
 <p>
@@ -258,8 +258,8 @@ x = 2;
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org790dcab" class="outline-3">
-<h3 id="org790dcab"><span class="section-number-3">3.2.</span> Constants</h3>
+<div id="outline-container-org2bfc54c" class="outline-3">
+<h3 id="org2bfc54c"><span class="section-number-3">3.2.</span> Constants</h3>
 <div class="outline-text-3" id="text-3-2">
 <blockquote>
 <p>
@@ -300,8 +300,8 @@ Constants are primarily useful for code clarity.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org490ba45" class="outline-3">
-<h3 id="org490ba45"><span class="section-number-3">3.3.</span> Data Types</h3>
+<div id="outline-container-orgcf9fb76" class="outline-3">
+<h3 id="orgcf9fb76"><span class="section-number-3">3.3.</span> Data Types</h3>
 <div class="outline-text-3" id="text-3-3">
 <blockquote>
 <p>
@@ -436,8 +436,8 @@ as the course goes on (and define our own types).
 </p>
 </div>
 </div>
-<div id="outline-container-org64529ab" class="outline-3">
-<h3 id="org64529ab"><span class="section-number-3">3.4.</span> Functions</h3>
+<div id="outline-container-orgc1373d6" class="outline-3">
+<h3 id="orgc1373d6"><span class="section-number-3">3.4.</span> Functions</h3>
 <div class="outline-text-3" id="text-3-4">
 <blockquote>
 <p>
@@ -488,8 +488,8 @@ since the compiler is pretty good at catching these things).
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org5b7909f" class="outline-3">
-<h3 id="org5b7909f"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
+<div id="outline-container-org8dc8ad2" class="outline-3">
+<h3 id="org8dc8ad2"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
 <div class="outline-text-3" id="text-3-5">
 <blockquote>
 <p>
@@ -527,8 +527,8 @@ should check this, it works even for things like <code>while</code> expressions)
 </p>
 </div>
 </div>
-<div id="outline-container-org883362c" class="outline-3">
-<h3 id="org883362c"><span class="section-number-3">3.6.</span> Control Flow</h3>
+<div id="outline-container-org1a74184" class="outline-3">
+<h3 id="org1a74184"><span class="section-number-3">3.6.</span> Control Flow</h3>
 <div class="outline-text-3" id="text-3-6">
 <blockquote>
 <p>
@@ -575,8 +575,8 @@ if-expressions</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org3bd318e" class="outline-2">
-<h2 id="org3bd318e"><span class="section-number-2">4.</span> Ownership</h2>
+<div id="outline-container-org4e58314" class="outline-2">
+<h2 id="org4e58314"><span class="section-number-2">4.</span> Ownership</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Ownership accounts for the first plateau in the learning curve of
@@ -587,9 +587,9 @@ manages memory, so we have to spend some a bit of time learning about
 this.
 </p>
 </div>
-<div id="outline-container-orgc2b6242" class="outline-3">
-<h3 id="orgc2b6242"><span class="section-number-3">4.1.</span> Stack and Heap</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-stack_and_heap" class="outline-3">
+<h3 id="stack_and_heap"><span class="section-number-3">4.1.</span> Stack and Heap</h3>
+<div class="outline-text-3" id="text-stack_and_heap">
 <p>
 Rust is a systems PL, which means that we need to care at least a
 little bit about how memory is managed.  We won't be going all the way
@@ -782,8 +782,8 @@ PLs)</li>
 </ol>
 </div>
 
-<div id="outline-container-orgb04a5fe" class="outline-4">
-<h4 id="orgb04a5fe"><span class="section-number-4">4.1.1.</span> Explicit Allocation</h4>
+<div id="outline-container-org15aede7" class="outline-4">
+<h4 id="org15aede7"><span class="section-number-4">4.1.1.</span> Explicit Allocation</h4>
 <div class="outline-text-4" id="text-4-1-1">
 <p>
 In "traditional" systems PLs like C, the programmer is in charge of
@@ -836,8 +836,8 @@ down.
 </div>
 </div>
 
-<div id="outline-container-orgc816aa6" class="outline-4">
-<h4 id="orgc816aa6"><span class="section-number-4">4.1.2.</span> Garbage Collection</h4>
+<div id="outline-container-org64ac3aa" class="outline-4">
+<h4 id="org64ac3aa"><span class="section-number-4">4.1.2.</span> Garbage Collection</h4>
 <div class="outline-text-4" id="text-4-1-2">
 <p>
 On the other side of the user-control spectrum is garbage collection,
@@ -865,8 +865,8 @@ domain).
 </div>
 </div>
 
-<div id="outline-container-orgbdd53b2" class="outline-4">
-<h4 id="orgbdd53b2"><span class="section-number-4">4.1.3.</span> Automatic Reference Counting</h4>
+<div id="outline-container-orgcf7129a" class="outline-4">
+<h4 id="orgcf7129a"><span class="section-number-4">4.1.3.</span> Automatic Reference Counting</h4>
 <div class="outline-text-4" id="text-4-1-3">
 <p>
 Before going into borrowing, I thought I'd point out one more
@@ -923,8 +923,8 @@ management, so the community must see something in it.
 </div>
 </div>
 
-<div id="outline-container-orgc8e9b68" class="outline-4">
-<h4 id="orgc8e9b68"><span class="section-number-4">4.1.4.</span> Ownership</h4>
+<div id="outline-container-org2274c31" class="outline-4">
+<h4 id="org2274c31"><span class="section-number-4">4.1.4.</span> Ownership</h4>
 <div class="outline-text-4" id="text-4-1-4">
 <p>
 Finally, the protagonist of our story, Rust's ownership.  This
@@ -1034,16 +1034,12 @@ and potentially paying for it later.<sup><a id="fnr.11" class="footref" href="#f
 </div>
 </div>
 
-<div id="outline-container-org1fa150b" class="outline-3">
-<h3 id="org1fa150b"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
+<div id="outline-container-org76119f4" class="outline-3">
+<h3 id="org76119f4"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
 <div class="outline-text-3" id="text-4-2">
-<ul class="org-ul">
-<li>Rust automatically calls <code>drop</code> function when a any variable goes out of scope</li>
-<li>(We should say something about static memory)</li>
-<li>Values which implement the <code>Copy</code> trait are types which can be copied assignment, no moving.</li>
-<li>There are three things: copy, move, (mutable) borrow</li>
-<li>Exercise how can we implement the swap function? (We can't really)</li>
-</ul>
+<p>
+TODO
+</p>
 </div>
 </div>
 </div>

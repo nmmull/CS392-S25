@@ -36,6 +36,7 @@
 *** Reading:
 + RPL 2: [[https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html][Programming a Guessing Game]]
 + RPL 3: [[https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html][Common Programming Concepts]]
++ CN 3: [[file:notes.org::#basics][The Basics]]
 + PL@BU 2: [[https://nmmull.github.io/PL-at-BU/Formal-Grammar/notes.html][Formal Grammar]]
 *** Discussion Questions:
 + How well does Python or C++ programming transfer to basic Rust
@@ -52,9 +53,12 @@
 :END:
 *** Title: *The Stack and Heap*
 *** Topics:
++ Determine the role of the stack and the heap in a systems PL, and
+  how these things affect how we use Rust
++ Look at a couple ways of managing memory
 *** Reading:
 + RPL 4.1: [[https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html][What is Ownership?]]
-*** Reminders:
++ CN 4.1: [[file:notes.org::#stack_and_heap][Stack and Heap]]
 ** THU 01-30 Lecture 4
 :PROPERTIES:
 :CUSTOM_ID: 01-30

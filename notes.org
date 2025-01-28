@@ -129,6 +129,9 @@ To see a list of commands for Cargo.  The main one's we'll need:
 You should go through the [[https://doc.rust-lang.org/stable/book/ch01-03-hello-cargo.html][Hello, Cargo!]] section of RPL to practice
 this process.
 * The Basics
+:PROPERTIES:
+:CUSTOM_ID: basics
+:END:
 This is a collection of concepts that are common to all PLs.  I expect
 that you're already familiar with all of these concepts.  The goal
 here is to provide a more careful analysis of these concepts,
@@ -400,7 +403,9 @@ Ownership is motivated by the way that Rust (and many systems PLs)
 manages memory, so we have to spend some a bit of time learning about
 this.
 ** Stack and Heap
-
+:PROPERTIES:
+:CUSTOM_ID: stack_and_heap
+:END:
 Rust is a systems PL, which means that we need to care at least a
 little bit about how memory is managed.  We won't be going all the way
 to the hardware; we'll take a sufficiently detailed view to be able to
@@ -766,8 +771,4 @@ philosophy also pays off when we want to parallelize our code.]
 #+end_quote
 
 ** References and Borrowing
-+ Rust automatically calls ~drop~ function when a any variable goes out of scope
-+ (We should say something about static memory)
-+ Values which implement the ~Copy~ trait are types which can be copied assignment, no moving.
-+ There are three things: copy, move, (mutable) borrow
-+ Exercise how can we implement the swap function? (We can't really)
+TODO
