@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-31 Fri 18:35 -->
+<!-- 2025-01-31 Fri 18:44 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assignment 2</title>
@@ -17,12 +17,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7703b5f">1. Setting up</a></li>
-<li><a href="#org81cf38c">2. Searching an Mbox in Memory</a></li>
-<li><a href="#org41f5e4e">3. Searching an MBox with a Buffered Reader</a></li>
-<li><a href="#org747bb38">4. Searching with a Buffered Reader Again</a></li>
-<li><a href="#orgfb22728">5. Testing</a></li>
-<li><a href="#orgd5a8379">6. Benchmarking</a></li>
+<li><a href="#orge026cfb">1. Setting up</a></li>
+<li><a href="#orge16f3ae">2. Searching an Mbox in Memory</a></li>
+<li><a href="#orgfba4d23">3. Searching an MBox with a Buffered Reader</a></li>
+<li><a href="#org0a67581">4. Searching with a Buffered Reader Again</a></li>
+<li><a href="#org6c95dce">5. Testing</a></li>
+<li><a href="#org001e39c">6. Benchmarking</a></li>
 </ul>
 </div>
 </div>
@@ -65,8 +65,8 @@ guidance.
 </p>
 </blockquote>
 
-<div id="outline-container-org7703b5f" class="outline-2">
-<h2 id="org7703b5f"><span class="section-number-2">1.</span> Setting up</h2>
+<div id="outline-container-orge026cfb" class="outline-2">
+<h2 id="orge026cfb"><span class="section-number-2">1.</span> Setting up</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 You can start with:
@@ -92,8 +92,8 @@ and returns a <code>bool</code>.  For now, have it just return <code>false</code
 </div>
 </div>
 
-<div id="outline-container-org81cf38c" class="outline-2">
-<h2 id="org81cf38c"><span class="section-number-2">2.</span> Searching an Mbox in Memory</h2>
+<div id="outline-container-orge16f3ae" class="outline-2">
+<h2 id="orge16f3ae"><span class="section-number-2">2.</span> Searching an Mbox in Memory</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Implement a function <code>email_from_str</code> which takes as an argument an
@@ -109,9 +109,9 @@ you can <code>panic!</code><sup><a id="fnr.3" class="footref" href="#fn.3" role=
 <p>
 You'll have to deal with the From-munging done to the email in the
 mbox.  It may be useful to write a function <code>revert_from_munge</code> which
-takes a <code>line</code> of type <code>&amp;str</code> and returns a <code>&amp;str</code> is the same as
-<code>line</code> except with the first character if necessary (<i>Note.</i> Because
-of <a href="https://doc.rust-lang.org/stable/book/ch04-03-slices.html#string-slices-as-parameters">implicit coercions</a>, we can use this function on <code>String</code>
+takes a <code>line</code> of type <code>&amp;str</code> and returns a <code>&amp;str</code> whch is the same as
+<code>line</code> except with the first character removed if necessary (<i>Note.</i>
+Because of <a href="https://doc.rust-lang.org/stable/book/ch04-03-slices.html#string-slices-as-parameters">implicit coercions</a>, we can use this function on <code>String</code>
 reference).
 </p>
 
@@ -125,8 +125,8 @@ of the file and pass that to <code>email_from_str</code>.
 </div>
 </div>
 
-<div id="outline-container-org41f5e4e" class="outline-2">
-<h2 id="org41f5e4e"><span class="section-number-2">3.</span> Searching an MBox with a Buffered Reader</h2>
+<div id="outline-container-orgfba4d23" class="outline-2">
+<h2 id="orgfba4d23"><span class="section-number-2">3.</span> Searching an MBox with a Buffered Reader</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The problem with the function <code>gen_email_read_to_string</code> is that (as
@@ -149,8 +149,8 @@ iterator.
 </div>
 </div>
 
-<div id="outline-container-org747bb38" class="outline-2">
-<h2 id="org747bb38"><span class="section-number-2">4.</span> Searching with a Buffered Reader Again</h2>
+<div id="outline-container-org0a67581" class="outline-2">
+<h2 id="org0a67581"><span class="section-number-2">4.</span> Searching with a Buffered Reader Again</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 There's yet another way that we can do this: ipmlement a function
@@ -163,8 +163,8 @@ reached.
 </div>
 </div>
 
-<div id="outline-container-orgfb22728" class="outline-2">
-<h2 id="orgfb22728"><span class="section-number-2">5.</span> Testing</h2>
+<div id="outline-container-org6c95dce" class="outline-2">
+<h2 id="org6c95dce"><span class="section-number-2">5.</span> Testing</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Your main function should look something like this:
@@ -203,8 +203,8 @@ all of your emails.
 </div>
 </div>
 
-<div id="outline-container-orgd5a8379" class="outline-2">
-<h2 id="orgd5a8379"><span class="section-number-2">6.</span> Benchmarking</h2>
+<div id="outline-container-org001e39c" class="outline-2">
+<h2 id="org001e39c"><span class="section-number-2">6.</span> Benchmarking</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 The last think you need to do for this assignment is to benchmark your

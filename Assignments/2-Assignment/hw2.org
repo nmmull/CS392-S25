@@ -68,9 +68,9 @@ concepts.]
 
 You'll have to deal with the From-munging done to the email in the
 mbox.  It may be useful to write a function ~revert_from_munge~ which
-takes a ~line~ of type ~&str~ and returns a ~&str~ is the same as
-~line~ except with the first character if necessary (/Note./ Because
-of [[https://doc.rust-lang.org/stable/book/ch04-03-slices.html#string-slices-as-parameters][implicit coercions]], we can use this function on ~String~
+takes a ~line~ of type ~&str~ and returns a ~&str~ whch is the same as
+~line~ except with the first character removed if necessary (/Note./
+Because of [[https://doc.rust-lang.org/stable/book/ch04-03-slices.html#string-slices-as-parameters][implicit coercions]], we can use this function on ~String~
 reference).
 
 Once you've completed this function, you should implement an
