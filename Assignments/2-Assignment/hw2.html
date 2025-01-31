@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-01-31 Fri 18:35 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 2</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../../material.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Assignment 2</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org7703b5f">1. Setting up</a></li>
+<li><a href="#org81cf38c">2. Searching an Mbox in Memory</a></li>
+<li><a href="#org41f5e4e">3. Searching an MBox with a Buffered Reader</a></li>
+<li><a href="#org747bb38">4. Searching with a Buffered Reader Again</a></li>
+<li><a href="#orgfb22728">5. Testing</a></li>
+<li><a href="#orgd5a8379">6. Benchmarking</a></li>
+</ul>
+</div>
+</div>
+<p>
+The following assignment is due <b>Thursday 2/6 by 8:00 PM</b>.  You'll
+need to submit one Cargo package on Gradescope.
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> is a format for representing collections of emails.  In this
+assignment, we'll be processing mboxes.  This will primarily be an
+opportunity for us to work with Strings, our first type that has data
+stored on the heap (and, hence, is moved instead of copied).
+</p>
+
+<p>
+The mbox format is fairly simple: emails are delimited by From-lines,
+which are lines which start with the string <code>"From "</code> followed by
+anything.
+</p>
+
+<p>
+There's one bit of trickiness: what if the body of an email includes a
+line which starts with <code>"From "</code>? In this case, most email clients use
+<i>From-munging</i>: add a <code>"&gt;"</code> to the beginning of any line which starts
+with <code>"From "</code> that is part of an email proper (so that it starts with
+<code>"&gt;From "</code> in the mbox). To do this correctly, we really have to add
+<code>"&gt;"</code> to any line which starts with with <code>"&gt;*From "</code> i.e. any number
+of <code>"&gt;"</code> symbols followed by <code>"From "</code>.
+</p>
+
+<blockquote>
+<p>
+<b>Remark.</b> This assignment will require a fair amount of documentation
+digging.  This is the nature of a course aimed at advanced
+undergraduates, I think there is a lot of value in building some
+self-suffiency in this regard.  That said, if you're struggling with
+this, please reach out on Piazza, I'm happy to try to provide more
+guidance.
+</p>
+</blockquote>
+
+<div id="outline-container-org7703b5f" class="outline-2">
+<h2 id="org7703b5f"><span class="section-number-2">1.</span> Setting up</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+You can start with:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">cargo new mail_search
+</pre>
+</div>
+
+<p>
+You can either put your code in <code>src/main.ml</code> or create a new file
+<code>src/lib.ml</code> if you want to keep your library functions separate (see
+<a href="https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=lib.rs#separation-of-concerns-for-binary-projects">the section in the book</a> on this for details).
+</p>
+
+<p>
+The goal of this assignment is to find the first email which satisfies
+a given <code>condition</code>. Thus, you'll need to write a function of this
+name in your code which takes as an argument an <code>email</code> of type <code>&amp;str</code>
+and returns a <code>bool</code>.  For now, have it just return <code>false</code>.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org81cf38c" class="outline-2">
+<h2 id="org81cf38c"><span class="section-number-2">2.</span> Searching an Mbox in Memory</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Implement a function <code>email_from_str</code> which takes as an argument an
+<code>mbox</code> of type <code>&amp;str</code> and returns an <code>email</code> of type <code>String</code> which is
+the first email in <code>mbox</code> such that <code>condition(email)</code> holds. The
+<code>email</code> should consist of everything after its From-line until the
+next From-line or the end of the input.  You may assume that <code>email</code>
+has LF line endings.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>  Furthermore, you don't need to handle errors
+gracefully. In any edge case (e.g., if no email satisfies <code>condition</code>)
+you can <code>panic!</code><sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
+</p>
+
+<p>
+You'll have to deal with the From-munging done to the email in the
+mbox.  It may be useful to write a function <code>revert_from_munge</code> which
+takes a <code>line</code> of type <code>&amp;str</code> and returns a <code>&amp;str</code> is the same as
+<code>line</code> except with the first character if necessary (<i>Note.</i> Because
+of <a href="https://doc.rust-lang.org/stable/book/ch04-03-slices.html#string-slices-as-parameters">implicit coercions</a>, we can use this function on <code>String</code>
+reference).
+</p>
+
+<p>
+Once you've completed this function, you should implement an
+additional function <code>get_email_read_to_string</code> which takes as input a
+<code>filename</code> of type <code>&amp;str</code> and returns an email of type <code>String</code>.  This
+function should just use <a href="https://doc.rust-lang.org/std/fs/fn.read_to_string.html"><code>fs::read_to_string</code></a> to read in the contents
+of the file and pass that to <code>email_from_str</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org41f5e4e" class="outline-2">
+<h2 id="org41f5e4e"><span class="section-number-2">3.</span> Searching an MBox with a Buffered Reader</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The problem with the function <code>gen_email_read_to_string</code> is that (as
+we've learned) it will put the <i>entire</i> mbox in memory, this is fine
+for anything less than a couple GBs, but once you get above ~12GBs, it
+can exert some notable memory pressure.
+</p>
+
+<p>
+To address this, implement another function <code>get_email_bufread_lines</code>
+which takes as an argument a <code>filename</code> of type <code>&amp;str</code> and returns an
+email of type <code>String</code>.  This function should open the given file <a href="https://doc.rust-lang.org/std/fs/struct.File.html#examples">as a
+<code>BufReader</code></a> then using the iterator returned by <a href="https://doc.rust-lang.org/std/io/trait.BufRead.html#method.lines">io::BufRead::lines</a>.
+</p>
+
+<p>
+The code will be almost identical, it'll just use a different
+iterator.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org747bb38" class="outline-2">
+<h2 id="org747bb38"><span class="section-number-2">4.</span> Searching with a Buffered Reader Again</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+There's yet another way that we can do this: ipmlement a function
+<code>get_email_bufread_read_line</code> which takes as an argument a <code>filename</code>
+of type <code>&amp;str</code> and returns an email of type <code>String</code>.  This function
+should open the given file as <code>BufReader</code>, but should call
+<a href="https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line"><code>io::BufRead::read_line</code></a> repeatedly until the end of the file is
+reached.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfb22728" class="outline-2">
+<h2 id="orgfb22728"><span class="section-number-2">5.</span> Testing</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Your main function should look something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">main</span>() {
+  <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">args</span>: <span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">String</span>&gt; = <span style="color: #008b8b;">env</span>::args().collect();
+  <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">filename</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">str</span> = <span style="color: #000000; background-color: #ffffff;">&amp;</span>args[1];
+  <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">email</span> = <span style="color: #008b8b;">mail_search</span>::get_email_read_to_string(filename); <span style="color: #b22222;">// </span><span style="color: #b22222;">dropping the `mail_search::` part if you don't have src/lib.rs</span>
+  <span style="color: #483d8b;">print!</span>(<span style="color: #8b2252;">"</span><span style="color: #8b2252; font-style: italic;">{email}</span><span style="color: #8b2252;">"</span>);
+}
+</pre>
+</div>
+
+<p>
+The first part of this function (unsafely) grabs the file name as a
+command line argument.  So if you run
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">cargo run mbox_filename &gt; out.eml
+</pre>
+</div>
+
+<p>
+You can open <code>out.eml</code> in your favorite email client.<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>  You
+can use a condition like <code>email.contains("SOME STRING")</code> to find the
+first email in the collection to have a certain word or phrase.
+</p>
+
+<p>
+If you use GMail, you can use <a href="https://takeout.google.com">Google Takeout</a> to generate an mbox of
+all of your emails.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd5a8379" class="outline-2">
+<h2 id="orgd5a8379"><span class="section-number-2">6.</span> Benchmarking</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+The last think you need to do for this assignment is to benchmark your
+code on two mboxes, one of 3GB and one of 12GB (you can try larger if
+you want, or smaller if you're machine won't be able to handle putting
+12GB in memory).  For the test, you should use the condition <code>false</code>
+so that it is required to get to the end of the mbox (and panic). This
+gives you six numbers, two for each version of the function.
+</p>
+
+<p>
+If you don't have access to large email collections<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> then the easiest way to generate a large email mbox
+is to stack an mbox on top of itself a bunch of times.  I'll leave it
+as an (ungraded) exercise to (look up how to) write something that
+will do this.
+</p>
+
+<p>
+You can benchmark in a couple ways, the easy way is to use <code>time</code>,
+e.g.,
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #483d8b;">time</span> cargo --release run &lt; large_mbox
+</pre>
+</div>
+
+<p>
+Make sure to use the <code>--release</code> flag or you'll be waiting for a
+while.  Alternatively, you can use <a href="https://doc.rust-lang.org/std/time/index.html">std::time</a> in Rust.<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>
+</p>
+
+<p>
+You should put your numbers in a short comment in your file
+<code>src/main.rs</code>.  Please also include a sentence or two about how the
+numbers.  Do they fit your expectations?  Any guesses why they look
+like they do?
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">The
+"correct" way to do this would be to take some kind of condition at
+the command line, or in a config file.  For this assignment, we'll
+just be hard-coding the condition.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">For an added challenge, implement this
+function so that it maintains line endings, at for files with only LF
+or only CRLF.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">If you'd like, you can work with <code>Option</code> or
+<code>Result</code>, this could be a good exercise if you're familiar with the
+concepts.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">if you're on
+MacOS, clicking the file should open the email in Apple Mail</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">E.g., you're
+an inbox-zero-er.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Rust has
+better benchmarking frameworks, you can use those as well.</p></div></div>
+
+
+</div>
+</div></div>
+</body>
+</html>

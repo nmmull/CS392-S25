@@ -1,0 +1,163 @@
+#+title: Assignment 2
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:2 todo:nil author:nil date:nil
+#+HTML_LINK_HOME: ../../material.html
+The following assignment is due *Thursday 2/6 by 8:00 PM*.  You'll
+need to submit one Cargo package on Gradescope.
+
+[[https://en.wikipedia.org/wiki/Mbox][Mbox]] is a format for representing collections of emails.  In this
+assignment, we'll be processing mboxes.  This will primarily be an
+opportunity for us to work with Strings, our first type that has data
+stored on the heap (and, hence, is moved instead of copied).
+
+The mbox format is fairly simple: emails are delimited by From-lines,
+which are lines which start with the string ~"From "~ followed by
+anything.
+
+There's one bit of trickiness: what if the body of an email includes a
+line which starts with ~"From "~? In this case, most email clients use
+/From-munging/: add a ~">"~ to the beginning of any line which starts
+with ~"From "~ that is part of an email proper (so that it starts with
+~">From "~ in the mbox). To do this correctly, we really have to add
+~">"~ to any line which starts with with ~">*From "~ i.e. any number
+of ~">"~ symbols followed by ~"From "~.
+
+#+begin_quote
+*Remark.* This assignment will require a fair amount of documentation
+digging.  This is the nature of a course aimed at advanced
+undergraduates, I think there is a lot of value in building some
+self-suffiency in this regard.  That said, if you're struggling with
+this, please reach out on Piazza, I'm happy to try to provide more
+guidance.
+#+end_quote
+
+* Setting up
+You can start with:
+
+#+begin_src bash
+  cargo new mail_search
+#+end_src
+
+You can either put your code in ~src/main.ml~ or create a new file
+~src/lib.ml~ if you want to keep your library functions separate (see
+[[https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=lib.rs#separation-of-concerns-for-binary-projects][the section in the book]] on this for details).
+
+The goal of this assignment is to find the first email which satisfies
+a given ~condition~. Thus, you'll need to write a function of this
+name in your code which takes as an argument an ~email~ of type ~&str~
+and returns a ~bool~.  For now, have it just return ~false~.[fn::The
+"correct" way to do this would be to take some kind of condition at
+the command line, or in a config file.  For this assignment, we'll
+just be hard-coding the condition.]
+
+* Searching an Mbox in Memory
+
+Implement a function ~email_from_str~ which takes as an argument an
+~mbox~ of type ~&str~ and returns an ~email~ of type ~String~ which is
+the first email in ~mbox~ such that ~condition(email)~ holds. The
+~email~ should consist of everything after its From-line until the
+next From-line or the end of the input.  You may assume that ~email~
+has LF line endings.[fn::For an added challenge, implement this
+function so that it maintains line endings, at for files with only LF
+or only CRLF.]  Furthermore, you don't need to handle errors
+gracefully. In any edge case (e.g., if no email satisfies ~condition~)
+you can ~panic!~[fn::If you'd like, you can work with ~Option~ or
+~Result~, this could be a good exercise if you're familiar with the
+concepts.]
+
+You'll have to deal with the From-munging done to the email in the
+mbox.  It may be useful to write a function ~revert_from_munge~ which
+takes a ~line~ of type ~&str~ and returns a ~&str~ is the same as
+~line~ except with the first character if necessary (/Note./ Because
+of [[https://doc.rust-lang.org/stable/book/ch04-03-slices.html#string-slices-as-parameters][implicit coercions]], we can use this function on ~String~
+reference).
+
+Once you've completed this function, you should implement an
+additional function ~get_email_read_to_string~ which takes as input a
+~filename~ of type ~&str~ and returns an email of type ~String~.  This
+function should just use [[https://doc.rust-lang.org/std/fs/fn.read_to_string.html][~fs::read_to_string~]] to read in the contents
+of the file and pass that to ~email_from_str~.
+
+* Searching an MBox with a Buffered Reader
+
+The problem with the function ~gen_email_read_to_string~ is that (as
+we've learned) it will put the /entire/ mbox in memory, this is fine
+for anything less than a couple GBs, but once you get above ~12GBs, it
+can exert some notable memory pressure.
+
+To address this, implement another function ~get_email_bufread_lines~
+which takes as an argument a ~filename~ of type ~&str~ and returns an
+email of type ~String~.  This function should open the given file [[https://doc.rust-lang.org/std/fs/struct.File.html#examples][as a
+~BufReader~]] then using the iterator returned by [[https://doc.rust-lang.org/std/io/trait.BufRead.html#method.lines][io::BufRead::lines]].
+
+The code will be almost identical, it'll just use a different
+iterator.
+
+* Searching with a Buffered Reader Again
+
+There's yet another way that we can do this: ipmlement a function
+~get_email_bufread_read_line~ which takes as an argument a ~filename~
+of type ~&str~ and returns an email of type ~String~.  This function
+should open the given file as ~BufReader~, but should call
+[[https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line][~io::BufRead::read_line~]] repeatedly until the end of the file is
+reached.
+
+* Testing
+
+Your main function should look something like this:
+
+#+begin_src rust
+  fn main() {
+    let args: Vec<String> = env::args().collect();
+    let filename: &str = &args[1];
+    let email = mail_search::get_email_read_to_string(filename); // dropping the `mail_search::` part if you don't have src/lib.rs
+    print!("{email}");
+  }
+#+end_src
+
+The first part of this function (unsafely) grabs the file name as a
+command line argument.  So if you run
+
+#+begin_src bash
+  cargo run mbox_filename > out.eml
+#+end_src
+
+You can open ~out.eml~ in your favorite email client.[fn::if you're on
+MacOS, clicking the file should open the email in Apple Mail]  You
+can use a condition like ~email.contains("SOME STRING")~ to find the
+first email in the collection to have a certain word or phrase.
+
+If you use GMail, you can use [[https://takeout.google.com][Google Takeout]] to generate an mbox of
+all of your emails.
+
+* Benchmarking
+
+The last think you need to do for this assignment is to benchmark your
+code on two mboxes, one of 3GB and one of 12GB (you can try larger if
+you want, or smaller if you're machine won't be able to handle putting
+12GB in memory).  For the test, you should use the condition ~false~
+so that it is required to get to the end of the mbox (and panic). This
+gives you six numbers, two for each version of the function.
+
+If you don't have access to large email collections[fn::E.g., you're
+an inbox-zero-er.] then the easiest way to generate a large email mbox
+is to stack an mbox on top of itself a bunch of times.  I'll leave it
+as an (ungraded) exercise to (look up how to) write something that
+will do this.
+
+You can benchmark in a couple ways, the easy way is to use ~time~,
+e.g.,
+
+#+begin_src bash
+  time cargo --release run < large_mbox
+#+end_src
+
+Make sure to use the ~--release~ flag or you'll be waiting for a
+while.  Alternatively, you can use [[https://doc.rust-lang.org/std/time/index.html][std::time]] in Rust.[fn::Rust has
+better benchmarking frameworks, you can use those as well.]
+
+You should put your numbers in a short comment in your file
+~src/main.rs~.  Please also include a sentence or two about how the
+numbers.  Do they fit your expectations?  Any guesses why they look
+like they do?
