@@ -9,11 +9,11 @@ Gradescope.  You can start the setup with:
 
 #+begin_src bash
   cargo new hw1
-  carge new slice
+  cargo new slice
 #+end_src
 
 For all but the last question, put your solution in the file
-~hw1/src/main.ml~.
+~hw1/src/main.rs~.
 
 /Note./ This assignment is shorter than usual because it's the first
 one.  It should be a litmus for you in deciding whether or not to take
