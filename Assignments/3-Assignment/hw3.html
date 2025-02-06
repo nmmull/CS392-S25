@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-02-06 Thu 16:46 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 3</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../../material.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Assignment 3</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5faa4eb">1. Setting up</a></li>
+<li><a href="#org5488609">2. Evaluating a Word</a></li>
+<li><a href="#org5990af2">3. REPL</a></li>
+<li><a href="#org360211a">4. Defining new words (Challenge)</a></li>
+<li><a href="#org2f1eb9b">5. Conditionals and Recursion (Challenge)</a></li>
+</ul>
+</div>
+</div>
+<p>
+The following assignment is due <b>Thursday 2/13 by 8:00 PM</b>.  You'll
+need to submit one Cargo package on Gradescope.
+</p>
+
+<p>
+One of the best ways to get comfortable in a systems PL is to build an
+interpreter for another systems PL: forth.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+It's a great way to get a feel for a language, and is fitting for this
+course.
+</p>
+
+<div id="outline-container-org5faa4eb" class="outline-2">
+<h2 id="org5faa4eb"><span class="section-number-2">1.</span> Setting up</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+You can start with:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">cargo new rforth
+</pre>
+</div>
+
+<p>
+The goal for this assignment is simple:<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> implement a forth interpreter.
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Forth_(programming_language)">Forth</a> is a low-level stack-oriented PL.  The beauty of forth its
+simplicity. For a quick tutorial on forth, I recommend this very nice
+<a href="https://skilldrick.github.io/easyforth/#introduction">blog post</a>.
+</p>
+
+<blockquote>
+<p>
+<b>Remark.</b> I'm going to leave a lot of getting familiar with forth to
+you.  If you need some assistance with understanding forth, please
+reach out on Piazza or by email.
+</p>
+</blockquote>
+
+<p>
+Building a forth interpreter in Rust is made quite a bit easier by the
+high-level abstractions Rust provides.  For example, we can create a
+very clear abstract representation of a machine configuration (to be
+updated when evaluating a program).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">type</span> <span style="color: #228b22;">Program</span> = <span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">Command</span>&gt;;
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Dict</span> = <span style="color: #228b22;">HashMap</span> &lt;<span style="color: #228b22;">String</span>, <span style="color: #228b22;">Program</span>&gt;;
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Stack</span> = <span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">i32</span>&gt;;
+
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">State</span> {
+    <span style="color: #228b22;">Compiled</span>,
+    <span style="color: #228b22;">Interpreted</span>,
+}
+
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Config</span> {
+    <span style="color: #a0522d;">dict</span>: <span style="color: #228b22;">Dict</span>,
+    <span style="color: #a0522d;">stack</span>: <span style="color: #228b22;">Stack</span>,
+    <span style="color: #a0522d;">state</span>: <span style="color: #228b22;">State</span>,
+    <span style="color: #a0522d;">compiled</span>: <span style="color: #228b22;">Program</span>,
+    <span style="color: #a0522d;">compiled_word</span>: <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">String</span>&gt;,
+}
+
+<span style="color: #483d8b;">#[derive(Clone)]</span>
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Command</span> {
+    <span style="color: #228b22;">Push</span>(<span style="color: #228b22;">i32</span>),
+    <span style="color: #228b22;">Drop</span>,
+    <span style="color: #228b22;">Swap</span>,
+    <span style="color: #228b22;">Print</span>,
+    <span style="color: #228b22;">PrintStack</span>,
+    <span style="color: #228b22;">Add</span>,
+    <span style="color: #228b22;">Sub</span>,
+    <span style="color: #228b22;">Mul</span>,
+    <span style="color: #228b22;">Div</span>,
+    <span style="color: #228b22;">Mod</span>,
+    <span style="color: #228b22;">Recurse</span>,
+}
+
+<span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Config</span> {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">new</span>() -&gt; <span style="color: #228b22;">Config</span> {
+        <span style="color: #228b22;">Config</span> {
+            <span style="color: #a0522d;">state</span>: <span style="color: #228b22;">State</span>::<span style="color: #228b22;">Interpreted</span>,
+            <span style="color: #a0522d;">compiled</span>: <span style="color: #228b22;">Vec</span>::new(),
+            <span style="color: #a0522d;">compiled_word</span>: <span style="color: #228b22;">None</span>,
+            <span style="color: #a0522d;">stack</span>: <span style="color: #228b22;">Vec</span>::new(),
+            <span style="color: #a0522d;">dict</span>: <span style="color: #228b22;">HashMap</span>::from([
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"drop"</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">Drop</span>]),
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"swap"</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">Swap</span>]),
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"."</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">Print</span>]),
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">".s"</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">PrintStack</span>]),
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"+"</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">Add</span>]),
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"-"</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">Sub</span>]),
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"*"</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">Mul</span>]),
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"/"</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">Div</span>]),
+                (<span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"mod"</span>), <span style="color: #483d8b;">vec!</span>[<span style="color: #228b22;">Command</span>::<span style="color: #228b22;">Mod</span>]),
+            ])
+        }
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5488609" class="outline-2">
+<h2 id="org5488609"><span class="section-number-2">2.</span> Evaluating a Word</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+At the core of a forth interpreter is a function the evaluates the
+program associated with a word, updating the machine configuration as
+necessary.  The interpreter keeps track of a dictionary of words that
+store programs in a basic command langauge (in this case, with a grand
+total of 11 words).  It's possible to define new words and add them to
+this dictionary (more on that later). For now, we're focused on
+implementing the part of the interpreter which runs programs that
+manipulate elements on the stack.
+</p>
+
+<p>
+We can define the semantics of the stack-manipulation part of this
+language according to the following small-step rules. In these rules
+\(S\) is the stack and \(P\) is a program (associated with a word).
+</p>
+
+\begin{prooftree}
+\AxiomC{}
+\RightLabel{drop}
+\UnaryInfC{$(n :: S, \texttt{drop} \ P) \longrightarrow (S, P)$}
+\AxiomC{}
+\RightLabel{swap}
+\UnaryInfC{$(m :: n :: S, \texttt{swap} \ P) \longrightarrow (n :: m :: S, P)$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{}
+\RightLabel{add}
+\UnaryInfC{$(m :: n :: S, \texttt{+} \ P) \longrightarrow ((m + n) :: S, P)$}
+
+\AxiomC{}
+\RightLabel{sub}
+\UnaryInfC{$(m :: n :: S, \texttt{-} \ P) \longrightarrow ((m - n) :: S, P)$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{}
+\RightLabel{mul}
+\UnaryInfC{$(m :: n :: S, \texttt{*} \ P) \longrightarrow ((m * n) :: S, P)$}
+
+\AxiomC{}
+\RightLabel{div}
+\UnaryInfC{$(m :: n :: S, \texttt{/} \ P) \longrightarrow ((m / n) :: S, P)$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{}
+\RightLabel{mod}
+\UnaryInfC{$(m :: n :: S, \texttt{/} \ P) \longrightarrow ((m / n) :: S, P)$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{}
+\RightLabel{print}
+\UnaryInfC{$(n :: S, \texttt{.} \ P) \longrightarrow (n :: S, P)$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{}
+\RightLabel{printStack}
+\UnaryInfC{$(S, \texttt{.s} \ P) \longrightarrow (S, P)$}
+\end{prooftree}
+
+<p>
+The print command has the side affect of printing \(n\), the element
+dropped from the stack, and the stack-print command has the side
+effect of printing the entire stack.
+</p>
+
+<p>
+Stuck configurations account are error states.
+</p>
+
+<p>
+For this part, you should implement a method for machine
+configurations called <code>eval_word</code> which, given a word of type
+<code>String</code>, looks it up in the dictionary and evaluates its associated
+program according to the above semantics, updating the stack as
+necessary.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5990af2" class="outline-2">
+<h2 id="org5990af2"><span class="section-number-2">3.</span> REPL</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+In the main function, you should implement a REPL that allows you to
+type in lines of multiple words that will be evaluated when you press
+enter.  Here is an example interaction
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-text">NathanM@crc-dot1x-nat-10-239-74-67 rforth % cargo run
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/rforth`
+Type `bye' to exit
+&gt;&gt; 1 2 . .
+2
+1
+&gt;&gt; 1 2 . . .
+2
+1
+stack underflow
+&gt;&gt; 1 2 + 10 * .
+30
+&gt;&gt; bye
+</pre>
+</div>
+
+<p>
+Alternatively, you can use ANSI escape codes to have an interaction
+closer to what is done by <code>gforth</code> and the easy forth tutorial, in
+which output is given on the same line as user input.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">NathanM@crc-dot1x-nat-10-239-74-67 rforth % cargo run
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/rforth`
+Type `bye' to exit
+1 2 . . 2 1 ok
+1 2 . . . 2 1 stack underflow
+1 2 + 10 * .  30 ok
+.s &lt;0&gt; ok
+1 2 3 4 . 4 ok
+.s &lt;3&gt; 1 2 3 ok
+bye
+</pre>
+</div>
+
+<p>
+This REPL should:
+</p>
+<ul class="org-ul">
+<li>Read user input at stdin, and separate that input into words by whitespace.</li>
+<li>Evaluate each word using <code>eval_word</code> until the end of the line, or
+until the first word causes an error (e.g. a stack underflow or an
+undefined word).  In particular, words after a failed evaluation in
+a line should not be evaluated.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org360211a" class="outline-2">
+<h2 id="org360211a"><span class="section-number-2">4.</span> Defining new words (Challenge)</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+To get full credit for this assignment, you're only required to
+implement a stack calculator according to the semantics previously
+given.  That said, forth is no fun if you can't define you're own
+words.  Take a look at the gforth manual on <a href="https://gforth.org/manual/Colon-Definitions-Tutorial.html">Colon Definitions</a> and
+implement these in your interpreter.
+</p>
+
+<p>
+In rough terms, the word <code>:</code> should put the interpreter into the
+<code>Compiled</code> state, in which words are looked up in the dictionary and
+their associated programs are added to a concatenated into a compiled
+program which will be assigned a word (the first words after the
+<code>:</code>). The word <code>;</code> then puts the interpreter back into the
+<code>Interpreted</code> state and writes the new word to the dictionary.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2f1eb9b" class="outline-2">
+<h2 id="org2f1eb9b"><span class="section-number-2">5.</span> Conditionals and Recursion (Challenge)</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Colon definitions are nice, but they still leave a lot to be
+desired. We can't yet to general computation.  Take a look at the
+gforth manual on <a href="https://gforth.org/manual/Conditional-execution-Tutorial.html">Conditional Execution</a> and <a href="https://gforth.org/manual/Recursion-Tutorial.html">Recursion</a> and implement
+these in your interpreter.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Welcome to the 90s.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Though the implementation will
+not necessarily be simple.</p></div></div>
+
+
+</div>
+</div></div>
+</body>
+</html>

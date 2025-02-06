@@ -143,7 +143,8 @@ approximations, but for simple programs are sufficient.
 *Grammar:*
 #+begin_src bnf
   <var-decl>  ::= let <var-ident> = <expr>
-                | let mut <var-ident> = <expr>
+		| let mut <var-ident> = <expr>
+  <assign>    ::= <var-ident> = <expr>
   <var-ident> ::= ; snake_case ;
 #+end_src
 #+end_quote
@@ -221,8 +222,8 @@ Constants are primarily useful for code clarity.
 
   <exprs>       ::= ϵ | <expr> | <expr> , <exprs>
   <tuple-lit>   ::= ( <exprs> )
-  <field>       ::= ; see docs ;
-  <expr>        ::= <expr>.<field>
+  <tuple-field> ::= ; see docs ;
+  <expr>        ::= <expr>.<tuple-field>
 
   <list-lit>    ::= [ <exprs> ]
   <expr>        ::= <expr>[<expr>]
@@ -340,7 +341,7 @@ fn sum_of_squares(x : u32, y : u32) -> u32 {
 		 | <stmt> ；<stmts>
 		 | <expr> ；<stmts>
 		 | <expr-no-sc> <stmts>
-  <stmt>       ::= <var-decl> | <const-decl>
+  <stmt>       ::= <var-decl> | <const-decl> | <assign>
   <expr-no-sc> ::= <if-expr> | <while-expr> | <for-expr>
   <expr>       ::= <block>
 		 | <lit>
@@ -771,4 +772,103 @@ philosophy also pays off when we want to parallelize our code.]
 #+end_quote
 
 ** References and Borrowing
-TODO
+I'm gonna put to [[https://doc.rust-lang.org/stable/book/ch04-02-references-and-borrowing.html][RPL 4.2]] here.
+** Slice Types
+* Structures
+Structure definition syntax:
+#+begin_src bnf
+  <stmts>      ::= <stmt-no-sc> <stmts>
+  <stmt>       ::= struct <struct-ident>
+  <stmt-no-sc> ::= struct <struct-ident> { <ft-pairs> }
+  <ft-pairs>   ::= ϵ | <ft-pair> | <ft-pair> , <ft-pairs>
+  <ft-pair>    ::= <var-ident> : <ty>
+#+end_src
+Structure identifiers must be capitalized.
+
+Example:
+#+begin_src rust
+  struct Player {
+      name: String,
+      score: i32,
+  }
+#+end_src
+
+Stucture instantiation syntax:
+#+begin_src bnf
+  <expr>     ::= <struct-ident>
+	       | <struct-ident> { <fv-pairs> }
+	       | <struct-ident> ( <tys> )
+  <fv-pairs> ::= ϵ | <fv-pair> | <fv-pair> , <fv-pairs>
+  <fv-pairs> ::= <var-ident> : <expr> | <var-ident>
+#+end_src
+Note the use of /tuple structures/ and /field init shorthand/ syntax.
+
+Example:
+#+begin_src rust
+  let p = Player {
+      name: String::from("Ash"),
+      score: 0,
+  }
+#+end_src
+
+Field access/update syntax (dot-notation):
+#+begin_src bnf
+  <assign> ::= <var-ident>.<var-ident> = <expr>
+  <expr>   ::= <expr>.<var-ident>
+#+end_src
+
+Structure update syntax:
+#+begin_src bnf
+  <expr> ::= <struct-ident> { <fv-pairs>..<expr> }
+#+end_src
+
+** Structures and Ownership
+
+It is common for structures to own their data.  It's possible to store
+references, but this requires that we discuss lifetimes (to come, I
+promise).
+
+Values are moved /per field/ so it is possible to move only a subset
+of the values of a structure.  This should probably only be used for
+self-updates.
+
+/Question./ Why would we want to use ~&str~ over ~String~ in a structure?
+
+*Note.* References are short term. They should not usually be used to
+ structure data.
+
+/Question./ Can we build cyclic structures with references?
+
+** Derived Traits
+
+Derived trait
+
+** Methods
+
+Method syntax:
+#+begin_src bnf
+  <stmt-no-sc> ::= impl <struct-ident> <block>
+#+end_src
+
+We can have multiple implementation blocks
+
+**Automatic reference/dereference
+
+** Associated Functions
+
+We use the ~Self~ keyword:
+#+begin_src bnf
+  <ty>   ::= Self
+  <expr> ::= Self | Self { <tv-pairs> }
+#+end_src
+
+* Enumerations
+
+Enumeration definition Syntax:
+
+* Option Types
+
+* Pattern Matching
+
+
+* if let
