@@ -39,8 +39,8 @@ You can start with:
   cargo new mail_search
 #+end_src
 
-You can either put your code in ~src/main.ml~ or create a new file
-~src/lib.ml~ if you want to keep your library functions separate (see
+You can either put your code in ~src/main.rs~ or create a new file
+~src/lib.rs~ if you want to keep your library functions separate (see
 [[https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=lib.rs#separation-of-concerns-for-binary-projects][the section in the book]] on this for details).
 
 The goal of this assignment is to find the first email which satisfies
@@ -150,7 +150,7 @@ You can benchmark in a couple ways, the easy way is to use ~time~,
 e.g.,
 
 #+begin_src bash
-  time cargo --release run < large_mbox
+  time cargo run --release < large_mbox
 #+end_src
 
 Make sure to use the ~--release~ flag or you'll be waiting for a

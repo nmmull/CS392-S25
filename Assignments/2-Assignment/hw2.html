@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-31 Fri 18:44 -->
+<!-- 2025-02-07 Fri 18:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assignment 2</title>
@@ -17,12 +17,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge026cfb">1. Setting up</a></li>
-<li><a href="#orge16f3ae">2. Searching an Mbox in Memory</a></li>
-<li><a href="#orgfba4d23">3. Searching an MBox with a Buffered Reader</a></li>
-<li><a href="#org0a67581">4. Searching with a Buffered Reader Again</a></li>
-<li><a href="#org6c95dce">5. Testing</a></li>
-<li><a href="#org001e39c">6. Benchmarking</a></li>
+<li><a href="#org0c25d37">1. Setting up</a></li>
+<li><a href="#org1e4c908">2. Searching an Mbox in Memory</a></li>
+<li><a href="#org6d8fc5f">3. Searching an MBox with a Buffered Reader</a></li>
+<li><a href="#org109100d">4. Searching with a Buffered Reader Again</a></li>
+<li><a href="#org8d9b378">5. Testing</a></li>
+<li><a href="#org030901a">6. Benchmarking</a></li>
 </ul>
 </div>
 </div>
@@ -65,8 +65,8 @@ guidance.
 </p>
 </blockquote>
 
-<div id="outline-container-orge026cfb" class="outline-2">
-<h2 id="orge026cfb"><span class="section-number-2">1.</span> Setting up</h2>
+<div id="outline-container-org0c25d37" class="outline-2">
+<h2 id="org0c25d37"><span class="section-number-2">1.</span> Setting up</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 You can start with:
@@ -78,8 +78,8 @@ You can start with:
 </div>
 
 <p>
-You can either put your code in <code>src/main.ml</code> or create a new file
-<code>src/lib.ml</code> if you want to keep your library functions separate (see
+You can either put your code in <code>src/main.rs</code> or create a new file
+<code>src/lib.rs</code> if you want to keep your library functions separate (see
 <a href="https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=lib.rs#separation-of-concerns-for-binary-projects">the section in the book</a> on this for details).
 </p>
 
@@ -92,8 +92,8 @@ and returns a <code>bool</code>.  For now, have it just return <code>false</code
 </div>
 </div>
 
-<div id="outline-container-orge16f3ae" class="outline-2">
-<h2 id="orge16f3ae"><span class="section-number-2">2.</span> Searching an Mbox in Memory</h2>
+<div id="outline-container-org1e4c908" class="outline-2">
+<h2 id="org1e4c908"><span class="section-number-2">2.</span> Searching an Mbox in Memory</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Implement a function <code>email_from_str</code> which takes as an argument an
@@ -125,8 +125,8 @@ of the file and pass that to <code>email_from_str</code>.
 </div>
 </div>
 
-<div id="outline-container-orgfba4d23" class="outline-2">
-<h2 id="orgfba4d23"><span class="section-number-2">3.</span> Searching an MBox with a Buffered Reader</h2>
+<div id="outline-container-org6d8fc5f" class="outline-2">
+<h2 id="org6d8fc5f"><span class="section-number-2">3.</span> Searching an MBox with a Buffered Reader</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The problem with the function <code>gen_email_read_to_string</code> is that (as
@@ -149,8 +149,8 @@ iterator.
 </div>
 </div>
 
-<div id="outline-container-org0a67581" class="outline-2">
-<h2 id="org0a67581"><span class="section-number-2">4.</span> Searching with a Buffered Reader Again</h2>
+<div id="outline-container-org109100d" class="outline-2">
+<h2 id="org109100d"><span class="section-number-2">4.</span> Searching with a Buffered Reader Again</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 There's yet another way that we can do this: ipmlement a function
@@ -163,8 +163,8 @@ reached.
 </div>
 </div>
 
-<div id="outline-container-org6c95dce" class="outline-2">
-<h2 id="org6c95dce"><span class="section-number-2">5.</span> Testing</h2>
+<div id="outline-container-org8d9b378" class="outline-2">
+<h2 id="org8d9b378"><span class="section-number-2">5.</span> Testing</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Your main function should look something like this:
@@ -203,8 +203,8 @@ all of your emails.
 </div>
 </div>
 
-<div id="outline-container-org001e39c" class="outline-2">
-<h2 id="org001e39c"><span class="section-number-2">6.</span> Benchmarking</h2>
+<div id="outline-container-org030901a" class="outline-2">
+<h2 id="org030901a"><span class="section-number-2">6.</span> Benchmarking</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 The last think you need to do for this assignment is to benchmark your
@@ -228,7 +228,7 @@ e.g.,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #483d8b;">time</span> cargo --release run &lt; large_mbox
+<pre class="src src-bash"><span style="color: #483d8b;">time</span> cargo run --release &lt; large_mbox
 </pre>
 </div>
 
