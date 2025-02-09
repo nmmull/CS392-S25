@@ -15,5 +15,9 @@
 *** [[file:Slides/03-stack-and-heap.pdf][pdf]] [[file:Slides/03-stack-and-heap-annot.pdf][pdf (annotated)]]
 ** References and Borrowing
 *** [[file:Slides/04-references-borrowing.pdf][pdf]]
+** Structures and Enumerations
+*** [[file:Slides/05-structs-enums.pdf][pdf]]
+** Collections
+*** [[file:Slides/06-collections.pdf][pdf]]
 * Midterm
 * Final Project

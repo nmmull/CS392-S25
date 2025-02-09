@@ -59,15 +59,31 @@
 *** Reading:
 + RPL 4.1: [[https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html][What is Ownership?]]
 + CN 4.1: [[file:notes.org::#stack_and_heap][Stack and Heap]]
+*** Discussion Questions:
++ Why do we have to know the size of data that will be put on the
+  stack at compile time?
++ What are the benefits of Rust's ownership model over automatic
+  reference counting? What are the downsides?
++ What about the tradeoffs between reference counting and garbage
+  collection?
 ** THU 01-30 Lecture 4
 :PROPERTIES:
 :CUSTOM_ID: 01-30
 :END:
 *** Title: *References and Borrowing*
 *** Topics:
++ Look more carefully at Rust's borrow system
++ See some examples of things we /can't/ do according to Rust's borrow
+  checker
 *** Reading:
 + RPL 4.2: [[https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html][References and Borrowing]]
-*** Reminders:
+*** Discussion Questions:
++ How do references relate to pointers?
++ Is it worthwhile to enforce a single mutable reference if you aren't
+  interested in concurrency?
++ How might you think of visualizing ownership and borrowing? (There
+  are a couple existing tools to do this, but I think there's still
+  room for improvement.)
 * Week 3: Data
 ** TUE 02-04 Lecture 5
 :PROPERTIES:
@@ -75,21 +91,37 @@
 :END:
 *** Title: *Structures and Enumerations*
 *** Topics:
++ Cover structures (product types) and enumerations (union types) in
+  Rust
++ Look at how Rust's borrow system interacts with more complex data
 *** Reading:
 + RPL 5: [[https://doc.rust-lang.org/book/ch05-00-structs.html][Using Structs to Structure Related Data]]
 + PRL 6: [[https://doc.rust-lang.org/book/ch06-00-enums.html][Enums and Pattern Matching]]
 + RPL 18: [[https://doc.rust-lang.org/book/ch18-00-patterns.html][Patterns and Matching]]
-*** Reminders:
+*** Discussion Questions (from Piazza):
++ What is the difference between matching-expressions and nested
+  if-expressions? What are the tradeoffs?
++ How are enumerations and structures laid out in memory?
++ Is it possible to define structures with immutable fields?
++ When should a structure store it's own data or references to other data?
 ** THU 02-06 Lecture 6
 :PROPERTIES:
 :CUSTOM_ID: 02-06
 :END:
 *** Title: *Collections and Slices*
 *** Topics:
++ Cover vectors and hash maps in Rust (they are very similar to data
+  structures in other PLs, modulo the interaction with the borrow
+  system)
 *** Reading:
 + RPL 4.3: [[https://doc.rust-lang.org/book/ch04-03-slices.html][The Slice Type]]
 + RPL 8: [[https://doc.rust-lang.org/book/ch08-00-common-collections.html][Common Collections]]
-*** Reminders:
+*** Discussion Questions (from Piazza):
++ How does string concatenation work?  What does ~push_str~ do and who
+  owns what data after it's called?
++ Why does Rust implement deref coercion?
++ It is possible to replace a value in a vectors and take ownership of
+  the original value?
 * Week 4: Functions
 ** TUE 02-11 Lecture 7
 :PROPERTIES:
