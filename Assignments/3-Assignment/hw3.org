@@ -66,7 +66,6 @@ updated when evaluating a program).
       Mul,
       Div,
       Mod,
-      Recurse,
   }
 
   impl Config {
@@ -230,9 +229,9 @@ program which will be assigned a word (the first words after the
 ~:~). The word ~;~ then puts the interpreter back into the
 ~Interpreted~ state and writes the new word to the dictionary.
 
-* Conditionals and Recursion (Challenge)
+* Conditionals (Challenge)
 
 Colon definitions are nice, but they still leave a lot to be
-desired. We can't yet to general computation.  Take a look at the
-gforth manual on [[https://gforth.org/manual/Conditional-execution-Tutorial.html][Conditional Execution]] and [[https://gforth.org/manual/Recursion-Tutorial.html][Recursion]] and implement
-these in your interpreter.
+desired. We can't yet do general computation.  Take a look at the
+gforth manual on [[https://gforth.org/manual/Conditional-execution-Tutorial.html][Conditional Execution]] and implement this in your
+interpreter.

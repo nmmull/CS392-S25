@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-02-06 Thu 16:46 -->
+<!-- 2025-02-11 Tue 16:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assignment 3</title>
@@ -49,11 +49,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5faa4eb">1. Setting up</a></li>
-<li><a href="#org5488609">2. Evaluating a Word</a></li>
-<li><a href="#org5990af2">3. REPL</a></li>
-<li><a href="#org360211a">4. Defining new words (Challenge)</a></li>
-<li><a href="#org2f1eb9b">5. Conditionals and Recursion (Challenge)</a></li>
+<li><a href="#orgbb17e9b">1. Setting up</a></li>
+<li><a href="#org11f48b9">2. Evaluating a Word</a></li>
+<li><a href="#org450e634">3. REPL</a></li>
+<li><a href="#orgf4c91ee">4. Defining new words (Challenge)</a></li>
+<li><a href="#orgf604886">5. Conditionals (Challenge)</a></li>
 </ul>
 </div>
 </div>
@@ -69,8 +69,8 @@ It's a great way to get a feel for a language, and is fitting for this
 course.
 </p>
 
-<div id="outline-container-org5faa4eb" class="outline-2">
-<h2 id="org5faa4eb"><span class="section-number-2">1.</span> Setting up</h2>
+<div id="outline-container-orgbb17e9b" class="outline-2">
+<h2 id="orgbb17e9b"><span class="section-number-2">1.</span> Setting up</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 You can start with:
@@ -136,7 +136,6 @@ updated when evaluating a program).
     <span style="color: #228b22;">Mul</span>,
     <span style="color: #228b22;">Div</span>,
     <span style="color: #228b22;">Mod</span>,
-    <span style="color: #228b22;">Recurse</span>,
 }
 
 <span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Config</span> {
@@ -165,8 +164,8 @@ updated when evaluating a program).
 </div>
 </div>
 
-<div id="outline-container-org5488609" class="outline-2">
-<h2 id="org5488609"><span class="section-number-2">2.</span> Evaluating a Word</h2>
+<div id="outline-container-org11f48b9" class="outline-2">
+<h2 id="org11f48b9"><span class="section-number-2">2.</span> Evaluating a Word</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 At the core of a forth interpreter is a function the evaluates the
@@ -252,8 +251,8 @@ necessary.
 </div>
 </div>
 
-<div id="outline-container-org5990af2" class="outline-2">
-<h2 id="org5990af2"><span class="section-number-2">3.</span> REPL</h2>
+<div id="outline-container-org450e634" class="outline-2">
+<h2 id="org450e634"><span class="section-number-2">3.</span> REPL</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 In the main function, you should implement a REPL that allows you to
@@ -314,8 +313,8 @@ a line should not be evaluated.</li>
 </div>
 </div>
 
-<div id="outline-container-org360211a" class="outline-2">
-<h2 id="org360211a"><span class="section-number-2">4.</span> Defining new words (Challenge)</h2>
+<div id="outline-container-orgf4c91ee" class="outline-2">
+<h2 id="orgf4c91ee"><span class="section-number-2">4.</span> Defining new words (Challenge)</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 To get full credit for this assignment, you're only required to
@@ -336,14 +335,14 @@ program which will be assigned a word (the first words after the
 </div>
 </div>
 
-<div id="outline-container-org2f1eb9b" class="outline-2">
-<h2 id="org2f1eb9b"><span class="section-number-2">5.</span> Conditionals and Recursion (Challenge)</h2>
+<div id="outline-container-orgf604886" class="outline-2">
+<h2 id="orgf604886"><span class="section-number-2">5.</span> Conditionals (Challenge)</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Colon definitions are nice, but they still leave a lot to be
-desired. We can't yet to general computation.  Take a look at the
-gforth manual on <a href="https://gforth.org/manual/Conditional-execution-Tutorial.html">Conditional Execution</a> and <a href="https://gforth.org/manual/Recursion-Tutorial.html">Recursion</a> and implement
-these in your interpreter.
+desired. We can't yet do general computation.  Take a look at the
+gforth manual on <a href="https://gforth.org/manual/Conditional-execution-Tutorial.html">Conditional Execution</a> and implement this in your
+interpreter.
 </p>
 </div>
 </div>
