@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-02-14 Fri 18:34 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 4</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../../material.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Assignment 4</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org004ca33">1. Monoids</a></li>
+<li><a href="#orge4b6bc1">2. Functors</a></li>
+<li><a href="#org43dca86">3. Applicatives</a></li>
+<li><a href="#org56d15bf">4. The Newtype Pattern</a></li>
+</ul>
+</div>
+</div>
+<p>
+The following assignment is due <b>Thursday 2/20 by 8:00 PM</b>.  You'll
+need to submit one crate on Gradescope called <code>assign4</code>. The
+expectation is that you will put everything is <code>src/main.rs</code> or
+<code>src/lib.rs</code>.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+
+<p>
+The theme of this assignment is "hacking the trait system."  Not all
+patterns here are canonically "Rustian" but they will require us to
+get creative with traits.
+</p>
+
+<p>
+I've included some unit tests throughout the assignment. Rust makes it
+<i>very</i> easy to write tests, see the section in RPL on <a href="https://doc.rust-lang.org/stable/book/ch11-01-writing-tests.html">how to write
+tests</a> for more information.
+</p>
+
+<div id="outline-container-org004ca33" class="outline-2">
+<h2 id="org004ca33"><span class="section-number-2">1.</span> Monoids</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Many data types have algebraic structure that can be captured by a
+shared interface.  This is a common programming pattern in Haskell,
+and makes appearances in the Rust standard library.  The goal of this
+problem is to generalize this idea.
+</p>
+
+<p>
+All algebraic structures we'll consider in this problem deal with a
+binary operators. We'll abstract out this operator as part of a
+generic trait:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">trait</span> <span style="color: #228b22;">BinOp</span>&lt;<span style="color: #228b22;">T</span>&gt; {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">op</span>(<span style="color: #a0522d;">lhs</span>: <span style="color: #228b22;">T</span>, <span style="color: #a0522d;">rhs</span>: <span style="color: #228b22;">T</span>) -&gt; <span style="color: #228b22;">T</span>;
+}
+</pre>
+</div>
+
+<p>
+A <b>semigroup</b> is a set \(X\) together with a binary operation \(\circ : X
+\to X \to X\) which is associative.
+</p>
+
+<p>
+It's possible to define a concatenation operation (<code>mconcat</code>) for any
+semigroup, which takes a starting value and an iterator, and folds the
+operator over the values of the iterator:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">trait</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">O</span>&gt; <span style="color: #a020f0;">where</span>
+    <span style="color: #a0522d;">O</span>: <span style="color: #228b22;">BinOp</span>&lt;<span style="color: #228b22;">Self</span>&gt;,
+    <span style="color: #a0522d;">Self</span>: <span style="color: #228b22;">Sized</span>
+{
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat</span>&lt;<span style="color: #a0522d;">I</span>: <span style="color: #228b22;">Iterator</span>&lt;Item=Self&gt;&gt;(<span style="color: #a0522d;">start</span>: <span style="color: #228b22;">Self</span>, <span style="color: #a0522d;">iter</span>: <span style="color: #228b22;">I</span>) -&gt; <span style="color: #228b22;">Self</span> {
+        <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">out</span> = start;
+        <span style="color: #a020f0;">for</span> <span style="color: #a0522d;">item</span> <span style="color: #a020f0;">in</span> iter {
+            out = <span style="color: #228b22;">O</span>::op(out, item)
+        }
+        out
+    }
+}
+</pre>
+</div>
+
+<p>
+This trait is generic over operators of a given type.  For technical
+reasons, we also require types on which we define semigroups are <code>Sized</code>.
+</p>
+
+<p>
+A <b>monoid</b> is a set \(X\) and an associative binary operator \(\circ : X
+\to X \to X\) and a designated unit element \(u \in X\).
+</p>
+
+<p>
+The tasks for this problem:
+</p>
+
+<ul class="org-ul">
+<li>Define a monoid trait in analogy with the <code>Semigroup</code> trait, and so
+that <code>Semigroup</code> is a supertrait.</li>
+<li>Implement these traits for <code>i32</code> and <code>String</code> so that the tests
+below.</li>
+</ul>
+
+<p>
+Part of this problem is reverse engineering. What kind of thing should
+<code>Add</code> be?  What do you need to do in order to overload terms?  I would
+recommend looking over section on <a href="https://doc.rust-lang.org/stable/book/ch19-03-advanced-traits.html">Advanced Traits</a> in RPL for some
+hints.  Note that one of the upshots of this pattern is that we can
+have multiple algebraic traits for a given type with different
+operators, and we can have a uniform convention for referring to kinds
+of operators across types.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #483d8b;">#[cfg(test)]</span>
+<span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">tests</span> {
+    <span style="color: #a020f0;">use</span> <span style="color: #a020f0;">super</span>::*;
+
+    <span style="color: #483d8b;">#[test]</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_semi_add_i32</span>() {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(10, <span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
+        <span style="color: #483d8b;">assert_eq!</span>(expected, 25)
+    }
+
+    <span style="color: #483d8b;">#[test]</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_semi_mul_i32</span>() {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Mul</span>&gt;&gt;::mconcat(10, <span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
+        <span style="color: #483d8b;">assert_eq!</span>(expected, 1200)
+    }
+
+    <span style="color: #483d8b;">#[test]</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_mon_add_i32</span>() {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
+        <span style="color: #483d8b;">assert_eq!</span>(expected, 15)
+    }
+
+    <span style="color: #483d8b;">#[test]</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_mon_mul_i32</span>() {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Mul</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
+        <span style="color: #483d8b;">assert_eq!</span>(expected, 120)
+    }
+
+    <span style="color: #483d8b;">#[test]</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_semi_str</span>() {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s1</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abc"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s2</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"def"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s3</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"ghi"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">String</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(s1, <span style="color: #483d8b;">vec!</span>[s2, s3].into_iter());
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abcdefghi"</span>);
+        <span style="color: #483d8b;">assert_eq!</span>(expected, actual);
+    }
+
+    <span style="color: #483d8b;">#[test]</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_mon_str</span>() {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s1</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abc"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s2</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"def"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s3</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"ghi"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">String</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[s1, s2, s3].into_iter());
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abcdefghi"</span>);
+        <span style="color: #483d8b;">assert_eq!</span>(expected, actual)
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge4b6bc1" class="outline-2">
+<h2 id="orge4b6bc1"><span class="section-number-2">2.</span> Functors</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+One of the deficits of traits as compared to <a href="https://en.wikipedia.org/wiki/Type_class">Type classes</a> is the
+inability to define traits on type constructors.  This means it's very
+difficult to implement things like functors in Rust.  That said, it's
+not impossible.  In this problem we'll be hacking functors into Rust.
+</p>
+
+<p>
+In rough terms, a <b>functor</b> is a type constructor (formally, a type of
+<i>kind</i> \(\texttt{Type} \to \texttt{Type}\)) for which it's possible to
+define a mapping function.  We tend to think of functors as "things
+which hold other things" like <code>Option</code> or <code>Vec</code>.  The mapping
+operation allows you to apply a function to the "inner" thing without
+disturbing the structure of the "outer" thing.  In Haskell, we define
+the <code>Functor</code> type class as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #a020f0;">class</span> <span style="color: #228b22;">Functor</span> (f <span style="color: #a0522d;">::</span> <span style="color: #228b22;">Type</span> <span style="color: #a0522d;">-&gt;</span> <span style="color: #228b22;">Type</span>) <span style="color: #a020f0;">where</span>
+  fmap <span style="color: #a0522d;">::</span> (a <span style="color: #a0522d;">-&gt;</span> b) <span style="color: #a0522d;">-&gt;</span> f a <span style="color: #a0522d;">-&gt;</span> f b
+</pre>
+</div>
+
+<p>
+Without getting into the Haskell of it all, the idea is that <code>fmap</code> is
+a higher-order function that takes a function and "lifts" it to a
+function to the level of the "outer" thing.  The benefit of this that
+we can define functions against this interface, and derive code that
+generalizes across a wide range of types.
+</p>
+
+<p>
+Rust has a hard-coded implementation of <a href="https://doc.rust-lang.org/stable/std/option/enum.Option.html#method.map">map for <code>Option</code></a>:
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">map</span>&lt;<span style="color: #228b22;">U</span>, <span style="color: #228b22;">F</span>&gt;(<span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">f</span>: <span style="color: #228b22;">F</span>) -&gt; <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">U</span>&gt; <span style="color: #a020f0;">where</span>
+    <span style="color: #a0522d;">F</span>: <span style="color: #228b22;">FnOnce</span>(<span style="color: #228b22;">T</span>) -&gt; <span style="color: #228b22;">U</span>,
+{
+    <span style="color: #a020f0;">match</span> <span style="color: #a020f0;">self</span> {
+        <span style="color: #228b22;">Some</span>(x) =&gt; <span style="color: #228b22;">Some</span>(f(x)),
+        <span style="color: #228b22;">None</span> =&gt; <span style="color: #228b22;">None</span>,
+    }
+}
+</pre>
+</div>
+
+<p>
+But there is no mechanism to generalize this in the Rust standard
+library.  Again, the problem is that we can't define a trait for the
+type constructor <code>Option</code>, only for type <code>Option&lt;T&gt;</code> where <code>T</code> is a
+concrete type or a type parameterized in the implementation.
+</p>
+
+<p>
+We're going to get around this with a collection of tricks using
+associated types.  Our first issue is that we can't refer to the "type
+that a functor is holding" or "types which are the same up to what
+they're holding."  We can get around this (in a circuitous way) by
+defining for every type a trait which keeps track of these things as
+associated types.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">trait</span> <span style="color: #228b22;">FunctorTypes</span> {
+    <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Inner</span>;
+    <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Outer</span>&lt;<span style="color: #228b22;">T</span>&gt;;
+}
+
+<span style="color: #b22222;">// </span><span style="color: #b22222;">Example for Option</span>
+<span style="color: #a020f0;">impl</span>&lt;<span style="color: #228b22;">T</span>&gt; <span style="color: #228b22;">FunctorTypes</span> <span style="color: #a020f0;">for</span> <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">T</span>&gt; {
+    <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Inner</span> = <span style="color: #228b22;">T</span>;
+    <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Outer</span>&lt;<span style="color: #228b22;">S</span>&gt; = <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">S</span>&gt;;
+}
+</pre>
+</div>
+
+<p>
+This is not terribly elegant, but its the kind of thing that could be
+automated with a macro.  <code>Inner</code> will always match the type parameter
+of the functor and <code>Outer</code> will match the functor up to parameter.
+Note that we're using a fancy trick here: <i>associated types can be
+generic.</i>
+</p>
+
+<p>
+We can then define our <code>Functor</code> trait in terms of these associated types:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">trait</span> <span style="color: #a0522d;">Functor</span>: <span style="color: #228b22;">FunctorTypes</span> {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">fmap</span>&lt;<span style="color: #228b22;">T</span>&gt;(<span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">f</span>: <span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Fn</span>(<span style="color: #228b22;">Self</span>::<span style="color: #228b22;">Inner</span>) -&gt; <span style="color: #228b22;">T</span>) -&gt; <span style="color: #228b22;">Self</span>::<span style="color: #228b22;">Outer</span>&lt;<span style="color: #228b22;">T</span>&gt;;
+}
+
+<span style="color: #b22222;">// </span><span style="color: #b22222;">Example for Option</span>
+<span style="color: #a020f0;">impl</span>&lt;<span style="color: #228b22;">S</span>&gt; <span style="color: #228b22;">Functor</span> <span style="color: #a020f0;">for</span> <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">S</span>&gt; {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">fmap</span>&lt;<span style="color: #228b22;">T</span>&gt;(<span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">f</span>: <span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Fn</span>(<span style="color: #228b22;">S</span>) -&gt; <span style="color: #228b22;">T</span>) -&gt; <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">T</span>&gt; {
+        <span style="color: #a020f0;">match</span> <span style="color: #a020f0;">self</span> {
+            <span style="color: #228b22;">None</span> =&gt; <span style="color: #228b22;">None</span>,
+            <span style="color: #228b22;">Some</span>(x) =&gt; <span style="color: #228b22;">Some</span>(f(x)),
+        }
+    }
+}
+</pre>
+</div>
+
+<p>
+The implementation is identical to the above standard library
+implementation (modulo the weaker assumption on the type of the
+closure) but the types in the trait itself are wonky. We're using the
+<code>FunctorTypes</code> trait to glean the information we can't get directly
+from the given types.
+</p>
+
+<p>
+<b>The tasks for this problem:</b> Add a default implementation of the
+function <code>funzip</code> to <code>Functor</code>. This function should take a functor
+value with holding a pair and turn it into a pair of functor
+values. The Rust standard library has a hard-coded version for
+<code>Option</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">unzip</span>(<span style="color: #a020f0;">self</span>) -&gt; (<span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">T</span>&gt;, <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">U</span>&gt;) {
+      <span style="color: #a020f0;">match</span> <span style="color: #a020f0;">self</span> {
+          <span style="color: #228b22;">Some</span>((a, b)) =&gt; (<span style="color: #228b22;">Some</span>(a), <span style="color: #228b22;">Some</span>(b)),
+          <span style="color: #228b22;">None</span> =&gt; (<span style="color: #228b22;">None</span>, <span style="color: #228b22;">None</span>),
+      }
+}
+</pre>
+</div>
+
+<p>
+A couple hints:
+</p>
+
+<ul class="org-ul">
+<li>Your implementation won't look like this, it will have
+to use <code>fmap</code> on <code>self</code></li>
+<li>You will need to add a trait bound requiring that the underlying
+functor value is clonable (you'll see when you try to implement the
+function).</li>
+<li>You'll also have to include a trait bound letting the compiler know
+that the inner type of <code>Self</code> is a pair.  Again, make sure to take a
+look at RPL on associated types to see how to specify an associated
+type.</li>
+</ul>
+
+<p>
+Your implementation should be able to pass the following tests:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_fmap</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = <span style="color: #228b22;">Some</span>(100).fmap(|x| x + 1);
+    <span style="color: #483d8b;">assert_eq!</span>(expected, <span style="color: #228b22;">Some</span>(101));
+}
+
+<span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_funzip</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> =  <span style="color: #228b22;">Some</span>((<span style="color: #483d8b;">vec!</span>[1, 2, 3], 4)).funzip();
+    <span style="color: #483d8b;">assert_eq!</span>(expected.0, <span style="color: #228b22;">Some</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]));
+    <span style="color: #483d8b;">assert_eq!</span>(expected.1, <span style="color: #228b22;">Some</span>(4))
+}
+
+<span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_functor_none</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">none</span> : <span style="color: #228b22;">Option</span>&lt;(<span style="color: #228b22;">i32</span>, <span style="color: #228b22;">i32</span>)&gt; = <span style="color: #228b22;">None</span>;
+    <span style="color: #483d8b;">assert_eq!</span>(none.fmap(|p| p.0 + p.1), <span style="color: #228b22;">None</span>);
+    <span style="color: #483d8b;">assert_eq!</span>(none.funzip(), (<span style="color: #228b22;">None</span>, <span style="color: #228b22;">None</span>))
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org43dca86" class="outline-2">
+<h2 id="org43dca86"><span class="section-number-2">3.</span> Applicatives</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Things can get a lot more complicated once we start generalizing past
+functors.
+</p>
+
+<p>
+An <b>applicative functor</b> is a functor together with a function <code>pure</code>
+that can "convert a thing into a held thing" and <code>app</code> which can
+"apply a held function to a held thing." This gives us the following trait:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">trait</span> <span style="color: #a0522d;">Applicative</span>: <span style="color: #228b22;">Functor</span> {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">pure</span>(<span style="color: #a0522d;">x</span>: <span style="color: #228b22;">Self</span>::<span style="color: #228b22;">Inner</span>) -&gt; <span style="color: #228b22;">Self</span>;
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">app</span>&lt;<span style="color: #228b22;">T</span>, <span style="color: #228b22;">U</span>&gt;(<span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">ax</span>: <span style="color: #228b22;">Self</span>::<span style="color: #228b22;">Outer</span>&lt;<span style="color: #228b22;">T</span>&gt;) -&gt; <span style="color: #228b22;">Self</span>::<span style="color: #228b22;">Outer</span>&lt;<span style="color: #228b22;">U</span>&gt; <span style="color: #a020f0;">where</span>
+        <span style="color: #a0522d;">T</span>: <span style="color: #228b22;">Clone</span>,
+        <span style="color: #228b22;">Self</span>::<span style="color: #a0522d;">Inner</span>: <span style="color: #228b22;">Fn</span>(<span style="color: #228b22;">T</span>) -&gt; <span style="color: #228b22;">U</span>;
+}
+</pre>
+</div>
+
+<p>
+Again, there's some weird stuff going on with the types.  We have a
+trait bound which requires the inner type of <code>Self</code> to be a closure,
+so that <code>self</code> is a "thing holding a function" and the input is a
+"thing holding a <code>T</code>" written with <code>Outer</code> associated type.
+</p>
+
+<p>
+<b>The task for this problem:</b> Implement the <code>Applicative</code> trait for
+<code>Option</code>, in analogy with the implementation of <code>Functor</code>.
+</p>
+
+<ul class="org-ul">
+<li>The <code>pure</code> function should take a value and wrap it in a <code>Some</code> constructor.</li>
+<li>The <code>app</code> function should apply the held function to the held value
+if both are not <code>None</code>.</li>
+</ul>
+
+<p>
+Your implementation should pass the following tests:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_pure</span>() {
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">Option</span>::pure(<span style="color: #483d8b;">vec!</span>[1, 2, 3]), <span style="color: #228b22;">Some</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]))
+}
+
+<span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_app</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">f</span> = <span style="color: #228b22;">Some</span>(|x| x + 1);
+    <span style="color: #483d8b;">assert_eq!</span>(f.app(<span style="color: #228b22;">Some</span>(10)), <span style="color: #228b22;">Some</span>(11));
+    <span style="color: #483d8b;">assert_eq!</span>(f.app(<span style="color: #228b22;">None</span>), <span style="color: #228b22;">None</span>);
+    f = <span style="color: #228b22;">None</span>;
+    <span style="color: #483d8b;">assert_eq!</span>(f.app(<span style="color: #228b22;">Some</span>(10)), <span style="color: #228b22;">None</span>);
+    <span style="color: #483d8b;">assert_eq!</span>(f.app(<span style="color: #228b22;">None</span>), <span style="color: #228b22;">None</span>);
+}
+</pre>
+</div>
+
+<p>
+<b>Challenge (Optional):</b> Give a default implementation of a method <code>app2</code> which
+can be applied when the inner value is a <i>Curried</i> binary function,
+and which "runs" <code>app</code> twice. It should pass the following test:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_app2</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">f</span> = <span style="color: #228b22;">Some</span>(|x| <span style="color: #a020f0;">move</span> |y| x + y);
+    <span style="color: #483d8b;">assert_eq!</span>(f.app2(<span style="color: #228b22;">Some</span>(3), <span style="color: #228b22;">Some</span>(4)), <span style="color: #228b22;">Some</span>(7));
+    <span style="color: #483d8b;">assert_eq!</span>(f.app2(<span style="color: #228b22;">Some</span>(3), <span style="color: #228b22;">None</span>), <span style="color: #228b22;">None</span>);
+    <span style="color: #483d8b;">assert_eq!</span>(f.app2(<span style="color: #228b22;">None</span>, <span style="color: #228b22;">Some</span>(3)), <span style="color: #228b22;">None</span>);
+    <span style="color: #483d8b;">assert_eq!</span>(f.app2(<span style="color: #228b22;">None</span>, <span style="color: #228b22;">None</span>), <span style="color: #228b22;">None</span>);
+}
+</pre>
+</div>
+
+<p>
+Getting the trait bounds right for <code>app2</code> is messy&#x2026;
+</p>
+</div>
+</div>
+
+<div id="outline-container-org56d15bf" class="outline-2">
+<h2 id="org56d15bf"><span class="section-number-2">4.</span> The Newtype Pattern</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+We can't define all these nice traits for vectors, but we can wrap
+vectors in a new structure:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #483d8b;">#[derive(Clone, PartialEq, Debug)]</span>
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">VVec</span>&lt;<span style="color: #228b22;">T</span>&gt;(<span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">T</span>&gt;);
+</pre>
+</div>
+
+<p>
+You can call the struct whatever you want. You access the inner vector
+using tuple accessor notation:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]);
+<span style="color: #483d8b;">assert_eq!</span>(v.0[0], 1)
+</pre>
+</div>
+
+<p>
+Working with these wrapped vectors requires some ugly boilerplate, but
+at least now we can implement traits for <code>VVec&lt;T&gt;</code>&#x2026;
+</p>
+
+<p>
+<b>The task for this problem:</b> Implement <code>Semigroup</code>, <code>Monoid</code>,
+<code>Functor</code> and <code>Applicative</code> for <code>VVec</code>.
+</p>
+
+<p>
+Some hints:
+</p>
+
+<ul class="org-ul">
+<li>The concatenation operation on vectors is just vector concatenation.</li>
+<li>The mapping operation on vectors applies the given closure to every
+element of the vector.</li>
+<li>The pure operation creates a singleton.</li>
+<li>The <code>app</code> operation is a bit complicated: given a vector of closures
+and a vector of values, map each function onto the vector of values
+and concatenate the results.</li>
+</ul>
+
+<p>
+Your implementation should pass the following tests:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_semi</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v1</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v2</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[4, 5, 6]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v3</span> = <span style="color: #483d8b;">vec!</span>[v1, v2];
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> =&lt;<span style="color: #228b22;">VVec</span>&lt;<span style="color: #228b22;">i32</span>&gt; <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[0]), v3.into_iter());
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[0, 1, 2, 3, 4, 5, 6]);
+    <span style="color: #483d8b;">assert_eq!</span>(expected, actual);
+}
+
+<span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_mon</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v1</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v2</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[4, 5, 6]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v3</span> = <span style="color: #483d8b;">vec!</span>[v1, v2];
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> =&lt;<span style="color: #228b22;">VVec</span>&lt;<span style="color: #228b22;">i32</span>&gt; <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(v3.into_iter());
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5, 6]);
+    <span style="color: #483d8b;">assert_eq!</span>(expected, actual);
+}
+
+<span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">fmap_vvec</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = v.fmap(|x| x + 1);
+    <span style="color: #483d8b;">assert_eq!</span>(expected, <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[2, 3, 4]))
+}
+
+<span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">funzip_vvec</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[(1, 2), (3, 4), (5, 6)]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = v.funzip();
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v1</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 3, 5]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v2</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[2, 4, 6]);
+    <span style="color: #483d8b;">assert_eq!</span>(expected, (v1, v2))
+}
+
+<span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">pure_vvec</span>() {
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">VVec</span>::pure(1), <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1]));
+}
+
+<span style="color: #483d8b;">#[test]</span>
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">app_vvec</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v1</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[|x| x + 1, |x| x + 2]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v2</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 3, 5]);
+    <span style="color: #483d8b;">assert_eq!</span>(v1.app(v2).0, <span style="color: #483d8b;">vec!</span>[2, 4, 6, 3, 5, 7])
+}
+
+</pre>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">If you want to look into separating your solution
+into separate files, that's fine too.</p></div></div>
+
+
+</div>
+</div></div>
+</body>
+</html>
