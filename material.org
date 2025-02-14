@@ -19,5 +19,9 @@
 *** [[file:Slides/05-structs-enums.pdf][pdf]]
 ** Collections
 *** [[file:Slides/06-collections.pdf][pdf]]
+** Traits
+*** [[file:Slides/07-traits.pdf][pdf]]
+** Closures and Iterators
+*** [[file:Slides/08-closures.pdf][pdf]]
 * Midterm
 * Final Project
