@@ -24,5 +24,7 @@
 *** [[file:Slides/07-traits.pdf][pdf]]
 ** Closures and Iterators
 *** [[file:Slides/08-closures.pdf][pdf]]
+** Lifetimes
+*** [[file:Slides/09-lifetimes.pdf][pdf]]
 * Midterm
 * Final Project

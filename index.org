@@ -43,25 +43,25 @@ for more details.
 | [[file:schedule.org::#02-13][02-13]] | Functions II: Closures, Iterators           | A4 out, A3 due  |
 |-------+---------------------------------------------+-----------------|
 | 02-18 | *NO CLASS*                                  | Presidents' Day |
-| [[file:schedule.org::#02-20][02-20]] | Lifetimes                                   | A5 out, A4 due  |
+| [[file:schedule.org::#02-20][02-20]] | Lifetimes                                   |                 |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#02-25][02-25]] | Smart Pointers I: Boxes, Recursive Data     |                 |
-| [[file:schedule.org::#02-27][02-27]] | Smart Pointers II: ~Rc<T>~ and ~RefCell<T>~ | A6 out, A5 due  |
+| [[file:schedule.org::#02-27][02-27]] | Smart Pointers II: ~Rc<T>~ and ~RefCell<T>~ | A5 out, A4 due  |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#03-04][03-04]] | TBD                                         |                 |
-| [[file:schedule.org::#03-06][03-06]] | *Midterm Exam*                              | A6 due          |
+| [[file:schedule.org::#03-06][03-06]] | *Midterm Exam*                              | A5 due          |
 |-------+---------------------------------------------+-----------------|
 | 03-11 | *NO CLASS*                                  | Spring Recess   |
 | 03-13 | *NO CLASS*                                  | Spring Recess   |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#03-18][03-18]] | Theory I: Crash Course in Logic             |                 |
-| [[file:schedule.org::#03-20][03-20]] | Theory II: Linear Types                     | A7 out          |
+| [[file:schedule.org::#03-20][03-20]] | Theory II: Linear Types                     | A6 out          |
 |-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#03-25][03-25]] | Theory III: Crafting Interpreters |                 |
-| [[file:schedule.org::#03-27][03-27]] | Workshop: An Interpreter for LTLC           | A8 out, A7 due  |
+| [[file:schedule.org::#03-25][03-25]] | Theory III: Crafting Interpreters           |                 |
+| [[file:schedule.org::#03-27][03-27]] | Workshop: An Interpreter for LTLC           | A7 out, A6 due  |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#04-01][04-01]] | FR Calculus I: Introduction                 |                 |
-| [[file:schedule.org::#04-03][04-03]] | FR Calculus II: Syntax                      | FP out, A8 due  |
+| [[file:schedule.org::#04-03][04-03]] | FR Calculus II: Syntax                      | FP out, A7 due  |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#04-08][04-08]] | Workshop: A Parser                          |                 |
 | [[file:schedule.org::#04-10][04-10]] | FR Calculus III: Semantics                  | FP part 1 due   |
