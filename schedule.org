@@ -9,7 +9,7 @@
 :END:
 *** Title: *Course Introduction*
 *** Topics:
-+ Discuss how the course structure, expectations, etc.
++ Discuss the course structure, expectations, etc.
 + Briefly talk about Rust
 + Install Rust and Cargo
 + Set up our first Cargo project
@@ -129,19 +129,32 @@
 :END:
 *** Title: *Generics and Traits*
 *** Topics:
++ Look at how to write polymorphic functions with generics
++ Learn how to restrict generic using traits to write general code
+  against an explicit interface
+*** Reading:
 + RPL 10.1: [[https://doc.rust-lang.org/book/ch10-01-syntax.html][Generic Data Types]]
 + RPL 10.2: [[https://doc.rust-lang.org/book/ch10-02-traits.html][Traits: Defining Shared Behavior]]
-*** Reading:
-*** Reminders:
+*** Discussion Question (from Piazza):
++ Does using generics impact performance?
++ What are the differences between the different trait parameter
+  syntax?
++ How are traits different from interfaces?
 ** THU 02-13 Lecture 8
 :PROPERTIES:
 :CUSTOM_ID: 02-13
 :END:
 *** Title: *Closures and Iterators*
 *** Topics:
++ Anonymous functions in Rust which capture their environment
++ Iterators as a "zero-overhead abstraction" for processing
+  collections of data
 *** Reading:
 + RPL 13: [[https://doc.rust-lang.org/book/ch13-00-functional-features.html][Functional Language Features: Iterators and Closures]]
-*** Reminders:
+*** Discussion Questions (from Piazza)
++ Are there safety/performance advantages to using iterators versus loops?
++ Can we define polymoprhic closures? Why or why not?
++ When do we need explicit type annotations on closures?
 * Week 5: Lifetimes
 ** THU 02-20 Lecture 9
 :PROPERTIES:
@@ -149,9 +162,20 @@
 :END:
 *** Title: *Lifetimes*
 *** Topics:
++ Define lifetimes and determine when we need explicit lifetime
+  annotations
++ Discuss the relationship between lifetimes and references
 *** Reading:
 + RPL 10.3: [[https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html][Validating References with Lifetimes]]
-*** Reminders:
++ Rustonomicon:
+  + 3.2: [[https://doc.rust-lang.org/nomicon/aliasing.html][Aliasing]]
+  + 3.3: [[https://doc.rust-lang.org/nomicon/lifetimes.html][Lifetimes]]
+  + 3.4: [[https://doc.rust-lang.org/nomicon/lifetime-mismatch.html][Limits of Lifetimes]]
+  + 3.5: [[https://doc.rust-lang.org/nomicon/lifetime-elision.html][Lifetime Elision]]
+*** Discussion Questions (from Piazza):
++ Do lifetime annotations have any effects on efficienty/safety? Do
+  they provide additional functionality?
++ How do lifetimes affect the type theory of Rust?
 * Week 6: Smart Pointers
 ** TUE 02-25 Lecture 10
 :PROPERTIES:
@@ -159,8 +183,17 @@
 :END:
 *** Title: *Boxes and Recursive Data*
 *** Topics:
++ Boxes and Type Layouts
++ Using the ~Deref~ trait to simplify working with boxed data
 *** Reading:
-*** Reminders:
++ RPL 15.1: [[https://doc.rust-lang.org/stable/book/ch15-01-box.html][Using ~Box<T>~ to Point to Data on the Heap]]
++ RPL 15.2: [[https://doc.rust-lang.org/stable/book/ch15-02-deref.html][Treating Smart Pointers Like Regular References with the ~Deref~ Trait]]
++ Rustonomicon 2.1: [[https://doc.rust-lang.org/nomicon/repr-rust.html][repr(Rust)]]
++ The Rust Reference 10.3: [[https://doc.rust-lang.org/reference/type-layout.html][Type Layout]]
+*** Discussion Questions (from Piazza):
++ When do we /not/ use a Box?
++ Why doesn't Rust automatically box data for recursive data types?
++ Can we define circular data structures with boxes?
 ** THU 02-27 Lecture 11
 :PROPERTIES:
 :CUSTOM_ID: 02-27
@@ -168,8 +201,10 @@
 *** Title: *Reference Counting and Internal Mutability*
 *** Topics:
 *** Reading:
-*** Reminders:
-
++ RPL 15.4: [[https://doc.rust-lang.org/stable/book/ch15-04-rc.html][~Rc<T>~, the Reference Counted Smart Pointer]]
++ RPL 15.5: [[https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html][~RefCell<T>~ and the Interior Mutability Pattern]]
++ RPL 15.6: [[https://doc.rust-lang.org/stable/book/ch15-06-reference-cycles.html][Reference Cycles Can Leak Memory]]
+*** Discussion Questions:
 * Week 7
 ** TUE 03-04 Lecture 12
 :PROPERTIES:
