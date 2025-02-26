@@ -26,5 +26,7 @@
 *** [[file:Slides/08-closures.pdf][pdf]]
 ** Lifetimes
 *** [[file:Slides/09-lifetimes.pdf][pdf]]
+** Boxes and Recursive Data
+*** [[file:Slides/10-boxes.pdf][pdf]]
 * Midterm
 * Final Project
