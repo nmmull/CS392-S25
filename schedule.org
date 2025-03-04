@@ -205,16 +205,17 @@
 + RPL 15.5: [[https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html][~RefCell<T>~ and the Interior Mutability Pattern]]
 + RPL 15.6: [[https://doc.rust-lang.org/stable/book/ch15-06-reference-cycles.html][Reference Cycles Can Leak Memory]]
 *** Discussion Questions:
-* Week 7
+* Week 7: Midterm
 ** TUE 03-04 Lecture 12
 :PROPERTIES:
 :CUSTOM_ID: 03-04
 :END:
-*** Title: *TBD*
+*** Title: Concurrency (+ Midterm Prep)
 *** Topics:
++ Look very briefly at how Rust handles message-passing concurrency
+  and shared-state concurrency
 *** Reading:
-*** Reminders:
-
++ RPL 16: [[https://doc.rust-lang.org/stable/book/ch16-00-concurrency.html][Fearless Concurrency]]
 ** THU 03-06 Midterm Exam
 :PROPERTIES:
 :CUSTOM_ID: 03-06

@@ -2,11 +2,9 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
 #+OPTIONS: html-style:nil H:2 toc:nil num:nil
 #+HTML_LINK_HOME: http://nmmull.github.io
-
 | Title    | Rust, in Practice and in Theory |
 | Location | Boston University               |
 | Semester | Spring 2025                     |
-
 This is a course about the PL Rust.  We'll spend the first half of
 this course learning how to program in Rust, then we'll shift to
 /implementing/ a subset of Rust /in/ Rust based on [[https://dl.acm.org/doi/10.1145/3443420][a very nice
@@ -46,16 +44,16 @@ for more details.
 | [[file:schedule.org::#02-20][02-20]] | Lifetimes                                   |                 |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#02-25][02-25]] | Smart Pointers I: Boxes, Recursive Data     |                 |
-| [[file:schedule.org::#02-27][02-27]] | Smart Pointers II: ~Rc<T>~ and ~RefCell<T>~ | A5 out, A4 due  |
+| [[file:schedule.org::#02-27][02-27]] | Smart Pointers II: ~Rc<T>~ and ~RefCell<T>~ | A4 due          |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#03-04][03-04]] | TBD                                         |                 |
-| [[file:schedule.org::#03-06][03-06]] | *Midterm Exam*                              | A5 due          |
+| [[file:schedule.org::#03-06][03-06]] | *Midterm Exam*                              | A5 out          |
 |-------+---------------------------------------------+-----------------|
 | 03-11 | *NO CLASS*                                  | Spring Recess   |
 | 03-13 | *NO CLASS*                                  | Spring Recess   |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#03-18][03-18]] | Theory I: Crash Course in Logic             |                 |
-| [[file:schedule.org::#03-20][03-20]] | Theory II: Linear Types                     | A6 out          |
+| [[file:schedule.org::#03-20][03-20]] | Theory II: Linear Types                     | A6 out, A5 due  |
 |-------+---------------------------------------------+-----------------|
 | [[file:schedule.org::#03-25][03-25]] | Theory III: Crafting Interpreters           |                 |
 | [[file:schedule.org::#03-27][03-27]] | Workshop: An Interpreter for LTLC           | A7 out, A6 due  |
