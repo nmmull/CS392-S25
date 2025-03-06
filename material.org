@@ -32,4 +32,5 @@
 *** [[file:Slides/11-refs.pdf][pdf]]
 * Midterm
 ** [[file:Assignments/mock-midterm/mock-midterm.zip][mock-midterm.zip]]
+** [[file:Assignments/midterm/midterm.zip][midterm.zip]]
 * Final Project
