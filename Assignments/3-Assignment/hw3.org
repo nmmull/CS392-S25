@@ -144,7 +144,7 @@ $S$ is the stack and $P$ is a program (associated with a word).
 \begin{prooftree}
 \AxiomC{}
 \RightLabel{print}
-\UnaryInfC{$(n :: S, \texttt{.} \ P) \longrightarrow (n :: S, P)$}
+\UnaryInfC{$(n :: S, \texttt{.} \ P) \longrightarrow (S, P)$}
 \end{prooftree}
 
 \begin{prooftree}

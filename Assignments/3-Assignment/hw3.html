@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-02-11 Tue 16:47 -->
+<!-- 2025-03-08 Sat 15:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assignment 3</title>
@@ -49,11 +49,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbb17e9b">1. Setting up</a></li>
-<li><a href="#org11f48b9">2. Evaluating a Word</a></li>
-<li><a href="#org450e634">3. REPL</a></li>
-<li><a href="#orgf4c91ee">4. Defining new words (Challenge)</a></li>
-<li><a href="#orgf604886">5. Conditionals (Challenge)</a></li>
+<li><a href="#orgd3ef32e">1. Setting up</a></li>
+<li><a href="#org812d045">2. Evaluating a Word</a></li>
+<li><a href="#org4365436">3. REPL</a></li>
+<li><a href="#org13866a0">4. Defining new words (Challenge)</a></li>
+<li><a href="#org382fa80">5. Conditionals (Challenge)</a></li>
 </ul>
 </div>
 </div>
@@ -69,8 +69,8 @@ It's a great way to get a feel for a language, and is fitting for this
 course.
 </p>
 
-<div id="outline-container-orgbb17e9b" class="outline-2">
-<h2 id="orgbb17e9b"><span class="section-number-2">1.</span> Setting up</h2>
+<div id="outline-container-orgd3ef32e" class="outline-2">
+<h2 id="orgd3ef32e"><span class="section-number-2">1.</span> Setting up</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 You can start with:
@@ -164,8 +164,8 @@ updated when evaluating a program).
 </div>
 </div>
 
-<div id="outline-container-org11f48b9" class="outline-2">
-<h2 id="org11f48b9"><span class="section-number-2">2.</span> Evaluating a Word</h2>
+<div id="outline-container-org812d045" class="outline-2">
+<h2 id="org812d045"><span class="section-number-2">2.</span> Evaluating a Word</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 At the core of a forth interpreter is a function the evaluates the
@@ -222,7 +222,7 @@ language according to the following small-step rules. In these rules
 \begin{prooftree}
 \AxiomC{}
 \RightLabel{print}
-\UnaryInfC{$(n :: S, \texttt{.} \ P) \longrightarrow (n :: S, P)$}
+\UnaryInfC{$(n :: S, \texttt{.} \ P) \longrightarrow (S, P)$}
 \end{prooftree}
 
 \begin{prooftree}
@@ -251,8 +251,8 @@ necessary.
 </div>
 </div>
 
-<div id="outline-container-org450e634" class="outline-2">
-<h2 id="org450e634"><span class="section-number-2">3.</span> REPL</h2>
+<div id="outline-container-org4365436" class="outline-2">
+<h2 id="org4365436"><span class="section-number-2">3.</span> REPL</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 In the main function, you should implement a REPL that allows you to
@@ -313,8 +313,8 @@ a line should not be evaluated.</li>
 </div>
 </div>
 
-<div id="outline-container-orgf4c91ee" class="outline-2">
-<h2 id="orgf4c91ee"><span class="section-number-2">4.</span> Defining new words (Challenge)</h2>
+<div id="outline-container-org13866a0" class="outline-2">
+<h2 id="org13866a0"><span class="section-number-2">4.</span> Defining new words (Challenge)</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 To get full credit for this assignment, you're only required to
@@ -335,8 +335,8 @@ program which will be assigned a word (the first words after the
 </div>
 </div>
 
-<div id="outline-container-orgf604886" class="outline-2">
-<h2 id="orgf604886"><span class="section-number-2">5.</span> Conditionals (Challenge)</h2>
+<div id="outline-container-org382fa80" class="outline-2">
+<h2 id="org382fa80"><span class="section-number-2">5.</span> Conditionals (Challenge)</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Colon definitions are nice, but they still leave a lot to be
