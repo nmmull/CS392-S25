@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-03-08 Sat 14:35 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 5</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../../material.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Assignment 5</h1>
+<p>
+The following assignment is due <b>Thursday 3/20 by 8:00 PM</b>.  You'll
+need to submit one crate on Gradescope called <code>assign5</code>.
+</p>
+
+<p>
+The specification for this assignment is very simple: <i>implement an
+<a href="https://dev.realworldocaml.org/data-serialization.html">S-expressions</a> parser.</i> This is a great way to make sure sure you
+understand how to use indirection to build and work with recursive
+data.
+</p>
+
+<p>
+You're required to use the following types in your program (you may
+want to add derived traits):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Metadata</span> {
+    <span style="color: #a0522d;">line_num</span>: <span style="color: #228b22;">usize</span>,
+    <span style="color: #a0522d;">col_num</span>: <span style="color: #228b22;">usize</span>,
+}
+
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Sexpr</span>&lt;<span style="color: #228b22;">T</span>&gt; {
+    <span style="color: #228b22;">Atom</span>(<span style="color: #228b22;">T</span>),
+    <span style="color: #228b22;">List</span>(<span style="color: #228b22;">Box</span>&lt;<span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">Sexpr</span>&lt;<span style="color: #228b22;">T</span>&gt;&gt;&gt;),
+}
+
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">ParseErrorKind</span> {
+    <span style="color: #228b22;">NotClosed</span>,
+    <span style="color: #228b22;">ExtraClosed</span>,
+}
+
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">ParseError</span> {
+    <span style="color: #a0522d;">kind</span>: <span style="color: #228b22;">ParseErrorKind</span>,
+    <span style="color: #a0522d;">metadata</span>: <span style="color: #228b22;">Metadata</span>,
+}
+</pre>
+</div>
+
+<p>
+You're required to implement the following method:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Sexpr</span>&lt;<span style="color: #228b22;">String</span>&gt; {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">parse</span>(<span style="color: #a0522d;">input</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">str</span>) -&gt; <span style="color: #228b22;">Result</span>&lt;<span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">Sexpr</span>&lt;<span style="color: #228b22;">String</span>&gt;&gt;, <span style="color: #228b22;">ParseError</span>&gt; {
+        <span style="color: #483d8b;">todo!</span>()
+    }
+}
+</pre>
+</div>
+
+<p>
+This function should succeed if <code>str</code> represents a sequence of
+S-expressions. For example, parsing:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">(add
+  (mul 2 3)
+  4)
+((one "1") (two "2"))
+</pre>
+</div>
+
+<p>
+should give you the S-expression (eliding boxes):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">[
+    <span style="color: #228b22;">List</span>([
+        <span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"add"</span>),
+        <span style="color: #228b22;">List</span>([<span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"mul"</span>), <span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"2"</span>), <span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"3"</span>)]), <span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"4"</span>)
+    ]),
+    <span style="color: #228b22;">List</span>([
+        <span style="color: #228b22;">List</span>([<span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"one"</span>), <span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"\"1\""</span>)]),
+        <span style="color: #228b22;">List</span>([<span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"two"</span>), <span style="color: #228b22;">Atom</span>(<span style="color: #8b2252;">"\"2\""</span>)])
+    ]),
+]
+</pre>
+</div>
+
+<p>
+There are only two ways that a sequence of general S-expression can be
+ill-formed:
+</p>
+
+<ol class="org-ol">
+<li>There is an unclosed opening parenthesis</li>
+<li>There is an extra closing parenthesis</li>
+</ol>
+
+<p>
+In either of these cases, you should return a <code>ParseError</code>. Note that
+errors include <code>Metadata</code> which refers to the line and column of the
+offending parenthesis.  In the first case, you should return an error
+with metadata for the <i>first</i> unopened closing parentheis.  In the
+second case, you should return an error with metadata for the <i>first</i>
+extra closing parenthesis.
+</p>
+
+<p>
+Parsing the ill-formed S-expression:
+</p>
+<div class="org-src-container">
+<pre class="src src-text">((foo
+ bar  )  )  )
+( (  ) ) )
+</pre>
+</div>
+
+<p>
+should give you:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #228b22;">ParseError</span> {
+    <span style="color: #a0522d;">kind</span>: <span style="color: #228b22;">ExtraClosed</span>,
+    <span style="color: #a0522d;">metadata</span>: <span style="color: #228b22;">Metadata</span> { <span style="color: #a0522d;">line_num</span>: 2, <span style="color: #a0522d;">col_num</span>: 12 }
+}
+</pre>
+</div>
+
+<p>
+whereas parsing:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">((foo
+ bar  )) (
+  ( (  )
+</pre>
+</div>
+
+<p>
+should give you:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #228b22;">ParseError</span> {
+    <span style="color: #a0522d;">kind</span>: <span style="color: #228b22;">NotClosed</span>,
+    <span style="color: #a0522d;">metadata</span>: <span style="color: #228b22;">Metadata</span> { <span style="color: #a0522d;">line_num</span>: 2, <span style="color: #a0522d;">col_num</span>: 9 }
+}
+</pre>
+</div>
+<p>
+You can do this however you'd
+like, but I'd recommend the following structure:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Lexeme</span> {
+    <span style="color: #228b22;">Lparen</span>,
+    <span style="color: #228b22;">Rparen</span>,
+    <span style="color: #228b22;">Atom</span>(<span style="color: #228b22;">String</span>),
+}
+
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Token</span> {
+    <span style="color: #a0522d;">lexeme</span>: <span style="color: #228b22;">Lexeme</span>,
+    <span style="color: #a0522d;">metadata</span>: <span style="color: #228b22;">Metadata</span>,
+}
+
+
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Lexer</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a0522d;">contents</span>: <span style="color: #228b22;">Lines</span>&lt;'<span style="color: #a0522d;">a</span>&gt;,
+    <span style="color: #a0522d;">curr_line_num</span>: <span style="color: #228b22;">usize</span>,
+    <span style="color: #a0522d;">curr_col_num</span>: <span style="color: #228b22;">usize</span>,
+    <span style="color: #a0522d;">curr_line</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span>'<span style="color: #a0522d;">a</span> <span style="color: #228b22;">str</span>,
+}
+
+<span style="color: #a020f0;">impl</span>&lt;'<span style="color: #a0522d;">a</span>&gt; <span style="color: #228b22;">Lexer</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">new</span>(<span style="color: #a0522d;">input</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span>'<span style="color: #a0522d;">a</span> <span style="color: #228b22;">str</span>) -&gt; <span style="color: #228b22;">Lexer</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+        <span style="color: #228b22;">Lexer</span> {
+            <span style="color: #a0522d;">contents</span>: input.lines(),
+            <span style="color: #a0522d;">curr_line_num</span>: 0,
+            <span style="color: #a0522d;">curr_col_num</span>: 1,
+            <span style="color: #a0522d;">curr_line</span>: <span style="color: #8b2252;">""</span>,
+        }
+    }
+}
+
+<span style="color: #a020f0;">impl</span>&lt;'<span style="color: #a0522d;">a</span>&gt; <span style="color: #228b22;">Iterator</span> <span style="color: #a020f0;">for</span> <span style="color: #228b22;">Lexer</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Item</span> = <span style="color: #228b22;">Token</span>;
+
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">next</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">Token</span>&gt; {
+        <span style="color: #483d8b;">todo!</span>()
+    }
+}
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Generally speaking, it's much easier to parse if you've already
+lexed the input into its individual units.  You can build an
+iterator which holds a slice of the input and grabs one token at a
+time.</li>
+<li>For parsing there are two natural approaches:
+<ul class="org-ul">
+<li><i>Recursive descent:</i> recursively parse a sequence of S-expressions
+every time you see an opening parenthesis.</li>
+<li><i>Stack:</i> Keep track of a stack of S-expressions, and grab the
+appropriate chunk of the top of the stack every time you see a
+closing parenthesis.</li>
+</ul></li>
+</ul>
+
+<p>
+Happy coding.
+</p>
+</div>
+</body>
+</html>

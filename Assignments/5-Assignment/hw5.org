@@ -1,0 +1,173 @@
+#+title: Assignment 5
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:2 todo:nil author:nil date:nil
+#+HTML_LINK_HOME: ../../material.html
+The following assignment is due *Thursday 3/20 by 8:00 PM*.  You'll
+need to submit one crate on Gradescope called ~assign5~.
+
+The specification for this assignment is very simple: /implement an
+[[https://dev.realworldocaml.org/data-serialization.html][S-expressions]] parser./ This is a great way to make sure sure you
+understand how to use indirection to build and work with recursive
+data.
+
+You're required to use the following types in your program (you may
+want to add derived traits):
+
+#+begin_src rust
+  struct Metadata {
+      line_num: usize,
+      col_num: usize,
+  }
+
+  enum Sexpr<T> {
+      Atom(T),
+      List(Box<Vec<Sexpr<T>>>),
+  }
+
+  enum ParseErrorKind {
+      NotClosed,
+      ExtraClosed,
+  }
+
+  struct ParseError {
+      kind: ParseErrorKind,
+      metadata: Metadata,
+  }
+#+end_src
+
+You're required to implement the following method:
+
+#+begin_src rust
+  impl Sexpr<String> {
+      fn parse(input: &str) -> Result<Vec<Sexpr<String>>, ParseError> {
+	  todo!()
+      }
+  }
+#+end_src
+
+This function should succeed if ~str~ represents a sequence of
+S-expressions. For example, parsing:
+
+#+begin_src text
+  (add
+    (mul 2 3)
+    4)
+  ((one "1") (two "2"))
+#+end_src
+
+should give you the S-expression (eliding boxes):
+
+#+begin_src rust
+  [
+      List([
+	  Atom("add"),
+	  List([Atom("mul"), Atom("2"), Atom("3")]), Atom("4")
+      ]),
+      List([
+	  List([Atom("one"), Atom("\"1\"")]),
+	  List([Atom("two"), Atom("\"2\"")])
+      ]),
+  ]
+#+end_src
+
+There are only two ways that a sequence of general S-expression can be
+ill-formed:
+
+1. There is an unclosed opening parenthesis
+2. There is an extra closing parenthesis
+
+In either of these cases, you should return a ~ParseError~. Note that
+errors include ~Metadata~ which refers to the line and column of the
+offending parenthesis.  In the first case, you should return an error
+with metadata for the /first/ unopened closing parentheis.  In the
+second case, you should return an error with metadata for the /first/
+extra closing parenthesis.
+
+Parsing the ill-formed S-expression:
+#+begin_src text
+  ((foo
+   bar  )  )  )
+  ( (  ) ) )
+#+end_src
+
+should give you:
+
+#+begin_src rust
+  ParseError {
+      kind: ExtraClosed,
+      metadata: Metadata { line_num: 2, col_num: 12 }
+  }
+#+end_src
+
+whereas parsing:
+
+#+begin_src rust
+  ((foo
+   bar  )) (
+    ( (  )
+#+end_src
+
+should give you:
+
+#+begin_src rust
+  ParseError {
+      kind: NotClosed,
+      metadata: Metadata { line_num: 2, col_num: 9 }
+  }
+#+end_src
+You can do this however you'd
+like, but I'd recommend the following structure:
+
+#+begin_src rust
+  enum Lexeme {
+      Lparen,
+      Rparen,
+      Atom(String),
+  }
+
+  struct Token {
+      lexeme: Lexeme,
+      metadata: Metadata,
+  }
+
+
+  struct Lexer<'a> {
+      contents: Lines<'a>,
+      curr_line_num: usize,
+      curr_col_num: usize,
+      curr_line: &'a str,
+  }
+
+  impl<'a> Lexer<'a> {
+      fn new(input: &'a str) -> Lexer<'a> {
+	  Lexer {
+	      contents: input.lines(),
+	      curr_line_num: 0,
+	      curr_col_num: 1,
+	      curr_line: "",
+	  }
+      }
+  }
+
+  impl<'a> Iterator for Lexer<'a> {
+      type Item = Token;
+
+      fn next(&mut self) -> Option<Token> {
+	  todo!()
+      }
+  }
+#+end_src
+
++ Generally speaking, it's much easier to parse if you've already
+  lexed the input into its individual units.  You can build an
+  iterator which holds a slice of the input and grabs one token at a
+  time.
++ For parsing there are two natural approaches:
+  + /Recursive descent:/ recursively parse a sequence of S-expressions
+    every time you see an opening parenthesis.
+  + /Stack:/ Keep track of a stack of S-expressions, and grab the
+    appropriate chunk of the top of the stack every time you see a
+    closing parenthesis.
+
+Happy coding.
