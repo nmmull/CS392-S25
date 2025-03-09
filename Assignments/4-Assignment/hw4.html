@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-02-14 Fri 18:34 -->
+<!-- 2025-03-08 Sat 15:58 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assignment 4</title>
@@ -49,10 +49,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org004ca33">1. Monoids</a></li>
-<li><a href="#orge4b6bc1">2. Functors</a></li>
-<li><a href="#org43dca86">3. Applicatives</a></li>
-<li><a href="#org56d15bf">4. The Newtype Pattern</a></li>
+<li><a href="#orga747bf8">1. Monoids</a></li>
+<li><a href="#orgf977d62">2. Functors</a></li>
+<li><a href="#orge7fe247">3. Applicatives</a></li>
+<li><a href="#org8bd041e">4. The Newtype Pattern</a></li>
 </ul>
 </div>
 </div>
@@ -75,8 +75,8 @@ I've included some unit tests throughout the assignment. Rust makes it
 tests</a> for more information.
 </p>
 
-<div id="outline-container-org004ca33" class="outline-2">
-<h2 id="org004ca33"><span class="section-number-2">1.</span> Monoids</h2>
+<div id="outline-container-orga747bf8" class="outline-2">
+<h2 id="orga747bf8"><span class="section-number-2">1.</span> Monoids</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Many data types have algebraic structure that can be captured by a
@@ -163,26 +163,26 @@ of operators across types.
 
     <span style="color: #483d8b;">#[test]</span>
     <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_semi_add_i32</span>() {
-        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(10, <span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
-        <span style="color: #483d8b;">assert_eq!</span>(expected, 25)
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(10, <span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
+        <span style="color: #483d8b;">assert_eq!</span>(25, actual)
     }
 
     <span style="color: #483d8b;">#[test]</span>
     <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_semi_mul_i32</span>() {
-        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Mul</span>&gt;&gt;::mconcat(10, <span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
-        <span style="color: #483d8b;">assert_eq!</span>(expected, 1200)
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Mul</span>&gt;&gt;::mconcat(10, <span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
+        <span style="color: #483d8b;">assert_eq!</span>(1200, actual)
     }
 
     <span style="color: #483d8b;">#[test]</span>
     <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_mon_add_i32</span>() {
-        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
-        <span style="color: #483d8b;">assert_eq!</span>(expected, 15)
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
+        <span style="color: #483d8b;">assert_eq!</span>(15, actual)
     }
 
     <span style="color: #483d8b;">#[test]</span>
     <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">mconcat_mon_mul_i32</span>() {
-        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Mul</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
-        <span style="color: #483d8b;">assert_eq!</span>(expected, 120)
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = &lt;<span style="color: #228b22;">i32</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Mul</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5].into_iter());
+        <span style="color: #483d8b;">assert_eq!</span>(120, actual)
     }
 
     <span style="color: #483d8b;">#[test]</span>
@@ -190,8 +190,8 @@ of operators across types.
         <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s1</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abc"</span>);
         <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s2</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"def"</span>);
         <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s3</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"ghi"</span>);
-        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">String</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(s1, <span style="color: #483d8b;">vec!</span>[s2, s3].into_iter());
-        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abcdefghi"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abcdefghi"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = &lt;<span style="color: #228b22;">String</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(s1, <span style="color: #483d8b;">vec!</span>[s2, s3].into_iter());
         <span style="color: #483d8b;">assert_eq!</span>(expected, actual);
     }
 
@@ -200,8 +200,8 @@ of operators across types.
         <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s1</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abc"</span>);
         <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s2</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"def"</span>);
         <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">s3</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"ghi"</span>);
-        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = &lt;<span style="color: #228b22;">String</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[s1, s2, s3].into_iter());
-        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abcdefghi"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = <span style="color: #228b22;">String</span>::from(<span style="color: #8b2252;">"abcdefghi"</span>);
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = &lt;<span style="color: #228b22;">String</span> <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #483d8b;">vec!</span>[s1, s2, s3].into_iter());
         <span style="color: #483d8b;">assert_eq!</span>(expected, actual)
     }
 }
@@ -210,8 +210,8 @@ of operators across types.
 </div>
 </div>
 
-<div id="outline-container-orge4b6bc1" class="outline-2">
-<h2 id="orge4b6bc1"><span class="section-number-2">2.</span> Functors</h2>
+<div id="outline-container-orgf977d62" class="outline-2">
+<h2 id="orgf977d62"><span class="section-number-2">2.</span> Functors</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 One of the deficits of traits as compared to <a href="https://en.wikipedia.org/wiki/Type_class">Type classes</a> is the
@@ -367,30 +367,30 @@ Your implementation should be able to pass the following tests:
 <div class="org-src-container">
 <pre class="src src-rust"><span style="color: #483d8b;">#[test]</span>
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_fmap</span>() {
-    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = <span style="color: #228b22;">Some</span>(100).fmap(|x| x + 1);
-    <span style="color: #483d8b;">assert_eq!</span>(expected, <span style="color: #228b22;">Some</span>(101));
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">Some</span>(100).fmap(|x| x + 1);
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">Some</span>(101), actual);
 }
 
 <span style="color: #483d8b;">#[test]</span>
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_funzip</span>() {
-    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> =  <span style="color: #228b22;">Some</span>((<span style="color: #483d8b;">vec!</span>[1, 2, 3], 4)).funzip();
-    <span style="color: #483d8b;">assert_eq!</span>(expected.0, <span style="color: #228b22;">Some</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]));
-    <span style="color: #483d8b;">assert_eq!</span>(expected.1, <span style="color: #228b22;">Some</span>(4))
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> =  <span style="color: #228b22;">Some</span>((<span style="color: #483d8b;">vec!</span>[1, 2, 3], 4)).funzip();
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">Some</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]), actual.0);
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">Some</span>(4), actual.1);
 }
 
 <span style="color: #483d8b;">#[test]</span>
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_functor_none</span>() {
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">none</span> : <span style="color: #228b22;">Option</span>&lt;(<span style="color: #228b22;">i32</span>, <span style="color: #228b22;">i32</span>)&gt; = <span style="color: #228b22;">None</span>;
-    <span style="color: #483d8b;">assert_eq!</span>(none.fmap(|p| p.0 + p.1), <span style="color: #228b22;">None</span>);
-    <span style="color: #483d8b;">assert_eq!</span>(none.funzip(), (<span style="color: #228b22;">None</span>, <span style="color: #228b22;">None</span>))
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">None</span>, none.fmap(|p| p.0 + p.1));
+    <span style="color: #483d8b;">assert_eq!</span>((<span style="color: #228b22;">None</span>, <span style="color: #228b22;">None</span>), none.funzip());
 }
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org43dca86" class="outline-2">
-<h2 id="org43dca86"><span class="section-number-2">3.</span> Applicatives</h2>
+<div id="outline-container-orge7fe247" class="outline-2">
+<h2 id="orge7fe247"><span class="section-number-2">3.</span> Applicatives</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Things can get a lot more complicated once we start generalizing past
@@ -438,17 +438,17 @@ Your implementation should pass the following tests:
 <div class="org-src-container">
 <pre class="src src-rust"><span style="color: #483d8b;">#[test]</span>
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_pure</span>() {
-    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">Option</span>::pure(<span style="color: #483d8b;">vec!</span>[1, 2, 3]), <span style="color: #228b22;">Some</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]))
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">Some</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]), <span style="color: #228b22;">Option</span>::pure(<span style="color: #483d8b;">vec!</span>[1, 2, 3]));
 }
 
 <span style="color: #483d8b;">#[test]</span>
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_app</span>() {
     <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">f</span> = <span style="color: #228b22;">Some</span>(|x| x + 1);
-    <span style="color: #483d8b;">assert_eq!</span>(f.app(<span style="color: #228b22;">Some</span>(10)), <span style="color: #228b22;">Some</span>(11));
-    <span style="color: #483d8b;">assert_eq!</span>(f.app(<span style="color: #228b22;">None</span>), <span style="color: #228b22;">None</span>);
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">Some</span>(11), f.app(<span style="color: #228b22;">Some</span>(10)));
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">None</span>, f.app(<span style="color: #228b22;">None</span>));
     f = <span style="color: #228b22;">None</span>;
-    <span style="color: #483d8b;">assert_eq!</span>(f.app(<span style="color: #228b22;">Some</span>(10)), <span style="color: #228b22;">None</span>);
-    <span style="color: #483d8b;">assert_eq!</span>(f.app(<span style="color: #228b22;">None</span>), <span style="color: #228b22;">None</span>);
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">None</span>, f.app(<span style="color: #228b22;">Some</span>(10)));
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">None</span>, f.app(<span style="color: #228b22;">None</span>));
 }
 </pre>
 </div>
@@ -463,10 +463,10 @@ and which "runs" <code>app</code> twice. It should pass the following test:
 <pre class="src src-rust"><span style="color: #483d8b;">#[test]</span>
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">option_app2</span>() {
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">f</span> = <span style="color: #228b22;">Some</span>(|x| <span style="color: #a020f0;">move</span> |y| x + y);
-    <span style="color: #483d8b;">assert_eq!</span>(f.app2(<span style="color: #228b22;">Some</span>(3), <span style="color: #228b22;">Some</span>(4)), <span style="color: #228b22;">Some</span>(7));
-    <span style="color: #483d8b;">assert_eq!</span>(f.app2(<span style="color: #228b22;">Some</span>(3), <span style="color: #228b22;">None</span>), <span style="color: #228b22;">None</span>);
-    <span style="color: #483d8b;">assert_eq!</span>(f.app2(<span style="color: #228b22;">None</span>, <span style="color: #228b22;">Some</span>(3)), <span style="color: #228b22;">None</span>);
-    <span style="color: #483d8b;">assert_eq!</span>(f.app2(<span style="color: #228b22;">None</span>, <span style="color: #228b22;">None</span>), <span style="color: #228b22;">None</span>);
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">Some</span>(7), f.app2(<span style="color: #228b22;">Some</span>(3), <span style="color: #228b22;">Some</span>(4)));
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">None</span>, f.app2(<span style="color: #228b22;">Some</span>(3), <span style="color: #228b22;">None</span>));
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">None</span>, f.app2(<span style="color: #228b22;">None</span>, <span style="color: #228b22;">Some</span>(3)));
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">None</span>, f.app2(<span style="color: #228b22;">None</span>, <span style="color: #228b22;">None</span>));
 }
 </pre>
 </div>
@@ -477,8 +477,8 @@ Getting the trait bounds right for <code>app2</code> is messy&#x2026;
 </div>
 </div>
 
-<div id="outline-container-org56d15bf" class="outline-2">
-<h2 id="org56d15bf"><span class="section-number-2">4.</span> The Newtype Pattern</h2>
+<div id="outline-container-org8bd041e" class="outline-2">
+<h2 id="org8bd041e"><span class="section-number-2">4.</span> The Newtype Pattern</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 We can't define all these nice traits for vectors, but we can wrap
@@ -536,8 +536,8 @@ Your implementation should pass the following tests:
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v1</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]);
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v2</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[4, 5, 6]);
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v3</span> = <span style="color: #483d8b;">vec!</span>[v1, v2];
-    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> =&lt;<span style="color: #228b22;">VVec</span>&lt;<span style="color: #228b22;">i32</span>&gt; <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[0]), v3.into_iter());
-    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[0, 1, 2, 3, 4, 5, 6]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[0, 1, 2, 3, 4, 5, 6]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = &lt;<span style="color: #228b22;">VVec</span>&lt;<span style="color: #228b22;">i32</span>&gt; <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Semigroup</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(<span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[0]), v3.into_iter());
     <span style="color: #483d8b;">assert_eq!</span>(expected, actual);
 }
 
@@ -546,25 +546,25 @@ Your implementation should pass the following tests:
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v1</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]);
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v2</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[4, 5, 6]);
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v3</span> = <span style="color: #483d8b;">vec!</span>[v1, v2];
-    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> =&lt;<span style="color: #228b22;">VVec</span>&lt;<span style="color: #228b22;">i32</span>&gt; <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(v3.into_iter());
-    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5, 6]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3, 4, 5, 6]);
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> =&lt;<span style="color: #228b22;">VVec</span>&lt;<span style="color: #228b22;">i32</span>&gt; <span style="color: #a020f0;">as</span> <span style="color: #228b22;">Monoid</span>&lt;<span style="color: #228b22;">Add</span>&gt;&gt;::mconcat(v3.into_iter());
     <span style="color: #483d8b;">assert_eq!</span>(expected, actual);
 }
 
 <span style="color: #483d8b;">#[test]</span>
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">fmap_vvec</span>() {
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 2, 3]);
-    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = v.fmap(|x| x + 1);
-    <span style="color: #483d8b;">assert_eq!</span>(expected, <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[2, 3, 4]))
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = v.fmap(|x| x + 1);
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[2, 3, 4]), actual);
 }
 
 <span style="color: #483d8b;">#[test]</span>
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">funzip_vvec</span>() {
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[(1, 2), (3, 4), (5, 6)]);
-    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">expected</span> = v.funzip();
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">actual</span> = v.funzip();
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v1</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 3, 5]);
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v2</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[2, 4, 6]);
-    <span style="color: #483d8b;">assert_eq!</span>(expected, (v1, v2))
+    <span style="color: #483d8b;">assert_eq!</span>((v1, v2), actual);
 }
 
 <span style="color: #483d8b;">#[test]</span>
@@ -576,9 +576,8 @@ Your implementation should pass the following tests:
 <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">app_vvec</span>() {
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v1</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[|x| x + 1, |x| x + 2]);
     <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">v2</span> = <span style="color: #228b22;">VVec</span>(<span style="color: #483d8b;">vec!</span>[1, 3, 5]);
-    <span style="color: #483d8b;">assert_eq!</span>(v1.app(v2).0, <span style="color: #483d8b;">vec!</span>[2, 4, 6, 3, 5, 7])
+    <span style="color: #483d8b;">assert_eq!</span>(<span style="color: #483d8b;">vec!</span>[2, 4, 6, 3, 5, 7], v1.app(v2).0);
 }
-
 </pre>
 </div>
 </div>

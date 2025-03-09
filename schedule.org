@@ -204,7 +204,11 @@
 + RPL 15.4: [[https://doc.rust-lang.org/stable/book/ch15-04-rc.html][~Rc<T>~, the Reference Counted Smart Pointer]]
 + RPL 15.5: [[https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html][~RefCell<T>~ and the Interior Mutability Pattern]]
 + RPL 15.6: [[https://doc.rust-lang.org/stable/book/ch15-06-reference-cycles.html][Reference Cycles Can Leak Memory]]
-*** Discussion Questions:
+*** Discussion Questions (from Piazza):
++ Is it possible to create a circular reference without ~RefCell<T>~?
++ What exactly does "safe" and "unsafe" mean?
++ Why do we have both ~Arc<T>~ and ~Rc<T>~ in Rust? Why not just
+  implement reference counting atomically for all use cases?
 * Week 7: Midterm
 ** TUE 03-04 Lecture 12
 :PROPERTIES:
@@ -220,6 +224,7 @@
 :PROPERTIES:
 :CUSTOM_ID: 03-06
 :END:
++ [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
 * Week 8: SPRING RECESS
 * Week 9: Theory
 ** TUE 03-18 Lecture 13

@@ -83,26 +83,26 @@ of operators across types.
 
       #[test]
       fn mconcat_semi_add_i32() {
-	  let expected = <i32 as Semigroup<Add>>::mconcat(10, vec![1, 2, 3, 4, 5].into_iter());
-	  assert_eq!(expected, 25)
+	  let actual = <i32 as Semigroup<Add>>::mconcat(10, vec![1, 2, 3, 4, 5].into_iter());
+	  assert_eq!(25, actual)
       }
 
       #[test]
       fn mconcat_semi_mul_i32() {
-	  let expected = <i32 as Semigroup<Mul>>::mconcat(10, vec![1, 2, 3, 4, 5].into_iter());
-	  assert_eq!(expected, 1200)
+	  let actual = <i32 as Semigroup<Mul>>::mconcat(10, vec![1, 2, 3, 4, 5].into_iter());
+	  assert_eq!(1200, actual)
       }
 
       #[test]
       fn mconcat_mon_add_i32() {
-	  let expected = <i32 as Monoid<Add>>::mconcat(vec![1, 2, 3, 4, 5].into_iter());
-	  assert_eq!(expected, 15)
+	  let actual = <i32 as Monoid<Add>>::mconcat(vec![1, 2, 3, 4, 5].into_iter());
+	  assert_eq!(15, actual)
       }
 
       #[test]
       fn mconcat_mon_mul_i32() {
-	  let expected = <i32 as Monoid<Mul>>::mconcat(vec![1, 2, 3, 4, 5].into_iter());
-	  assert_eq!(expected, 120)
+	  let actual = <i32 as Monoid<Mul>>::mconcat(vec![1, 2, 3, 4, 5].into_iter());
+	  assert_eq!(120, actual)
       }
 
       #[test]
@@ -110,8 +110,8 @@ of operators across types.
 	  let s1 = String::from("abc");
 	  let s2 = String::from("def");
 	  let s3 = String::from("ghi");
-	  let expected = <String as Semigroup<Add>>::mconcat(s1, vec![s2, s3].into_iter());
-	  let actual = String::from("abcdefghi");
+	  let expected = String::from("abcdefghi");
+	  let actual = <String as Semigroup<Add>>::mconcat(s1, vec![s2, s3].into_iter());
 	  assert_eq!(expected, actual);
       }
 
@@ -120,8 +120,8 @@ of operators across types.
 	  let s1 = String::from("abc");
 	  let s2 = String::from("def");
 	  let s3 = String::from("ghi");
-	  let expected = <String as Monoid<Add>>::mconcat(vec![s1, s2, s3].into_iter());
-	  let actual = String::from("abcdefghi");
+	  let expected = String::from("abcdefghi");
+	  let actual = <String as Monoid<Add>>::mconcat(vec![s1, s2, s3].into_iter());
 	  assert_eq!(expected, actual)
       }
   }
@@ -252,22 +252,22 @@ Your implementation should be able to pass the following tests:
 #+begin_src rust
   #[test]
   fn option_fmap() {
-      let expected = Some(100).fmap(|x| x + 1);
-      assert_eq!(expected, Some(101));
+      let actual = Some(100).fmap(|x| x + 1);
+      assert_eq!(Some(101), actual);
   }
 
   #[test]
   fn option_funzip() {
-      let expected =  Some((vec![1, 2, 3], 4)).funzip();
-      assert_eq!(expected.0, Some(vec![1, 2, 3]));
-      assert_eq!(expected.1, Some(4))
+      let actual =  Some((vec![1, 2, 3], 4)).funzip();
+      assert_eq!(Some(vec![1, 2, 3]), actual.0);
+      assert_eq!(Some(4), actual.1);
   }
 
   #[test]
   fn option_functor_none() {
       let none : Option<(i32, i32)> = None;
-      assert_eq!(none.fmap(|p| p.0 + p.1), None);
-      assert_eq!(none.funzip(), (None, None))
+      assert_eq!(None, none.fmap(|p| p.0 + p.1));
+      assert_eq!((None, None), none.funzip());
   }
 #+end_src
 
@@ -306,17 +306,17 @@ Your implementation should pass the following tests:
 #+begin_src rust
   #[test]
   fn option_pure() {
-      assert_eq!(Option::pure(vec![1, 2, 3]), Some(vec![1, 2, 3]))
+      assert_eq!(Some(vec![1, 2, 3]), Option::pure(vec![1, 2, 3]));
   }
 
   #[test]
   fn option_app() {
       let mut f = Some(|x| x + 1);
-      assert_eq!(f.app(Some(10)), Some(11));
-      assert_eq!(f.app(None), None);
+      assert_eq!(Some(11), f.app(Some(10)));
+      assert_eq!(None, f.app(None));
       f = None;
-      assert_eq!(f.app(Some(10)), None);
-      assert_eq!(f.app(None), None);
+      assert_eq!(None, f.app(Some(10)));
+      assert_eq!(None, f.app(None));
   }
 #+end_src
 
@@ -328,10 +328,10 @@ and which "runs" ~app~ twice. It should pass the following test:
   #[test]
   fn option_app2() {
       let f = Some(|x| move |y| x + y);
-      assert_eq!(f.app2(Some(3), Some(4)), Some(7));
-      assert_eq!(f.app2(Some(3), None), None);
-      assert_eq!(f.app2(None, Some(3)), None);
-      assert_eq!(f.app2(None, None), None);
+      assert_eq!(Some(7), f.app2(Some(3), Some(4)));
+      assert_eq!(None, f.app2(Some(3), None));
+      assert_eq!(None, f.app2(None, Some(3)));
+      assert_eq!(None, f.app2(None, None));
   }
 #+end_src
 
@@ -379,8 +379,8 @@ Your implementation should pass the following tests:
       let v1 = VVec(vec![1, 2, 3]);
       let v2 = VVec(vec![4, 5, 6]);
       let v3 = vec![v1, v2];
-      let expected =<VVec<i32> as Semigroup<Add>>::mconcat(VVec(vec![0]), v3.into_iter());
-      let actual = VVec(vec![0, 1, 2, 3, 4, 5, 6]);
+      let expected = VVec(vec![0, 1, 2, 3, 4, 5, 6]);
+      let actual = <VVec<i32> as Semigroup<Add>>::mconcat(VVec(vec![0]), v3.into_iter());
       assert_eq!(expected, actual);
   }
 
@@ -389,25 +389,25 @@ Your implementation should pass the following tests:
       let v1 = VVec(vec![1, 2, 3]);
       let v2 = VVec(vec![4, 5, 6]);
       let v3 = vec![v1, v2];
-      let expected =<VVec<i32> as Monoid<Add>>::mconcat(v3.into_iter());
-      let actual = VVec(vec![1, 2, 3, 4, 5, 6]);
+      let expected = VVec(vec![1, 2, 3, 4, 5, 6]);
+      let actual =<VVec<i32> as Monoid<Add>>::mconcat(v3.into_iter());
       assert_eq!(expected, actual);
   }
 
   #[test]
   fn fmap_vvec() {
       let v = VVec(vec![1, 2, 3]);
-      let expected = v.fmap(|x| x + 1);
-      assert_eq!(expected, VVec(vec![2, 3, 4]))
+      let actual = v.fmap(|x| x + 1);
+      assert_eq!(VVec(vec![2, 3, 4]), actual);
   }
 
   #[test]
   fn funzip_vvec() {
       let v = VVec(vec![(1, 2), (3, 4), (5, 6)]);
-      let expected = v.funzip();
+      let actual = v.funzip();
       let v1 = VVec(vec![1, 3, 5]);
       let v2 = VVec(vec![2, 4, 6]);
-      assert_eq!(expected, (v1, v2))
+      assert_eq!((v1, v2), actual);
   }
 
   #[test]
@@ -419,7 +419,6 @@ Your implementation should pass the following tests:
   fn app_vvec() {
       let v1 = VVec(vec![|x| x + 1, |x| x + 2]);
       let v2 = VVec(vec![1, 3, 5]);
-      assert_eq!(v1.app(v2).0, vec![2, 4, 6, 3, 5, 7])
+      assert_eq!(vec![2, 4, 6, 3, 5, 7], v1.app(v2).0);
   }
-
 #+end_src
