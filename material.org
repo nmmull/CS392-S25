@@ -31,6 +31,8 @@
 *** [[file:Slides/10-boxes.pdf][pdf]]
 ** Reference Counting and Internal Mutability
 *** [[file:Slides/11-refs.pdf][pdf]]
+** Concurrency
+*** [[file:Slides/12-concurrency.pdf][pdf]]
 * Midterm
 ** [[file:Assignments/Mock-Midterm/mock-midterm.zip][mock-midterm.zip]]
 ** [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
