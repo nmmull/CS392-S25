@@ -1,4 +1,5 @@
 #+title: Course Notes
+#+HTML_MATHJAX: align: left indent: 2em
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
 #+OPTIONS: html-style:nil H:3 toc:2
 #+HTML_LINK_HOME: index.html
@@ -45,7 +46,7 @@ until you've done a project in it.  The less-proverbial "they" might
 say you don't know a PL until you understand it's formal
 specification.  We'll kill two birds with one stone[fn::I had a
 conversation with some folks about possible alternative idioms.  PETA
-recommends "feed two birds with one scone." Not punchy enough in my
+recommends "feed two birds with one scone". Not punchy enough in my
 opinion.  My dad came up with two pretty good ones: "strike out to
 batters with one pitch" (nonsensical in a pleasant way) and "destroy
 two planets with one deathstar" (to better align with nerd culture).]
@@ -861,14 +862,3 @@ We use the ~Self~ keyword:
   <ty>   ::= Self
   <expr> ::= Self | Self { <tv-pairs> }
 #+end_src
-
-* Enumerations
-
-Enumeration definition Syntax:
-
-* Option Types
-
-* Pattern Matching
-
-
-* if let

@@ -214,7 +214,7 @@
 :PROPERTIES:
 :CUSTOM_ID: 03-04
 :END:
-*** Title: Concurrency (+ Midterm Prep)
+*** Title: *Primer on Concurrency (+ Midterm Prep)*
 *** Topics:
 + Look very briefly at how Rust handles message-passing concurrency
   and shared-state concurrency
@@ -225,123 +225,153 @@
 :CUSTOM_ID: 03-06
 :END:
 + [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
-* Week 8: SPRING RECESS
 * Week 9: Theory
 ** TUE 03-18 Lecture 13
 :PROPERTIES:
 :CUSTOM_ID: 03-18
 :END:
-*** Title: *Logic and Type Theory*
+*** Title: *Primer on Proof/Type Theory*
 *** Topics:
++ Introduce the notion of a /formal system/ and its use in defining
+  proof/type systems
++ Show how to prove meta-theoretic properties about proof/type systems
++ Discuss the /Curry-Howard isomorphism/, a deep connection between
+  proof theory and type theory (that allows us to think of them as
+  essentially the same thing)
 *** Reading:
-*** Reminders:
++ [[https://mathweb.ucsd.edu/~sbuss/ResearchWeb/handbookI/ChapterI.pdf][An Introduction to Proof Theory]] (pg. 1-5, 10-18, 64-70)
++ [[https://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf][A taste of linear logic]] (§1-3)
++ /Optional:/ [[https://plato.stanford.edu/entries/proof-theory/][Proof Theory (SEP)]]
 ** THU 03-20 Lecture 14
 :PROPERTIES:
 :CUSTOM_ID: 03-20
 :END:
-*** Title: *Linear Types*
+*** Title: *Substructural Proof/Type Theory*
 *** Topics:
++ Look at the way that structural rules affect the meta-theoretic
+  properties of a proof/type system
++ Focus on /linearity/ and see how it connects to Rust
 *** Reading:
-*** Reminders:
++ [[https://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf][A taste of linear logic]] (§4-5)
++ [[https://www.cs.cmu.edu/~janh/courses/814/24/lectures/lecture19.pdf][Lecture Notes on Substructural Type Systems]]
 * Week 10: Interpreters
 ** TUE 03-25 Lecture 15
 :PROPERTIES:
 :CUSTOM_ID: 03-25
 :END:
-*** Title: *Crafting Interpreters*
+*** Title: *Workshop: An Interpreter for LTLC*
 *** Topics:
-*** Reading:
-*** Reminders:
++ Build an interpreter for the linear typed λ-calculus
++ Discuss how to translate theoretical specifications into
+  implementations
 ** THU 03-27 Lecture 16
 :PROPERTIES:
 :CUSTOM_ID: 03-27
 :END:
-*** Title: *Workshop: An Interpreter for STLC*
+*** Title: *Featherweight Rust: An Introduction*
 *** Topics:
++ Introduce /featherweight rust/ (FR), the system we will study for
+  the remainder to the course
++ Motivate the design of the system
++ Discuss /fuzz testing/ as an application of building interpreters
 *** Reading:
-*** Reminders:
-* Week 11: FR Syntax
++ [[https://dl.acm.org/doi/10.1145/3443420][A Lightweight Formalism
+  for Reference Lifetimes and Borrowing in Rust]] (LFR) (pg. 1-14, 36-40)
+* Week 11: FR Semantics
 ** TUE 04-01 Lecture 17
 :PROPERTIES:
 :CUSTOM_ID: 04-01
 :END:
-*** Title: *FR Calculus: Introduction*
+*** Title: *Workshop: FR Syntax*
 *** Topics:
-*** Reading:
-*** Reminders:
++ Discuss the AST of FR in Rust
++ Begin the process of building a parser for FR
 ** THU 04-03 Lecture 18
 :PROPERTIES:
 :CUSTOM_ID: 04-03
 :END:
-*** Title: *FR Calculus: Syntax*
+*** Title: *Featherweight Rust: Small-Step Semantics*
 *** Topics:
++ Introduce the small-step semantics of FR
++ Focus on the mathematical structures we need to define this system
 *** Reading:
-*** Reminders:
-* Week 12: FR Semantics
++ [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 14-19)
+* Week 12: FR Borrow Checking
 ** TUE 04-08 Lecture 19
 :PROPERTIES:
 :CUSTOM_ID: 04-08
 :END:
-*** Title: *Workshop: A Parser*
+*** Title: *Workshop: An Evaluator*
 *** Topics:
-*** Reading:
-*** Reminders:
++ Finish our discussion on the small-step semantics of FR
++ Look at the structure of an evaluator for FR
++ Start the process of builidng an evaluator
 ** THU 04-10 Lecture 20
 :PROPERTIES:
 :CUSTOM_ID: 04-10
 :END:
-*** Title: *FR Calculus: Semantics*
+*** Title: *Featherweight Rust: Type and Borrow System*
 *** Topics:
++ Introduce the /flow-sensitive/ type/borrow system of FR
++ Focus on the mathematical structures we need to define this system
 *** Reading:
-*** Reminders:
-* Week 13: FR Borrow Checking
++ [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 19-27)
+* Week 13: FR Extensions
 ** TUE 04-15 Lecture 21
 :PROPERTIES:
 :CUSTOM_ID: 04-15
 :END:
-*** Title: *Workshop: An Evaluator*
+*** Title: *Workshop: An Type/Borrow Checker*
 *** Topics:
-*** Reading:
-*** Reminders:
++ Finish our discussion of the type/borrow system of FR
++ Start the process of building a type/borrow checker for FR
 ** THU 04-17 Lecture 22
 :PROPERTIES:
 :CUSTOM_ID: 04-17
 :END:
-*** Title: *FR Calculus: Type and Borrow Checking*
+*** Title: *Featherweight Rust: Extensions*
 *** Topics:
++ Look at some of the things we can add FR to make it more "realistic"
++ Look briefly at other systems similar to FR
 *** Reading:
-*** Reminders:
-* Week 14: FR Extensions
++ [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 40-52)
+* Week 14: FR Soundness I
 ** TUE 04-22 Lecture 23
 :PROPERTIES:
 :CUSTOM_ID: 04-22
 :END:
-*** Title: *Workshop: A Type/Borrow Checker*
+*** Title: *Workshop: Extensions*
 *** Topics:
-*** Reading:
-*** Reminders:
++ Finish our discussion of possible extensions to FR
++ Look briefly at how to implement these extensions
++ Work on the final project
 ** THU 04-24 Lecture 24
 :PROPERTIES:
 :CUSTOM_ID: 04-24
 :END:
-*** Title: *FR Calculus: Extensions*
+*** Title: *Featherweight Rust: Progress and Preservation*
 *** Topics:
++ Prove progress and preservation for FR
++ Discuss how to "read between the lines" when reading academic
+  white-paper proofs
 *** Reading:
-*** Reminders:
-* Week 15: FR Soundness
++ [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 27-31, 62-67)
+* Week 15: FR Soundness II
 ** TUE 04-29 Lecture 25
 :PROPERTIES:
 :CUSTOM_ID: 04-29
 :END:
-*** Title: *Progress and Preservation (Part 1)*
-*** Topics:
+*** Title: *Featherweight Rust: Type and Borrow Safety*
+*** Topics: Prove type and borrow safety for FR
 *** Reading:
-*** Reminders:
++ [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 27-31, 62-67)
 ** TUE 05-01 Lecture 26
 :PROPERTIES:
 :CUSTOM_ID: 05-01
 :END:
-*** Title: *Progress and Preservation (Part 2)*
+*** Title: *Termination of Borrow Checking*
 *** Topics:
++ Look at a subtlety of the FR borrow checker we built
++ Conclude the course and discuss possible next steps
 *** Reading:
-*** Reminders:
++ [[https://whileydave.com/publications/PPS22_NFM_preprint.pdf][On the Termination of Borrow Checking in Featherweight Rust]]

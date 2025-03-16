@@ -3,13 +3,45 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-02-03 Mon 11:05 -->
+<!-- 2025-03-12 Wed 17:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Course Notes</title>
 <meta name="author" content="Nathan  Mull" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="org-div-home-and-up"><a href="index.html">↩</a></div><div id="content" class="content">
@@ -21,38 +53,39 @@
 <li><a href="#intro">1. What is this course?</a></li>
 <li><a href="#set-up">2. Set Up</a>
 <ul>
-<li><a href="#org784a3b3">2.1. Cargo</a></li>
+<li><a href="#org6c5199b">2.1. Cargo</a></li>
 </ul>
 </li>
 <li><a href="#basics">3. The Basics</a>
 <ul>
-<li><a href="#org8dc74d1">3.1. Variables and Mutability</a></li>
-<li><a href="#orge1889a4">3.2. Constants</a></li>
-<li><a href="#org6a573de">3.3. Data Types</a></li>
-<li><a href="#org80c83c8">3.4. Functions</a></li>
-<li><a href="#org554ba4c">3.5. Statements and Expressions</a></li>
-<li><a href="#org3091829">3.6. Control Flow</a></li>
+<li><a href="#orgd55f544">3.1. Variables and Mutability</a></li>
+<li><a href="#org49fa842">3.2. Constants</a></li>
+<li><a href="#orgee1d3a3">3.3. Data Types</a></li>
+<li><a href="#org1bfc059">3.4. Functions</a></li>
+<li><a href="#orgf003f59">3.5. Statements and Expressions</a></li>
+<li><a href="#org1249811">3.6. Control Flow</a></li>
 </ul>
 </li>
-<li><a href="#orgf710e8e">4. Ownership</a>
+<li><a href="#org0a94ba6">4. Ownership</a>
 <ul>
 <li><a href="#stack_and_heap">4.1. Stack and Heap</a></li>
-<li><a href="#org42fcbc9">4.2. References and Borrowing</a></li>
-<li><a href="#orga57a4bb">4.3. Slice Types</a></li>
+<li><a href="#orgc5f42dc">4.2. References and Borrowing</a></li>
+<li><a href="#orgc9f2fb4">4.3. Slice Types</a></li>
 </ul>
 </li>
-<li><a href="#org873f619">5. Structures</a>
+<li><a href="#org695b3eb">5. Structures</a>
 <ul>
-<li><a href="#orgec70ba4">5.1. Structures and Ownership</a></li>
-<li><a href="#org115d34f">5.2. Derived Traits</a></li>
-<li><a href="#org11fb6e4">5.3. Methods</a></li>
-<li><a href="#orgb3295fa">5.4. Associated Functions</a></li>
+<li><a href="#orgaf9bb52">5.1. Structures and Ownership</a></li>
+<li><a href="#org18fa05d">5.2. Derived Traits</a></li>
+<li><a href="#org938c99b">5.3. Methods</a></li>
+<li><a href="#orgb1869a4">5.4. Associated Functions</a></li>
 </ul>
 </li>
-<li><a href="#orge242646">6. Enumerations</a></li>
-<li><a href="#org28f1b3c">7. Option Types</a></li>
-<li><a href="#org279b699">8. Pattern Matching</a></li>
-<li><a href="#orgc5bef87">9. if let</a></li>
+<li><a href="#org9187b38">6. Proof Theory Primer</a>
+<ul>
+<li><a href="#orgac6f538">6.1. Propositional Logic</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -175,8 +208,8 @@ Cargo!</a> section of RPL (we'll also go over it in lecture).
 </p>
 </div>
 
-<div id="outline-container-org784a3b3" class="outline-3">
-<h3 id="org784a3b3"><span class="section-number-3">2.1.</span> Cargo</h3>
+<div id="outline-container-org6c5199b" class="outline-3">
+<h3 id="org6c5199b"><span class="section-number-3">2.1.</span> Cargo</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Cargo is a build system for Rust.  As usual, you can use
@@ -219,8 +252,8 @@ specification of the Rust syntax.  These specifications are
 approximations, but for simple programs are sufficient.
 </p>
 </div>
-<div id="outline-container-org8dc74d1" class="outline-3">
-<h3 id="org8dc74d1"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
+<div id="outline-container-orgd55f544" class="outline-3">
+<h3 id="orgd55f544"><span class="section-number-3">3.1.</span> Variables and Mutability</h3>
 <div class="outline-text-3" id="text-3-1">
 <blockquote>
 <p>
@@ -272,8 +305,8 @@ x = 2;
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orge1889a4" class="outline-3">
-<h3 id="orge1889a4"><span class="section-number-3">3.2.</span> Constants</h3>
+<div id="outline-container-org49fa842" class="outline-3">
+<h3 id="org49fa842"><span class="section-number-3">3.2.</span> Constants</h3>
 <div class="outline-text-3" id="text-3-2">
 <blockquote>
 <p>
@@ -314,8 +347,8 @@ Constants are primarily useful for code clarity.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org6a573de" class="outline-3">
-<h3 id="org6a573de"><span class="section-number-3">3.3.</span> Data Types</h3>
+<div id="outline-container-orgee1d3a3" class="outline-3">
+<h3 id="orgee1d3a3"><span class="section-number-3">3.3.</span> Data Types</h3>
 <div class="outline-text-3" id="text-3-3">
 <blockquote>
 <p>
@@ -450,8 +483,8 @@ as the course goes on (and define our own types).
 </p>
 </div>
 </div>
-<div id="outline-container-org80c83c8" class="outline-3">
-<h3 id="org80c83c8"><span class="section-number-3">3.4.</span> Functions</h3>
+<div id="outline-container-org1bfc059" class="outline-3">
+<h3 id="org1bfc059"><span class="section-number-3">3.4.</span> Functions</h3>
 <div class="outline-text-3" id="text-3-4">
 <blockquote>
 <p>
@@ -502,8 +535,8 @@ since the compiler is pretty good at catching these things).
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org554ba4c" class="outline-3">
-<h3 id="org554ba4c"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
+<div id="outline-container-orgf003f59" class="outline-3">
+<h3 id="orgf003f59"><span class="section-number-3">3.5.</span> Statements and Expressions</h3>
 <div class="outline-text-3" id="text-3-5">
 <blockquote>
 <p>
@@ -541,8 +574,8 @@ should check this, it works even for things like <code>while</code> expressions)
 </p>
 </div>
 </div>
-<div id="outline-container-org3091829" class="outline-3">
-<h3 id="org3091829"><span class="section-number-3">3.6.</span> Control Flow</h3>
+<div id="outline-container-org1249811" class="outline-3">
+<h3 id="org1249811"><span class="section-number-3">3.6.</span> Control Flow</h3>
 <div class="outline-text-3" id="text-3-6">
 <blockquote>
 <p>
@@ -589,8 +622,8 @@ if-expressions</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf710e8e" class="outline-2">
-<h2 id="orgf710e8e"><span class="section-number-2">4.</span> Ownership</h2>
+<div id="outline-container-org0a94ba6" class="outline-2">
+<h2 id="org0a94ba6"><span class="section-number-2">4.</span> Ownership</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Ownership accounts for the first plateau in the learning curve of
@@ -796,8 +829,8 @@ PLs)</li>
 </ol>
 </div>
 
-<div id="outline-container-orgceaab33" class="outline-4">
-<h4 id="orgceaab33"><span class="section-number-4">4.1.1.</span> Explicit Allocation</h4>
+<div id="outline-container-orgafd2b65" class="outline-4">
+<h4 id="orgafd2b65"><span class="section-number-4">4.1.1.</span> Explicit Allocation</h4>
 <div class="outline-text-4" id="text-4-1-1">
 <p>
 In "traditional" systems PLs like C, the programmer is in charge of
@@ -850,8 +883,8 @@ down.
 </div>
 </div>
 
-<div id="outline-container-org5d7e0b3" class="outline-4">
-<h4 id="org5d7e0b3"><span class="section-number-4">4.1.2.</span> Garbage Collection</h4>
+<div id="outline-container-orge25fad9" class="outline-4">
+<h4 id="orge25fad9"><span class="section-number-4">4.1.2.</span> Garbage Collection</h4>
 <div class="outline-text-4" id="text-4-1-2">
 <p>
 On the other side of the user-control spectrum is garbage collection,
@@ -879,8 +912,8 @@ domain).
 </div>
 </div>
 
-<div id="outline-container-org4c5af05" class="outline-4">
-<h4 id="org4c5af05"><span class="section-number-4">4.1.3.</span> Automatic Reference Counting</h4>
+<div id="outline-container-org4568798" class="outline-4">
+<h4 id="org4568798"><span class="section-number-4">4.1.3.</span> Automatic Reference Counting</h4>
 <div class="outline-text-4" id="text-4-1-3">
 <p>
 Before going into borrowing, I thought I'd point out one more
@@ -937,8 +970,8 @@ management, so the community must see something in it.
 </div>
 </div>
 
-<div id="outline-container-orgba94233" class="outline-4">
-<h4 id="orgba94233"><span class="section-number-4">4.1.4.</span> Ownership</h4>
+<div id="outline-container-org285aa96" class="outline-4">
+<h4 id="org285aa96"><span class="section-number-4">4.1.4.</span> Ownership</h4>
 <div class="outline-text-4" id="text-4-1-4">
 <p>
 Finally, the protagonist of our story, Rust's ownership.  This
@@ -1048,20 +1081,20 @@ and potentially paying for it later.<sup><a id="fnr.11" class="footref" href="#f
 </div>
 </div>
 
-<div id="outline-container-org42fcbc9" class="outline-3">
-<h3 id="org42fcbc9"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
+<div id="outline-container-orgc5f42dc" class="outline-3">
+<h3 id="orgc5f42dc"><span class="section-number-3">4.2.</span> References and Borrowing</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 I'm gonna put to <a href="https://doc.rust-lang.org/stable/book/ch04-02-references-and-borrowing.html">RPL 4.2</a> here.
 </p>
 </div>
 </div>
-<div id="outline-container-orga57a4bb" class="outline-3">
-<h3 id="orga57a4bb"><span class="section-number-3">4.3.</span> Slice Types</h3>
+<div id="outline-container-orgc9f2fb4" class="outline-3">
+<h3 id="orgc9f2fb4"><span class="section-number-3">4.3.</span> Slice Types</h3>
 </div>
 </div>
-<div id="outline-container-org873f619" class="outline-2">
-<h2 id="org873f619"><span class="section-number-2">5.</span> Structures</h2>
+<div id="outline-container-org695b3eb" class="outline-2">
+<h2 id="org695b3eb"><span class="section-number-2">5.</span> Structures</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Structure definition syntax:
@@ -1133,8 +1166,8 @@ Structure update syntax:
 </div>
 </div>
 
-<div id="outline-container-orgec70ba4" class="outline-3">
-<h3 id="orgec70ba4"><span class="section-number-3">5.1.</span> Structures and Ownership</h3>
+<div id="outline-container-orgaf9bb52" class="outline-3">
+<h3 id="orgaf9bb52"><span class="section-number-3">5.1.</span> Structures and Ownership</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 It is common for structures to own their data.  It's possible to store
@@ -1163,8 +1196,8 @@ self-updates.
 </div>
 </div>
 
-<div id="outline-container-org115d34f" class="outline-3">
-<h3 id="org115d34f"><span class="section-number-3">5.2.</span> Derived Traits</h3>
+<div id="outline-container-org18fa05d" class="outline-3">
+<h3 id="org18fa05d"><span class="section-number-3">5.2.</span> Derived Traits</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Derived trait
@@ -1172,8 +1205,8 @@ Derived trait
 </div>
 </div>
 
-<div id="outline-container-org11fb6e4" class="outline-3">
-<h3 id="org11fb6e4"><span class="section-number-3">5.3.</span> Methods</h3>
+<div id="outline-container-org938c99b" class="outline-3">
+<h3 id="org938c99b"><span class="section-number-3">5.3.</span> Methods</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Method syntax:
@@ -1193,8 +1226,8 @@ We can have multiple implementation blocks
 </div>
 </div>
 
-<div id="outline-container-orgb3295fa" class="outline-3">
-<h3 id="orgb3295fa"><span class="section-number-3">5.4.</span> Associated Functions</h3>
+<div id="outline-container-orgb1869a4" class="outline-3">
+<h3 id="orgb1869a4"><span class="section-number-3">5.4.</span> Associated Functions</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 We use the <code>Self</code> keyword:
@@ -1208,26 +1241,377 @@ We use the <code>Self</code> keyword:
 </div>
 </div>
 
-<div id="outline-container-orge242646" class="outline-2">
-<h2 id="orge242646"><span class="section-number-2">6.</span> Enumerations</h2>
+
+<div id="outline-container-org9187b38" class="outline-2">
+<h2 id="org9187b38"><span class="section-number-2">6.</span> Proof Theory Primer</h2>
 <div class="outline-text-2" id="text-6">
 <p>
-Enumeration definition Syntax:
+Proof theory is a subfield of mathematical logic which takes <i>proof</i>
+as an object of formal study.  In a course on proof theory, we might
+spend some time studying the various ways that proof can be
+mathematically formalized (e.g., Fitch-style proofs, Hilbert-style
+proofs, natural-deduction).  We'll focus on <i>formal systems</i> and
+<i>sequent calculi</i>.
+</p>
+
+<p>
+A <b>formal system</b> \(\mathcal F\) is given in terms of a class \(\mathcal
+J\) of abstract entities called <b>judgments</b>, and consists of <b>inference
+rules</b> over judgments in \(\mathcal J\), which are of the form
+</p>
+
+\begin{prooftree}
+\AxiomC{$J_1$}
+\AxiomC{$J_2$}
+\AxiomC{$\dots$}
+\AxiomC{$J_k$}
+\QuaternaryInfC{$J_{k + 1}$}
+\end{prooftree}
+
+<p>
+where \(k \geq 0\) and \(J_1, \dots, J_k\) are judgments from \(\mathcal
+J\).  We read an inference rule as "If the judgments \(J_1, \dots, J_k\)
+hold, then \(J_{k + 1}\) follows".  The judgments above the vertical line
+are called <b>premises</b> and the judgment below is called the
+<b>conclusion</b>.
+</p>
+
+<p>
+A <b>derivation</b> \(\mathcal D\) in a formal system \(\mathcal F\) over the
+judgments \(\mathcal J\) is a tree with the following properties:
+</p>
+
+<ul class="org-ul">
+<li>the nodes of \(\mathcal D\) are judgments from \(\mathcal J\)</li>
+<li><p>
+A node \(J\) has the children \(J_1, \dots, J_k\) if and only if
+</p>
+
+\begin{prooftree}
+\AxiomC{$J_1$}
+\AxiomC{$J_2$}
+\AxiomC{$\dots$}
+\AxiomC{$J_k$}
+\QuaternaryInfC{$J$}
+\end{prooftree}
+
+<p>
+is an inference rule of \(\mathcal F\).
+</p></li>
+</ul>
+
+<blockquote>
+<p>
+<b>Example:</b> We can consider a formal system over the judgments
+\(\Sigma^*\) (where \(\Sigma\) is a fixed alphabet) with the inference
+rules
+</p>
+
+<p>
+\[
+\frac{\qquad}{\sigma}
+\qquad
+\frac{S_1 \qquad S_2}{S_1 \circ S_2}
+\]
+</p>
+
+<p>
+where \(\sigma \in \Sigma\) and '\(\circ\)' is string concatenation.  We
+could then write the derivation in the system over judgments from
+\(\{0, 1\}^*\):
+</p>
+
+\begin{prooftree}
+\AxiomC{$\qquad$}
+\UnaryInfC{0}
+\AxiomC{$\qquad$}
+\UnaryInfC{1}
+\BinaryInfC{01}
+\AxiomC{$\qquad$}
+\UnaryInfC{1}
+\AxiomC{$\qquad$}
+\UnaryInfC{0}
+\BinaryInfC{10}
+\BinaryInfC{0110}
+\end{prooftree}
+
+<p>
+Technically speaking, the above rules actually define <i>classes</i> of
+rules.  It looks as though this formal system has two rules, but the
+presentation of a rule may encompass many rules simultaneously.
+</p>
+</blockquote>
+
+<p>
+Formal systems should feel familiar if you've CS320; they generalize
+of <i>type systems</i> and <i>semantics</i> of PLs.
+</p>
+
+<p>
+We could study formal systems proper (which are essentially
+freely-generated algebraic structures) but we'll get more milage if we
+fix ourselves to a class of formal systems with familiar structure.
+In particular, we will want to use what are called <i>sequence calculi</i>.
+</p>
+
+<blockquote>
+<p>
+<b>Aside:</b> What exactly is a proof? Before we can answer this, we need to
+say what kind of things we want to prove.  If we're interested in
+mathematics, we might say that we prove theorems in a formal
+mathematical language.  Even this is a bit ambiguous because not all
+people agree on what mathematical language to use.
+</p>
+
+<p>
+It is the business of philosophy to discuss the merits of different
+formal languages and formal systems for doing mathematics (and, more
+generally, analytic reasoning).  I much as I would love to discuss
+this, it's not the goal here.  We will fix our formal systems and go
+from there.
+</p>
+</blockquote>
+
+
+<p>
+Fix a language \(\mathcal L\) of which consists of statements.  A
+<b>sequent</b> is a judgment of the form
+</p>
+
+<p>
+\[
+\phi_1, \dots, \phi_k \vdash \psi_1 \dots, \psi_l
+\]
+</p>
+
+<p>
+where \(k \geq 0\) and \(l \geq 1\) and \(\phi_1, \dots, \phi_k, \psi_1,
+\dots, \psi_l\) are statements in \(\mathcal L\).  We read a sequent as
+saying that "if \(\phi_1, \dots, \phi_k\) are hold, then one of \(\psi_1,
+\dots, \psi_k\) hold".
+</p>
+
+<p>
+For technically (but ultimately very interesting) reasons beyond the
+scope of this note, we'll be interested exclusively in sequents of
+the form:
+</p>
+
+<p>
+\[
+\phi_1, \dots, \phi_k \vdash \psi
+\]
+</p>
+
+<p>
+where there is a single formula to the right of the the '\(\vdash\)'.
+</p>
+
+<blockquote>
+<p>
+<b>Remark:</b> A sequent does not mean anything on it's own; it simply
+organizes statements in a language in a way that "looks like" a common
+form of reasoning: <i>such and such fact follows from such and such
+assumptions.</i> We give sequents their meaning by building formal system
+with sequents as judgments whose inference rules captures the nature
+of this form of reasoning.
+</p>
+</blockquote>
+</div>
+
+<div id="outline-container-orgac6f538" class="outline-3">
+<h3 id="orgac6f538"><span class="section-number-3">6.1.</span> Propositional Logic</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Propositional logic is the logic of Boolean connectives like "and" and
+"or". It is the interest of propositional logic to determine how
+logical connectives interact with our ability to derive new facts from
+old ones.  For example, if both \(A\) and \(B\) follow from a collection
+of assumptions \(\Gamma\), then it stands to reason that the compound
+statement "\(A\) and \(B\)" follows as well. We will consider a formal
+system (which we will call a <i>proof system</i> from now on) which
+captures these sorts of rules.
+</p>
+
+<p>
+First, we fix our language. A <b>propositional formula</b> is a syntactic
+object defined over a set of propositional variables \(\mathcal P\).  We
+should think of a propositional variable as a stand-in for an <i>atomic</i>
+statement, like "it is raining" or "the house is on fire". The set of
+propositional formulas is defined inductively as follows:
+</p>
+
+<ul class="org-ul">
+<li>Every propositional variable is a propositional formula.</li>
+<li>\(\bot\) is a propositional formula.</li>
+<li>If \(\phi\) and \(\psi\) are propositional formulas then so is \((\phi
+  \land \psi)\) and \((\phi \lor \psi)\) and \((\phi \to \psi)\).</li>
+</ul>
+
+<p>
+We pronounce \(\land\) as "and", \(\lor\) as "or", \(\to\) as "implies", and
+\(\bot\) as "false".  We'll take the usual precautions in eliding
+parentheses.
+</p>
+
+<blockquote>
+<p>
+<b>Remark:</b> If you've taken an intro logic course, you might think "what
+a strange set of connectives". Where's negation? Any why make
+implication explicit instead of defining it in terms of other
+connectives? In due time&#x2026;
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example:</b> \((P \land (Q \lor R)) \to R \to \bot\) is a propositional formula with
+propositional variables \(P\), \(Q\) and \(R\).
+</p>
+</blockquote>
+
+<p>
+This is our language. Again, it's meaningless, it's just syntax. We
+give it meaning by defining how we can derive new formula from old
+ones. Let's consider a system.
+</p>
+</div>
+
+<div id="outline-container-org43c900a" class="outline-4">
+<h4 id="org43c900a"><span class="section-number-4">6.1.1.</span> Assumptions</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<p>
+Our first inference rule says that all assumptions hold
+(shocker). This is often called the "start" rule since it will always
+be the leaves of our derivations.
+</p>
+
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Delta, \phi, \Gamma \vdash \phi$}
+\end{prooftree}
+
+<p>
+where \(\Delta\) and \(\Gamma\) are sequences of formulas.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org28f1b3c" class="outline-2">
-<h2 id="org28f1b3c"><span class="section-number-2">7.</span> Option Types</h2>
+<div id="outline-container-org3f1c698" class="outline-4">
+<h4 id="org3f1c698"><span class="section-number-4">6.1.2.</span> Falsity</h4>
+<div class="outline-text-4" id="text-6-1-2">
+<p>
+This rule is often called the <i>principle of explosion</i>. If we can
+prove false, we might as well throw our hands in the air and prove
+anything
+</p>
+
+<p>
+\[
+\frac{\Gamma \vdash \bot}{\Gamma \vdash \phi}
+\]
+</p>
+</div>
 </div>
 
-<div id="outline-container-org279b699" class="outline-2">
-<h2 id="org279b699"><span class="section-number-2">8.</span> Pattern Matching</h2>
+<div id="outline-container-org43053a0" class="outline-4">
+<h4 id="org43053a0"><span class="section-number-4">6.1.3.</span> Conjunction</h4>
+<div class="outline-text-4" id="text-6-1-3">
+<p>
+Our next set of rules describe how we reason about conjunction.  If
+both \(\phi\) and \(\psi\) follow from a collection of assumptions, then
+so does their conjunction.  And if a conjunction follows from a
+collection of assumptions, then so do their individual conjuncts.
+</p>
+
+<p>
+\[
+\frac
+{\Gamma \vdash \phi \qquad \Gamma \vdash \psi}
+{\Gamma \vdash \phi \land \psi}
+\qquad
+\frac
+{\Gamma \vdash \phi \land \psi}
+{\Gamma \vdash \phi}
+\qquad
+\frac
+{\Gamma \vdash \phi \land \psi}
+{\Gamma \vdash \psi}
+\]
+</p>
+</div>
 </div>
 
+<div id="outline-container-orgce0ed0f" class="outline-4">
+<h4 id="orgce0ed0f"><span class="section-number-4">6.1.4.</span> Disjunction</h4>
+<div class="outline-text-4" id="text-6-1-4">
+<p>
+We get a similar set of disjunction, though one is a bit more
+involved. The first two are simple: if a formula holds then we can
+disjunct it with another formula. The last says: <i>if something follows
+from both disjuncts, and the disjunction holds, then the
+"something" holds.</i>
+</p>
 
-<div id="outline-container-orgc5bef87" class="outline-2">
-<h2 id="orgc5bef87"><span class="section-number-2">9.</span> if let</h2>
+<p>
+\[
+\frac
+{\Gamma \vdash \phi}
+{\Gamma \vdash \phi \lor \psi}
+\qquad
+\frac
+{\Gamma \vdash \psi}
+{\Gamma \vdash \phi \lor \psi}
+\qquad
+\frac
+{\Gamma \vdash \phi \lor \psi \qquad \Gamma, \phi \vdash \xi \qquad \Gamma, \psi \vdash \xi}
+{\Gamma \vdash \xi}
+\]
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7599fa9" class="outline-4">
+<h4 id="org7599fa9"><span class="section-number-4">6.1.5.</span> Implication</h4>
+<div class="outline-text-4" id="text-6-1-5">
+<p>
+The first rule tells us that if \(\psi\) follows from a collection of
+assumptions including \(\psi\), then \(\phi \to \psi\) holds <i>without</i>
+\(\phi\) as an assumption. The second rule should be familiar, it's just
+<i>modus ponens</i>.
+</p>
+
+<p>
+\[
+\frac
+{\Gamma, \phi \vdash \psi}
+{\Gamma \vdash \phi \to \psi}
+\qquad
+\frac
+{\Gamma \vdash \phi \to \psi \qquad \Gamma \vdash \phi}
+{\Gamma \vdash \psi}
+\]
+</p>
+
+<p>
+And we'll leave it there, now we have a proof system for propositional
+logic and we can talk about formulas which are <i>provable</i> in this
+proof system.
+</p>
+
+<blockquote>
+<p>
+<b>Remark:</b> If this we're a logic course, we would be at a starting
+point for a number of very interesting topics, e.g., soundness and
+completeness. In particular, how do we know that we've chosen "good"
+rules? Short answer: these rules should have desirable metatheoretic
+properties.  We won't get into this. Instead, we'll take for granted
+that this is a reasonable set of inference rules.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes">
 <h2 class="footnotes">Footnotes: </h2>
@@ -1248,7 +1632,7 @@ design perspective.</p></div></div>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">I had a
 conversation with some folks about possible alternative idioms.  PETA
-recommends "feed two birds with one scone." Not punchy enough in my
+recommends "feed two birds with one scone". Not punchy enough in my
 opinion.  My dad came up with two pretty good ones: "strike out to
 batters with one pitch" (nonsensical in a pleasant way) and "destroy
 two planets with one deathstar" (to better align with nerd culture).</p></div></div>

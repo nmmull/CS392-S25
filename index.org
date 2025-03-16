@@ -25,51 +25,51 @@ for more details.
   + [[https://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf][A taste of linear logic]]
   + [[https://dl.acm.org/doi/10.1145/3443420][A Lightweight Formalism for Reference Lifetimes and Borrowing in Rust]]
 * Schedule (Overview)
-|-------+---------------------------------------------+-----------------|
-| Date  | Topic                                       | Notes           |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#01-21][01-21]] | Basics I: Introduction, Installation, Cargo |                 |
-| [[file:schedule.org::#01-23][01-23]] | Basics II: Common Programming Concepts      | A1 out          |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#01-28][01-28]] | Ownership I: The Stack and Heap             |                 |
-| [[file:schedule.org::#01-30][01-30]] | Ownership II: References, Borrowing         | A2 out, A1 due  |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#02-04][02-04]] | Data I: Structures, Enumerations            |                 |
-| [[file:schedule.org::#02-06][02-06]] | Data II: Collections, Slices                | A3 out, A2 due  |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#02-11][02-11]] | Functions I: Generics and Traits            |                 |
-| [[file:schedule.org::#02-13][02-13]] | Functions II: Closures, Iterators           | A4 out, A3 due  |
-|-------+---------------------------------------------+-----------------|
-| 02-18 | *NO CLASS*                                  | Presidents' Day |
-| [[file:schedule.org::#02-20][02-20]] | Lifetimes                                   |                 |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#02-25][02-25]] | Smart Pointers I: Boxes, Recursive Data     |                 |
-| [[file:schedule.org::#02-27][02-27]] | Smart Pointers II: ~Rc<T>~ and ~RefCell<T>~ | A4 due          |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#03-04][03-04]] | TBD                                         |                 |
-| [[file:schedule.org::#03-06][03-06]] | *Midterm Exam*                              | A5 out          |
-|-------+---------------------------------------------+-----------------|
-| 03-11 | *NO CLASS*                                  | Spring Recess   |
-| 03-13 | *NO CLASS*                                  | Spring Recess   |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#03-18][03-18]] | Theory I: Crash Course in Logic             |                 |
-| [[file:schedule.org::#03-20][03-20]] | Theory II: Linear Types                     | A6 out, A5 due  |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#03-25][03-25]] | Theory III: Crafting Interpreters           |                 |
-| [[file:schedule.org::#03-27][03-27]] | Workshop: An Interpreter for LTLC           | A7 out, A6 due  |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#04-01][04-01]] | FR Calculus I: Introduction                 |                 |
-| [[file:schedule.org::#04-03][04-03]] | FR Calculus II: Syntax                      | FP out, A7 due  |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#04-08][04-08]] | Workshop: A Parser                          |                 |
-| [[file:schedule.org::#04-10][04-10]] | FR Calculus III: Semantics                  | FP part 1 due   |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#04-15][04-15]] | Workshop: An Evaluator                      |                 |
-| [[file:schedule.org::#04-17][04-17]] | FR Calculus IV: Type and Borrow Checking    | FP part 2 due   |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#04-22][04-22]] | Workshop: A Type/Borrow Checker             |                 |
-| [[file:schedule.org::#04-24][04-24]] | FR Calculus V: Extensions                   | FP part 3 due   |
-|-------+---------------------------------------------+-----------------|
-| [[file:schedule.org::#04-29][04-29]] | Advanced I: Soundness (Part 1)              |                 |
-| [[file:schedule.org::#05-01][05-01]] | Advanced II: Soundness (Part 2)             | FP due          |
-|-------+---------------------------------------------+-----------------|
+|-------+-----------------------------------------------+-----------------|
+| Date  | Topic                                         | Notes           |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#01-21][01-21]] | Basics I: Introduction, Installation, Cargo   |                 |
+| [[file:schedule.org::#01-23][01-23]] | Basics II: Common Programming Concepts        | A1 out          |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#01-28][01-28]] | Ownership I: The Stack and Heap               |                 |
+| [[file:schedule.org::#01-30][01-30]] | Ownership II: References, Borrowing           | A2 out, A1 due  |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#02-04][02-04]] | Data I: Structures, Enumerations              |                 |
+| [[file:schedule.org::#02-06][02-06]] | Data II: Collections, Slices                  | A3 out, A2 due  |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#02-11][02-11]] | Functions I: Generics and Traits              |                 |
+| [[file:schedule.org::#02-13][02-13]] | Functions II: Closures, Iterators             | A4 out, A3 due  |
+|-------+-----------------------------------------------+-----------------|
+| 02-18 | *NO CLASS*                                    | Presidents' Day |
+| [[file:schedule.org::#02-20][02-20]] | Lifetimes                                     |                 |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#02-25][02-25]] | Smart Pointers I: Boxes, Recursive Data       |                 |
+| [[file:schedule.org::#02-27][02-27]] | Smart Pointers II: ~Rc<T>~ and ~RefCell<T>~   | A4 due          |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#03-04][03-04]] | Advanced: Primer on Concurrency               |                 |
+| [[file:schedule.org::#03-06][03-06]] | *Midterm Exam*                                | A5 out          |
+|-------+-----------------------------------------------+-----------------|
+| 03-11 | *NO CLASS*                                    | Spring Recess   |
+| 03-13 | *NO CLASS*                                    | Spring Recess   |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#03-18][03-18]] | Theory I: Primer on Proof/Type Theory         |                 |
+| [[file:schedule.org::#03-20][03-20]] | Theory II: Substructural Proof/Type Theory    | A6 out, A5 due  |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#03-25][03-25]] | Workshop: An Interpreter for LTLC             |                 |
+| [[file:schedule.org::#03-27][03-27]] | FR Calculus I: Introduction                   | A7 out, A6 due  |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#04-01][04-01]] | Workshop: A Parser                            |                 |
+| [[file:schedule.org::#04-03][04-03]] | FR Calculus II: Small-Step Semantics          | FP out, A7 due  |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#04-08][04-08]] | Workshop: An Evaluator                        |                 |
+| [[file:schedule.org::#04-10][04-10]] | FR Calculus III: Type and Borrow System       | FP part 1 due   |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#04-15][04-15]] | Workshop: A Type/Borrow Checker               |                 |
+| [[file:schedule.org::#04-17][04-17]] | FR Calculus IV: Extensions                    | FP part 2 due   |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#04-24][04-24]] | Workshop: Extensions                          |                 |
+| [[file:schedule.org::#04-22][04-22]] | Soundness I: Progress and Preservation        | FP part 3 due   |
+|-------+-----------------------------------------------+-----------------|
+| [[file:schedule.org::#04-29][04-29]] | Soundness II: Type and Borrow Safety          |                 |
+| [[file:schedule.org::#05-01][05-01]] | Soundness III: Termination of Borrow Checking | FP due          |
+|-------+-----------------------------------------------+-----------------|
