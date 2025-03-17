@@ -225,7 +225,7 @@
 :CUSTOM_ID: 03-06
 :END:
 + [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
-* Week 9: Theory
+* Week 8: Theory
 ** TUE 03-18 Lecture 13
 :PROPERTIES:
 :CUSTOM_ID: 03-18
@@ -254,7 +254,7 @@
 *** Reading:
 + [[https://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf][A taste of linear logic]] (§4-5)
 + [[https://www.cs.cmu.edu/~janh/courses/814/24/lectures/lecture19.pdf][Lecture Notes on Substructural Type Systems]]
-* Week 10: Interpreters
+* Week 9: Interpreters
 ** TUE 03-25 Lecture 15
 :PROPERTIES:
 :CUSTOM_ID: 03-25
@@ -277,7 +277,7 @@
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][A Lightweight Formalism
   for Reference Lifetimes and Borrowing in Rust]] (LFR) (pg. 1-14, 36-40)
-* Week 11: FR Semantics
+* Week 10: FR Semantics
 ** TUE 04-01 Lecture 17
 :PROPERTIES:
 :CUSTOM_ID: 04-01
@@ -296,7 +296,7 @@
 + Focus on the mathematical structures we need to define this system
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 14-19)
-* Week 12: FR Borrow Checking
+* Week 11: FR Borrow Checking
 ** TUE 04-08 Lecture 19
 :PROPERTIES:
 :CUSTOM_ID: 04-08
@@ -316,7 +316,7 @@
 + Focus on the mathematical structures we need to define this system
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 19-27)
-* Week 13: FR Extensions
+* Week 12: FR Extensions
 ** TUE 04-15 Lecture 21
 :PROPERTIES:
 :CUSTOM_ID: 04-15
@@ -335,7 +335,7 @@
 + Look briefly at other systems similar to FR
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 40-52)
-* Week 14: FR Soundness I
+* Week 13: FR Soundness I
 ** TUE 04-22 Lecture 23
 :PROPERTIES:
 :CUSTOM_ID: 04-22
@@ -356,7 +356,7 @@
   white-paper proofs
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 27-31, 62-67)
-* Week 15: FR Soundness II
+* Week 14: FR Soundness II
 ** TUE 04-29 Lecture 25
 :PROPERTIES:
 :CUSTOM_ID: 04-29
