@@ -35,6 +35,8 @@
 *** [[file:Slides/12-concurrency.pdf][pdf]]
 ** Primer on Proof/Type Theory
 *** [[file:Slides/13-proof-theory.pdf][pdf]] [[file:Slides/13-proof-theory-annotated.pdf][pdf (annotated)]]
+** Substructural Proof/Type Theory
+*** [[file:Slides/14-linear-types.pdf][pdf]] [[file:Slides/14-linear-types-annotated.pdf][pdf (annotated)]]
 * Midterm
 ** [[file:Assignments/Mock-Midterm/mock-midterm.zip][mock-midterm.zip]]
 ** [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
