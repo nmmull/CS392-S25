@@ -1,0 +1,475 @@
+#+title: Assignment 6
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:2 todo:nil author:nil date:nil
+#+HTML_LINK_HOME: ../../material.html
+The following assignment is due *Thursday 3/27 by 8:00 PM*.  You'll
+need to submit a ~pdf~ file on Gradescope.
+
+* Soundness of IPL
+Recall the proof system IPL:
+#+begin_quote
+\begin{align*}
+\frac
+{}
+{\Gamma, \phi, \Delta \vdash \phi}
+\text{(assumption)}
+\qquad
+\frac
+{\Gamma \vdash \bot}
+{\Gamma \vdash \phi}
+\text{($\bot$-elim)}
+\end{align*}
+\begin{align*}
+\frac
+{\Gamma, \phi \vdash \psi}
+{\Gamma \vdash \phi \to \psi}
+\text{($\to$-intro)}
+\qquad
+\frac
+{\Gamma \vdash \phi \to \psi \qquad \Gamma \vdash \phi}
+{\Gamma \vdash \psi}
+\text{($\to$-elim)}
+\end{align*}
+
+\begin{align*}
+\frac
+{\Gamma \vdash \phi \qquad \Gamma \vdash \psi}
+{\Gamma \vdash \phi \land \psi}
+\text{($\land$-intro)}
+\qquad
+\frac
+{\Gamma \vdash \phi \land \psi}
+{\Gamma \vdash \phi}
+\text{($\land$-elim$_0$)}
+\qquad
+\frac
+{\Gamma \vdash \phi \land \psi}
+{\Gamma \vdash \phi}
+\text{($\land$-elim$_1$)}
+\end{align*}
+\begin{align*}
+\frac
+{\Gamma \vdash \phi}
+{\Gamma \vdash \phi \lor \psi}
+\text{($\lor$-intro$_0$)}
+\qquad
+\frac
+{\Gamma \vdash \psi}
+{\Gamma \vdash \phi \lor \psi}
+\text{($\lor$-intro$_1$)}
+\end{align*}
+\begin{align*}
+\frac
+{\Gamma \vdash \phi \lor \psi \qquad \Gamma, \phi \vdash \xi \qquad \Gamma, \psi \vdash \xi}
+{\Gamma \vdash \xi}
+\text{($\lor$-elim)}
+\end{align*}
+#+end_quote
+
+Prove the soundness theorem for IPL. That is, prove that if $\Gamma
+\vdash \phi$ according to the above rules, then $\Gamma \vDash \phi$.
+You should use induction on the structure of the derivation of $\Gamma
+\vdash \phi$.
+
+* Weakening in STLC
+Recall the type system STLC:
+
+#+begin_quote
+\begin{align*}
+\frac
+{}
+{\Gamma, x : A, \Delta \vdash x : A}
+\text{(assumption)}
+\qquad
+\frac
+{\Gamma, x : A \vdash M : B}
+{\Gamma \vdash \lambda x . M : A \to B}
+\text{($\to$-intro)}
+\end{align*}
+\begin{align*}
+\frac
+{\Gamma \vdash M : A \to B \qquad \Gamma \vdash N : A}
+{\Gamma \vdash M N : B}
+\text{($\to$-elim)}
+\end{align*}
+#+end_quote
+
+Prove that weakening is an admissible rule in STLC. Recall that the
+weakening rule is written as:
+
+\[
+\frac
+{\Gamma \vdash M : A}
+{\Gamma, x : B \vdash M : A}
+\text{(weakening)}
+\]
+
+where 𝑥 does not appear in Γ and 𝐵 is a simple type.  You should prove
+this by induction on the structure of the derivation of Γ ⊢ 𝑀 ∶ 𝐵.
+(/Hint./ You may want to prove the stronger fact that we can introduce
+a variable anywhere in the context Γ and not just at the end)
+
+* A Variant of Linear Logic
+Consider the following proof system:
+
+#+begin_quote
+\[
+\frac
+{}
+{\phi \vdash \phi}
+\text{(start)}
+\qquad
+\frac
+{\Gamma \vdash \phi}
+{\pi(\Gamma) \vdash \phi}
+\text{(exchg)}
+\]
+
+\[
+\frac
+{\Gamma, \phi \vdash \psi}
+{\Gamma \vdash \phi \to \psi}
+\text{($\to$-intro)}
+\qquad
+\frac
+{
+\Gamma \vdash \phi \to \psi
+\qquad
+\Delta \vdash \phi
+}
+{
+\Gamma, \Delta \vdash \psi
+}
+\text{($\to$-elim)}
+\]
+\[
+\frac
+{
+\Gamma \vdash \phi
+\qquad
+\Delta \vdash \psi
+}
+{\Gamma, \Delta \vdash \phi \land \psi}
+\text{($\land$-intro)}
+\qquad
+\frac
+{
+\Gamma \vdash \phi \land \psi
+\qquad
+\Delta, \phi, \psi \vdash \xi
+}
+{
+\Gamma, \Delta \vdash \xi
+}
+\text{($\land$-elim)}
+\]
+\[
+\frac
+{\Gamma \vdash \phi}
+{\Gamma \vdash \phi \land \phi}
+\text{(clone)}
+\qquad
+\frac
+{\Gamma \vdash \phi \land \psi}
+{\Gamma \vdash \phi}
+\text{(drop)}
+\]
+#+end_quote
+
+Prove that this proof system is equivalent to the following proof
+system (which may be thought of as a fragment of IPL over $\to$ and
+$\land$):
+#+begin_quote
+\[
+\frac
+{}
+{\phi \vdash \phi}
+\text{(start)}
+\qquad
+\frac
+{\Gamma \vdash \phi}
+{\pi(\Gamma) \vdash \phi}
+\text{(exchg)}
+\qquad
+\frac
+{
+\Gamma \vdash \phi
+}
+{
+\Gamma, \psi \vdash \phi
+}
+\text{(weakn)}
+\qquad
+\frac
+{\Gamma, \phi, \phi \vdash \psi}
+{\Gamma, \phi \vdash \psi}
+\text{(contr)}
+\]
+
+\begin{align*}
+\frac
+{\Gamma, \phi \vdash \psi}
+{\Gamma \vdash \phi \to \psi}
+\text{($\to$-intro)}
+\qquad
+\frac
+{\Gamma \vdash \phi \to \psi \qquad \Delta \vdash \phi}
+{\Gamma, \Delta \vdash \psi}
+\text{($\to$-elim)}
+\end{align*}
+
+\begin{align*}
+\frac
+{\Gamma \vdash \phi \qquad \Delta \vdash \psi}
+{\Gamma, \Delta \vdash \phi \land \psi}
+\text{($\land$-intro)}
+\qquad
+\frac
+{
+\Gamma \vdash \phi \land \psi
+\qquad
+\Delta, \phi, \psi \vdash \xi
+}
+{
+\Gamma, \Delta \vdash \xi
+}
+\text{($\land$-elim)}
+\end{align*}
+#+end_quote
+
+This requires showing that the rules in one system are admissible in
+the other.  This does not require structural induction.  You should be
+able to build derivations which /simulate/ the rules given certain
+assumptions (see the reading from this week for some examples of
+this).  You may use without proof the following admissible rule in the
+second system:
+
+\[
+\frac
+{\Gamma \vdash \phi}
+{\Delta \vdash \phi}
+\text{(genContr)}
+\]
+
+where $\Delta$ is contained in $\Gamma$.
+
+* Heap-Based Semantics
+
+Considing the following variant of a linear type system. It is
+essentially the system which Curry-Howard corresponds to the logic
+from the previous problem, but with an addition unit type so that we
+can write non-trivial programs. Note that the ⊤-elimination rule
+is trivial, but is required for the semantics so that we can model
+allocation/deallocation.
+
+#+begin_quote
+syntax:
+#+begin_src bnf
+  <v>  ::= x | y | z | w | a | b | c | ...
+  <t>  ::= ● | <v> | λ <v> . <t> | <t> <t> | <t> , <t>
+	 | case <t> of <v> , <v> → <t>
+	 | case <t> of ● → <t>
+	 | clone(<t>) | drop(<t>)
+  <ty> ::= ⊤ | <ty> ∧ <ty> | <ty> → <ty>
+#+end_src
+
+type system:
+
+\[
+\frac
+{}
+{x : A \vdash x : A}
+\text{(start)}
+\qquad
+\frac
+{\Gamma \vdash M : A}
+{\pi(\Gamma) \vdash M : A}
+\text{(exchg)}
+\]
+
+\[
+\frac
+{}
+{\vdash \bullet : \top}
+\text{($\top$-intro)}
+\qquad
+\frac
+{\Gamma \vdash M : \top
+\qquad
+\Delta \vdash N : A
+}
+{\Gamma, \Delta \vdash \texttt{case } M \texttt{ of } \bullet \to N : A}
+\text{($\top$-elim)}
+\]
+
+\[
+\frac
+{\Gamma, x : A \vdash M : B}
+{\Gamma \vdash \lambda x . M : A \to B}
+\text{($\to$-intro)}
+\qquad
+\frac
+{
+\Gamma \vdash M : A \to B
+\qquad
+\Delta \vdash N : A
+}
+{
+\Gamma, \Delta \vdash M N : B
+}
+\text{($\to$-elim)}
+\]
+\[
+\hspace{-3mm}
+\frac
+{
+\Gamma \vdash M : A
+\qquad
+\Delta \vdash N : B
+}
+{\Gamma, \Delta \vdash M, N : A \land B}
+\text{($\land$-intro)}
+\quad
+\frac
+{
+\Gamma \vdash M: A \land B
+\qquad
+\Delta, x : A, y : B \vdash N : C
+}
+{
+\Gamma, \Delta \vdash \texttt{case } M \texttt{ of } x, y \to N : C
+}
+\text{($\land$-elim)}
+\]
+\[
+\frac
+{\Gamma \vdash M : A}
+{\Gamma \vdash \texttt{clone}(M) : A \land A}
+\text{(clone)}
+\qquad
+\frac
+{\Gamma \vdash M : A \land B}
+{\Gamma \vdash \texttt{drop}(M): A}
+\text{(drop)}
+\]
+#+end_quote
+
+Following [[https://homepages.inf.ed.ac.uk/wadler/topics/linear-logic.html#linearop][this paper]] by Turner and Wadler, we can give a heap-based
+semantics to this system.  The idea: we define a big-step relation $\{
+H \} M \Downarrow \{ H \} x$ where $H$ is a unordered mapping from
+variables to values (i.e., a unit, function, or pair of values).  This
+mapping represents the heap, and the right-hand side of the relation
+is always a variable, thought of as a pointer to a value on the heap.
+
+I've taken some heavy liberties in defining this system, so we lose
+many of the guarantees that the original paper proves, but it is
+sufficient to model a simple version of ~clone~ and ~drop~.
+
+In the following rules, /fresh/ means that there is no clash with
+any variables that appear in the given expression.
+
+#+begin_quote
+values:
+#+begin_src bnf
+  <val> ::= λ<v> . <e> | <val> , <val> | ●
+#+end_src
+
+big-step semantics:
+
+\[
+\frac
+{}
+{\{H\} x \Downarrow \{ H \} x  }
+\qquad
+\frac
+{\text{$y$ is fresh}}
+{\{H\} \lambda x . M \Downarrow \{ H, y \mapsto \lambda x . M \} y}
+\]
+\[
+\frac
+{\text{$x$ is fresh}}
+{\{H\} \bullet \Downarrow \{ H, x \mapsto \bullet\}x}
+\qquad
+\frac
+{
+\{H\} M \Downarrow \{ H', x \mapsto \bullet\} x
+\qquad
+\{H'\} N \Downarrow \{ H'' \}y
+}
+{
+\{H\} \texttt{case } M \texttt{ of } \bullet \to N \Downarrow \{ H'' \}y
+}
+\qquad
+\frac
+{}
+{}
+\]
+\[
+\frac
+{
+\{H\} M \Downarrow \{ H' \} x
+\qquad
+\{H'\} N \Downarrow \{ H'', x \mapsto \lambda y. M' \}z
+\qquad
+\{H''\} M'[z / y] \Downarrow \{ H'''\} w
+}
+{
+\{ H \} M N \Downarrow \{ H''' \} w
+}
+\]
+\[
+\frac
+{
+\{ H \} M \Downarrow \{ H' \} x
+\qquad
+\{ H' \} N \Downarrow \{ H'', x \mapsto v_1, y \mapsto v_2 \} y
+}
+{
+\{ H \} (M, N) \Downarrow \{ H'', z \mapsto (v_1,  v_2) \} z
+}
+\]
+\[
+\hspace{-11mm}
+\frac
+{
+\{ H \} M \Downarrow \{ H', z \mapsto (v_1, v_2) \} z
+\qquad
+\text{$q$, $r$ are fresh}
+\qquad
+\{ H', q \mapsto v_1, r \mapsto v_2 \} N[q / x] [r / y]  \Downarrow \{ H'' \} w
+}
+{
+\{ H \} \texttt{case } M \texttt{ of } x, y \to N \Downarrow \{ H'' \}w
+}
+\]
+\[
+\frac
+{
+\{ H \} M \Downarrow \{ H', x \mapsto v \} x
+}
+{
+\{ H \} \texttt{clone}(M) \Downarrow \{ H', x \mapsto (v, v) \} x
+}
+\]
+\[
+\frac
+{
+\{H\} M \Downarrow \{ H', x \mapsto (v_1, v_2) \} x
+}
+{
+\{ H \} \texttt{drop}(M) \Downarrow \{ H', x \mapsto v_1 \} z
+}
+\]
+#+end_quote
+
+Give a derivation of the following judgment, also determining the heap $H$.
+
+\[
+\{\texttt{x} \mapsto \bullet \} \texttt{case clone(x) of x, y → drop(x, y)} \Downarrow \{H\} \texttt{z}
+\]
+
+Note that, since variables are chosen to be fresh in many rules above,
+it is not required that the derivation end in the variable ~z~
+specifically, but it should be a variable which points to a value on
+the heap.

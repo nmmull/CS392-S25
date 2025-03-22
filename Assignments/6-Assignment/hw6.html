@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-03-21 Fri 20:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 6</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../../material.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Assignment 6</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org1428d84">1. Soundness of IPL</a></li>
+<li><a href="#org998ec2d">2. Weakening in STLC</a></li>
+<li><a href="#org76e3f61">3. A Variant of Linear Logic</a></li>
+<li><a href="#org60158d2">4. Heap-Based Semantics</a></li>
+</ul>
+</div>
+</div>
+<p>
+The following assignment is due <b>Thursday 3/27 by 8:00 PM</b>.  You'll
+need to submit a <code>pdf</code> file on Gradescope.
+</p>
+
+<div id="outline-container-org1428d84" class="outline-2">
+<h2 id="org1428d84"><span class="section-number-2">1.</span> Soundness of IPL</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Recall the proof system IPL:
+</p>
+<blockquote>
+\begin{align*}
+\frac
+{}
+{\Gamma, \phi, \Delta \vdash \phi}
+\text{(assumption)}
+\qquad
+\frac
+{\Gamma \vdash \bot}
+{\Gamma \vdash \phi}
+\text{($\bot$-elim)}
+\end{align*}
+\begin{align*}
+\frac
+{\Gamma, \phi \vdash \psi}
+{\Gamma \vdash \phi \to \psi}
+\text{($\to$-intro)}
+\qquad
+\frac
+{\Gamma \vdash \phi \to \psi \qquad \Gamma \vdash \phi}
+{\Gamma \vdash \psi}
+\text{($\to$-elim)}
+\end{align*}
+
+\begin{align*}
+\frac
+{\Gamma \vdash \phi \qquad \Gamma \vdash \psi}
+{\Gamma \vdash \phi \land \psi}
+\text{($\land$-intro)}
+\qquad
+\frac
+{\Gamma \vdash \phi \land \psi}
+{\Gamma \vdash \phi}
+\text{($\land$-elim$_0$)}
+\qquad
+\frac
+{\Gamma \vdash \phi \land \psi}
+{\Gamma \vdash \phi}
+\text{($\land$-elim$_1$)}
+\end{align*}
+\begin{align*}
+\frac
+{\Gamma \vdash \phi}
+{\Gamma \vdash \phi \lor \psi}
+\text{($\lor$-intro$_0$)}
+\qquad
+\frac
+{\Gamma \vdash \psi}
+{\Gamma \vdash \phi \lor \psi}
+\text{($\lor$-intro$_1$)}
+\end{align*}
+\begin{align*}
+\frac
+{\Gamma \vdash \phi \lor \psi \qquad \Gamma, \phi \vdash \xi \qquad \Gamma, \psi \vdash \xi}
+{\Gamma \vdash \xi}
+\text{($\lor$-elim)}
+\end{align*}
+</blockquote>
+
+<p>
+Prove the soundness theorem for IPL. That is, prove that if \(\Gamma
+\vdash \phi\) according to the above rules, then \(\Gamma \vDash \phi\).
+You should use induction on the structure of the derivation of \(\Gamma
+\vdash \phi\).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org998ec2d" class="outline-2">
+<h2 id="org998ec2d"><span class="section-number-2">2.</span> Weakening in STLC</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Recall the type system STLC:
+</p>
+
+<blockquote>
+\begin{align*}
+\frac
+{}
+{\Gamma, x : A, \Delta \vdash x : A}
+\text{(assumption)}
+\qquad
+\frac
+{\Gamma, x : A \vdash M : B}
+{\Gamma \vdash \lambda x . M : A \to B}
+\text{($\to$-intro)}
+\end{align*}
+\begin{align*}
+\frac
+{\Gamma \vdash M : A \to B \qquad \Gamma \vdash N : A}
+{\Gamma \vdash M N : B}
+\text{($\to$-elim)}
+\end{align*}
+</blockquote>
+
+<p>
+Prove that weakening is an admissible rule in STLC. Recall that the
+weakening rule is written as:
+</p>
+
+<p>
+\[
+\frac
+{\Gamma \vdash M : A}
+{\Gamma, x : B \vdash M : A}
+\text{(weakening)}
+\]
+</p>
+
+<p>
+where 𝑥 does not appear in Γ and 𝐵 is a simple type.  You should prove
+this by induction on the structure of the derivation of Γ ⊢ 𝑀 ∶ 𝐵.
+(<i>Hint.</i> You may want to prove the stronger fact that we can introduce
+a variable anywhere in the context Γ and not just at the end)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org76e3f61" class="outline-2">
+<h2 id="org76e3f61"><span class="section-number-2">3.</span> A Variant of Linear Logic</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Consider the following proof system:
+</p>
+
+<blockquote>
+<p>
+\[
+\frac
+{}
+{\phi \vdash \phi}
+\text{(start)}
+\qquad
+\frac
+{\Gamma \vdash \phi}
+{\pi(\Gamma) \vdash \phi}
+\text{(exchg)}
+\]
+</p>
+
+<p>
+\[
+\frac
+{\Gamma, \phi \vdash \psi}
+{\Gamma \vdash \phi \to \psi}
+\text{($\to$-intro)}
+\qquad
+\frac
+{
+\Gamma \vdash \phi \to \psi
+\qquad
+\Delta \vdash \phi
+}
+{
+\Gamma, \Delta \vdash \psi
+}
+\text{($\to$-elim)}
+\]
+\[
+\frac
+{
+\Gamma \vdash \phi
+\qquad
+\Delta \vdash \psi
+}
+{\Gamma, \Delta \vdash \phi \land \psi}
+\text{($\land$-intro)}
+\qquad
+\frac
+{
+\Gamma \vdash \phi \land \psi
+\qquad
+\Delta, \phi, \psi \vdash \xi
+}
+{
+\Gamma, \Delta \vdash \xi
+}
+\text{($\land$-elim)}
+\]
+\[
+\frac
+{\Gamma \vdash \phi}
+{\Gamma \vdash \phi \land \phi}
+\text{(clone)}
+\qquad
+\frac
+{\Gamma \vdash \phi \land \psi}
+{\Gamma \vdash \phi}
+\text{(drop)}
+\]
+</p>
+</blockquote>
+
+<p>
+Prove that this proof system is equivalent to the following proof
+system (which may be thought of as a fragment of IPL over \(\to\) and
+\(\land\)):
+</p>
+<blockquote>
+<p>
+\[
+\frac
+{}
+{\phi \vdash \phi}
+\text{(start)}
+\qquad
+\frac
+{\Gamma \vdash \phi}
+{\pi(\Gamma) \vdash \phi}
+\text{(exchg)}
+\qquad
+\frac
+{
+\Gamma \vdash \phi
+}
+{
+\Gamma, \psi \vdash \phi
+}
+\text{(weakn)}
+\qquad
+\frac
+{\Gamma, \phi, \phi \vdash \psi}
+{\Gamma, \phi \vdash \psi}
+\text{(contr)}
+\]
+</p>
+
+\begin{align*}
+\frac
+{\Gamma, \phi \vdash \psi}
+{\Gamma \vdash \phi \to \psi}
+\text{($\to$-intro)}
+\qquad
+\frac
+{\Gamma \vdash \phi \to \psi \qquad \Delta \vdash \phi}
+{\Gamma, \Delta \vdash \psi}
+\text{($\to$-elim)}
+\end{align*}
+
+\begin{align*}
+\frac
+{\Gamma \vdash \phi \qquad \Delta \vdash \psi}
+{\Gamma, \Delta \vdash \phi \land \psi}
+\text{($\land$-intro)}
+\qquad
+\frac
+{
+\Gamma \vdash \phi \land \psi
+\qquad
+\Delta, \phi, \psi \vdash \xi
+}
+{
+\Gamma, \Delta \vdash \xi
+}
+\text{($\land$-elim)}
+\end{align*}
+</blockquote>
+
+<p>
+This requires showing that the rules in one system are admissible in
+the other.  This does not require structural induction.  You should be
+able to build derivations which <i>simulate</i> the rules given certain
+assumptions (see the reading from this week for some examples of
+this).  You may use without proof the following admissible rule in the
+second system:
+</p>
+
+<p>
+\[
+\frac
+{\Gamma \vdash \phi}
+{\Delta \vdash \phi}
+\text{(genContr)}
+\]
+</p>
+
+<p>
+where \(\Delta\) is contained in \(\Gamma\).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org60158d2" class="outline-2">
+<h2 id="org60158d2"><span class="section-number-2">4.</span> Heap-Based Semantics</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Considing the following variant of a linear type system. It is
+essentially the system which Curry-Howard corresponds to the logic
+from the previous problem, but with an addition unit type so that we
+can write non-trivial programs. Note that the ⊤-elimination rule
+is trivial, but is required for the semantics so that we can model
+allocation/deallocation.
+</p>
+
+<blockquote>
+<p>
+syntax:
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">v</span>&gt;  <span style="color: #008b8b;">::=</span> x <span style="color: #ff0000; font-weight: bold;">|</span> y <span style="color: #ff0000; font-weight: bold;">|</span> z <span style="color: #ff0000; font-weight: bold;">|</span> w <span style="color: #ff0000; font-weight: bold;">|</span> a <span style="color: #ff0000; font-weight: bold;">|</span> b <span style="color: #ff0000; font-weight: bold;">|</span> c <span style="color: #ff0000; font-weight: bold;">|</span> ...
+&lt;<span style="color: #0000ff;">t</span>&gt;  <span style="color: #008b8b;">::=</span> &#9679; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">v</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &#955; &lt;<span style="color: #483d8b;">v</span>&gt; . &lt;<span style="color: #483d8b;">t</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">t</span>&gt; &lt;<span style="color: #483d8b;">t</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">t</span>&gt; , &lt;<span style="color: #483d8b;">t</span>&gt;
+       <span style="color: #ff0000; font-weight: bold;">|</span> case &lt;<span style="color: #483d8b;">t</span>&gt; of &lt;<span style="color: #483d8b;">v</span>&gt; , &lt;<span style="color: #483d8b;">v</span>&gt; &#8594; &lt;<span style="color: #483d8b;">t</span>&gt;
+       <span style="color: #ff0000; font-weight: bold;">|</span> case &lt;<span style="color: #483d8b;">t</span>&gt; of &#9679; &#8594; &lt;<span style="color: #483d8b;">t</span>&gt;
+       <span style="color: #ff0000; font-weight: bold;">|</span> clone(&lt;<span style="color: #483d8b;">t</span>&gt;) <span style="color: #ff0000; font-weight: bold;">|</span> drop(&lt;<span style="color: #483d8b;">t</span>&gt;)
+&lt;<span style="color: #0000ff;">ty</span>&gt; <span style="color: #008b8b;">::=</span> &#8868; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">ty</span>&gt; &#8743; &lt;<span style="color: #483d8b;">ty</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">ty</span>&gt; &#8594; &lt;<span style="color: #483d8b;">ty</span>&gt;
+</pre>
+</div>
+
+<p>
+type system:
+</p>
+
+<p>
+\[
+\frac
+{}
+{x : A \vdash x : A}
+\text{(start)}
+\qquad
+\frac
+{\Gamma \vdash M : A}
+{\pi(\Gamma) \vdash M : A}
+\text{(exchg)}
+\]
+</p>
+
+<p>
+\[
+\frac
+{}
+{\vdash \bullet : \top}
+\text{($\top$-intro)}
+\qquad
+\frac
+{\Gamma \vdash M : \top
+\qquad
+\Delta \vdash N : A
+}
+{\Gamma, \Delta \vdash \texttt{case } M \texttt{ of } \bullet \to N : A}
+\text{($\top$-elim)}
+\]
+</p>
+
+<p>
+\[
+\frac
+{\Gamma, x : A \vdash M : B}
+{\Gamma \vdash \lambda x . M : A \to B}
+\text{($\to$-intro)}
+\qquad
+\frac
+{
+\Gamma \vdash M : A \to B
+\qquad
+\Delta \vdash N : A
+}
+{
+\Gamma, \Delta \vdash M N : B
+}
+\text{($\to$-elim)}
+\]
+\[
+\hspace{-3mm}
+\frac
+{
+\Gamma \vdash M : A
+\qquad
+\Delta \vdash N : B
+}
+{\Gamma, \Delta \vdash M, N : A \land B}
+\text{($\land$-intro)}
+\quad
+\frac
+{
+\Gamma \vdash M: A \land B
+\qquad
+\Delta, x : A, y : B \vdash N : C
+}
+{
+\Gamma, \Delta \vdash \texttt{case } M \texttt{ of } x, y \to N : C
+}
+\text{($\land$-elim)}
+\]
+\[
+\frac
+{\Gamma \vdash M : A}
+{\Gamma \vdash \texttt{clone}(M) : A \land A}
+\text{(clone)}
+\qquad
+\frac
+{\Gamma \vdash M : A \land B}
+{\Gamma \vdash \texttt{drop}(M): A}
+\text{(drop)}
+\]
+</p>
+</blockquote>
+
+<p>
+Following <a href="https://homepages.inf.ed.ac.uk/wadler/topics/linear-logic.html#linearop">this paper</a> by Turner and Wadler, we can give a heap-based
+semantics to this system.  The idea: we define a big-step relation \(\{
+H \} M \Downarrow \{ H \} x\) where \(H\) is a unordered mapping from
+variables to values (i.e., a unit, function, or pair of values).  This
+mapping represents the heap, and the right-hand side of the relation
+is always a variable, thought of as a pointer to a value on the heap.
+</p>
+
+<p>
+I've taken some heavy liberties in defining this system, so we lose
+many of the guarantees that the original paper proves, but it is
+sufficient to model a simple version of <code>clone</code> and <code>drop</code>.
+</p>
+
+<p>
+In the following rules, <i>fresh</i> means that there is no clash with
+any variables that appear in the given expression.
+</p>
+
+<blockquote>
+<p>
+values:
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">val</span>&gt; <span style="color: #008b8b;">::=</span> &#955;&lt;<span style="color: #483d8b;">v</span>&gt; . &lt;<span style="color: #483d8b;">e</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">val</span>&gt; , &lt;<span style="color: #483d8b;">val</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &#9679;
+</pre>
+</div>
+
+<p>
+big-step semantics:
+</p>
+
+<p>
+\[
+\frac
+{}
+{\{H\} x \Downarrow \{ H \} x  }
+\qquad
+\frac
+{\text{$y$ is fresh}}
+{\{H\} \lambda x . M \Downarrow \{ H, y \mapsto \lambda x . M \} y}
+\]
+\[
+\frac
+{\text{$x$ is fresh}}
+{\{H\} \bullet \Downarrow \{ H, x \mapsto \bullet\}x}
+\qquad
+\frac
+{
+\{H\} M \Downarrow \{ H', x \mapsto \bullet\} x
+\qquad
+\{H'\} N \Downarrow \{ H'' \}y
+}
+{
+\{H\} \texttt{case } M \texttt{ of } \bullet \to N \Downarrow \{ H'' \}y
+}
+\qquad
+\frac
+{}
+{}
+\]
+\[
+\frac
+{
+\{H\} M \Downarrow \{ H' \} x
+\qquad
+\{H'\} N \Downarrow \{ H'', x \mapsto \lambda y. M' \}z
+\qquad
+\{H''\} M'[z / y] \Downarrow \{ H'''\} w
+}
+{
+\{ H \} M N \Downarrow \{ H''' \} w
+}
+\]
+\[
+\frac
+{
+\{ H \} M \Downarrow \{ H' \} x
+\qquad
+\{ H' \} N \Downarrow \{ H'', x \mapsto v_1, y \mapsto v_2 \} y
+}
+{
+\{ H \} (M, N) \Downarrow \{ H'', z \mapsto (v_1,  v_2) \} z
+}
+\]
+\[
+\hspace{-11mm}
+\frac
+{
+\{ H \} M \Downarrow \{ H', z \mapsto (v_1, v_2) \} z
+\qquad
+\text{$q$, $r$ are fresh}
+\qquad
+\{ H', q \mapsto v_1, r \mapsto v_2 \} N[q / x] [r / y]  \Downarrow \{ H'' \} w
+}
+{
+\{ H \} \texttt{case } M \texttt{ of } x, y \to N \Downarrow \{ H'' \}w
+}
+\]
+\[
+\frac
+{
+\{ H \} M \Downarrow \{ H', x \mapsto v \} x
+}
+{
+\{ H \} \texttt{clone}(M) \Downarrow \{ H', x \mapsto (v, v) \} x
+}
+\]
+\[
+\frac
+{
+\{H\} M \Downarrow \{ H', x \mapsto (v_1, v_2) \} x
+}
+{
+\{ H \} \texttt{drop}(M) \Downarrow \{ H', x \mapsto v_1 \} z
+}
+\]
+</p>
+</blockquote>
+
+<p>
+Give a derivation of the following judgment, also determining the heap \(H\).
+</p>
+
+<p>
+\[
+\{\texttt{x} \mapsto \bullet \} \texttt{case clone(x) of x, y → drop(x, y)} \Downarrow \{H\} \texttt{z}
+\]
+</p>
+
+<p>
+Note that, since variables are chosen to be fresh in many rules above,
+it is not required that the derivation end in the variable <code>z</code>
+specifically, but it should be a variable which points to a value on
+the heap.
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
