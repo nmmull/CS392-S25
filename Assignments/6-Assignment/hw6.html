@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-03-21 Fri 20:56 -->
+<!-- 2025-03-21 Fri 21:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assignment 6</title>
@@ -49,10 +49,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1428d84">1. Soundness of IPL</a></li>
-<li><a href="#org998ec2d">2. Weakening in STLC</a></li>
-<li><a href="#org76e3f61">3. A Variant of Linear Logic</a></li>
-<li><a href="#org60158d2">4. Heap-Based Semantics</a></li>
+<li><a href="#org5b385df">1. Soundness of IPL</a></li>
+<li><a href="#orgb01d5bd">2. Weakening in STLC</a></li>
+<li><a href="#orge1e3542">3. A Variant of Linear Logic</a></li>
+<li><a href="#orga71fd3a">4. Heap-Based Semantics</a></li>
 </ul>
 </div>
 </div>
@@ -61,8 +61,8 @@ The following assignment is due <b>Thursday 3/27 by 8:00 PM</b>.  You'll
 need to submit a <code>pdf</code> file on Gradescope.
 </p>
 
-<div id="outline-container-org1428d84" class="outline-2">
-<h2 id="org1428d84"><span class="section-number-2">1.</span> Soundness of IPL</h2>
+<div id="outline-container-org5b385df" class="outline-2">
+<h2 id="org5b385df"><span class="section-number-2">1.</span> Soundness of IPL</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Recall the proof system IPL:
@@ -135,8 +135,8 @@ You should use induction on the structure of the derivation of \(\Gamma
 </div>
 </div>
 
-<div id="outline-container-org998ec2d" class="outline-2">
-<h2 id="org998ec2d"><span class="section-number-2">2.</span> Weakening in STLC</h2>
+<div id="outline-container-orgb01d5bd" class="outline-2">
+<h2 id="orgb01d5bd"><span class="section-number-2">2.</span> Weakening in STLC</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Recall the type system STLC:
@@ -185,8 +185,8 @@ a variable anywhere in the context Γ and not just at the end)
 </div>
 </div>
 
-<div id="outline-container-org76e3f61" class="outline-2">
-<h2 id="org76e3f61"><span class="section-number-2">3.</span> A Variant of Linear Logic</h2>
+<div id="outline-container-orge1e3542" class="outline-2">
+<h2 id="orge1e3542"><span class="section-number-2">3.</span> A Variant of Linear Logic</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Consider the following proof system:
@@ -349,16 +349,16 @@ where \(\Delta\) is contained in \(\Gamma\).
 </div>
 </div>
 
-<div id="outline-container-org60158d2" class="outline-2">
-<h2 id="org60158d2"><span class="section-number-2">4.</span> Heap-Based Semantics</h2>
+<div id="outline-container-orga71fd3a" class="outline-2">
+<h2 id="orga71fd3a"><span class="section-number-2">4.</span> Heap-Based Semantics</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-Considing the following variant of a linear type system. It is
-essentially the system which Curry-Howard corresponds to the logic
-from the previous problem, but with an addition unit type so that we
-can write non-trivial programs. Note that the ⊤-elimination rule
-is trivial, but is required for the semantics so that we can model
-allocation/deallocation.
+<b>(Optional)</b> Considing the following variant of a linear type
+system. It is essentially the system which Curry-Howard corresponds to
+the logic from the previous problem, but with an addition unit type so
+that we can write non-trivial programs. Note that the ⊤-elimination
+rule is trivial, but is required for the semantics so that we can
+model allocation/deallocation.
 </p>
 
 <blockquote>

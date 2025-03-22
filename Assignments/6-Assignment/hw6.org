@@ -256,12 +256,12 @@ where $\Delta$ is contained in $\Gamma$.
 
 * Heap-Based Semantics
 
-Considing the following variant of a linear type system. It is
-essentially the system which Curry-Howard corresponds to the logic
-from the previous problem, but with an addition unit type so that we
-can write non-trivial programs. Note that the ⊤-elimination rule
-is trivial, but is required for the semantics so that we can model
-allocation/deallocation.
+*(Optional)* Considing the following variant of a linear type
+system. It is essentially the system which Curry-Howard corresponds to
+the logic from the previous problem, but with an addition unit type so
+that we can write non-trivial programs. Note that the ⊤-elimination
+rule is trivial, but is required for the semantics so that we can
+model allocation/deallocation.
 
 #+begin_quote
 syntax:
