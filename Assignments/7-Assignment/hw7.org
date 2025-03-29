@@ -1,0 +1,76 @@
+#+title: Assignment 7
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:2 todo:nil author:nil date:nil num:nil toc:nil
+#+HTML_LINK_HOME: ../../material.html
+The following assignment is due *Thursday 4/3 by 8:00 PM*.  You'll
+need to submit one crate on Gradescope called ~assign7~.
+
+In this assignment, we're finishing up the workshop assignment from
+lecture.  The following is a specification of the linearly typed
+lambda calculus.
+
+* Linear Typed Lambda Calculus (LTLC)
+** Syntax
+#+begin_quote
+*Surface-level syntax:*
+#+begin_src bnf
+  <expr> ::= <var>
+           | ( lambda <var> <type> <expr> )
+	   | ( <expr> <expr> )
+  <type> ::= EMPTY | ( FUN <type> <type> )
+#+end_src
+*Mathematical syntax:*
+\begin{align*}
+e &::= x \ | \ \lambda x^T. e \ | \ e e \\
+T &::= \bot \ | \ T \multimap T
+\end{align*}
+#+end_quote
+
+** Type System
+#+begin_quote
+\[
+\frac
+{}
+{x : A \vdash x : A}
+\qquad
+\frac
+{\Gamma, x : B, y : C, \Delta \vdash M : A}
+{\Gamma, y : C, x : B, \Delta \vdash M : A}
+\]
+\[
+\frac
+{\Gamma, x : A \vdash M : B}
+{\Gamma \vdash \lambda x^A . M : A \multimap B}
+\qquad
+\frac
+{\Gamma \vdash M : A \multimap B \qquad \Delta \vdash N : A}
+{\Gamma, \Delta \vdash M N : B}
+\]
+#+end_quote
+** Semantics
+#+begin_quote
+\[
+\frac
+{}
+{\lambda x . e \Downarrow \lambda x . e}
+\qquad
+\frac
+{
+e_1 \Downarrow \lambda x . e \qquad
+e_2 \Downarrow v_2 \qquad
+e[v_2 / x] \Downarrow v
+}
+{e_1 e_2 \Downarrow v}
+\]
+#+end_quote
+
+* The Task
+You should fill in the ~todo!()~ items in the given starter code.
+This includes:
++ filling in some of the parser (it's rewritten in this assignment
+  using a ~Peekable~ iterator)
++ implementing type checking (basically what we did in lecture)
++ implementing substitution and evaluation (what we didn't get to in
+  lecture).  The only requirement is that your implementation of
+  substitution *cannot* use ~clone~ (because of linearity!)

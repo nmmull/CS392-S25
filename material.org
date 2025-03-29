@@ -9,6 +9,7 @@
 4. [[file:Assignments/4-Assignment/hw4.org][html]]
 5. [[file:Assignments/5-Assignment/hw5.org][html]]
 6. [[file:Assignments/6-Assignment/hw6.org][html]]
+7. [[file:Assignments/7-Assignment/hw7.org][html]] [[file:Assignments/7-Assignment/assign7.zip][assign7.zip]]
 * Lectures
 ** Course Introduction
 *** [[file:Slides/01-course-introduction.pdf][pdf]] [[file:Code/01/swap.c][swap.c]] [[file:Code/01/swap.rs][swap.rs]]

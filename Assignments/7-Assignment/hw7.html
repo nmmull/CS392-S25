@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-03-28 Fri 22:53 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment 7</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../../material.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Assignment 7</h1>
+<p>
+The following assignment is due <b>Thursday 4/3 by 8:00 PM</b>.  You'll
+need to submit one crate on Gradescope called <code>assign7</code>.
+</p>
+
+<p>
+In this assignment, we're finishing up the workshop assignment from
+lecture.  The following is a specification of the linearly typed
+lambda calculus.
+</p>
+
+<div id="outline-container-org165f7dc" class="outline-2">
+<h2 id="org165f7dc">Linear Typed Lambda Calculus (LTLC)</h2>
+<div class="outline-text-2" id="text-org165f7dc">
+</div>
+<div id="outline-container-orgd235f8f" class="outline-3">
+<h3 id="orgd235f8f">Syntax</h3>
+<div class="outline-text-3" id="text-orgd235f8f">
+<blockquote>
+<p>
+<b>Surface-level syntax:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">expr</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">var</span>&gt;
+         <span style="color: #ff0000; font-weight: bold;">|</span> ( lambda &lt;<span style="color: #483d8b;">var</span>&gt; &lt;<span style="color: #483d8b;">type</span>&gt; &lt;<span style="color: #483d8b;">expr</span>&gt; )
+         <span style="color: #ff0000; font-weight: bold;">|</span> ( &lt;<span style="color: #483d8b;">expr</span>&gt; &lt;<span style="color: #483d8b;">expr</span>&gt; )
+&lt;<span style="color: #0000ff;">type</span>&gt; <span style="color: #008b8b;">::=</span> EMPTY <span style="color: #ff0000; font-weight: bold;">|</span> ( FUN &lt;<span style="color: #483d8b;">type</span>&gt; &lt;<span style="color: #483d8b;">type</span>&gt; )
+</pre>
+</div>
+<p>
+<b>Mathematical syntax:</b>
+</p>
+\begin{align*}
+e &::= x \ | \ \lambda x^T. e \ | \ e e \\
+T &::= \bot \ | \ T \multimap T
+\end{align*}
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgb1d0b8d" class="outline-3">
+<h3 id="orgb1d0b8d">Type System</h3>
+<div class="outline-text-3" id="text-orgb1d0b8d">
+<blockquote>
+<p>
+\[
+\frac
+{}
+{x : A \vdash x : A}
+\qquad
+\frac
+{\Gamma, x : B, y : C, \Delta \vdash M : A}
+{\Gamma, y : C, x : B, \Delta \vdash M : A}
+\]
+\[
+\frac
+{\Gamma, x : A \vdash M : B}
+{\Gamma \vdash \lambda x^A . M : A \multimap B}
+\qquad
+\frac
+{\Gamma \vdash M : A \multimap B \qquad \Delta \vdash N : A}
+{\Gamma, \Delta \vdash M N : B}
+\]
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org0042340" class="outline-3">
+<h3 id="org0042340">Semantics</h3>
+<div class="outline-text-3" id="text-org0042340">
+<blockquote>
+<p>
+\[
+\frac
+{}
+{\lambda x . e \Downarrow \lambda x . e}
+\qquad
+\frac
+{
+e_1 \Downarrow \lambda x . e \qquad
+e_2 \Downarrow v_2 \qquad
+e[v_2 / x] \Downarrow v
+}
+{e_1 e_2 \Downarrow v}
+\]
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2c51a67" class="outline-2">
+<h2 id="org2c51a67">The Task</h2>
+<div class="outline-text-2" id="text-org2c51a67">
+<p>
+You should fill in the <code>todo!()</code> items in the given starter code.
+This includes:
+</p>
+<ul class="org-ul">
+<li>filling in some of the parser (it's rewritten in this assignment
+using a <code>Peekable</code> iterator)</li>
+<li>implementing type checking (basically what we did in lecture)</li>
+<li>implementing substitution and evaluation (what we didn't get to in
+lecture).  The only requirement is that your implementation of
+substitution <b>cannot</b> use <code>clone</code> (because of linearity!)</li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>
