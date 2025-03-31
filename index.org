@@ -58,17 +58,17 @@ for more details.
 | [[file:schedule.org::#03-25][03-25]] | Workshop: An Interpreter for LTLC             |                 |
 | [[file:schedule.org::#03-27][03-27]] | FR Calculus I: Introduction                   | A7 out, A6 due  |
 |-------+-----------------------------------------------+-----------------|
-| [[file:schedule.org::#04-01][04-01]] | Workshop: A Parser                            |                 |
-| [[file:schedule.org::#04-03][04-03]] | FR Calculus II: Small-Step Semantics          | FP out, A7 due  |
+| [[file:schedule.org::#04-01][04-01]] | FR Calculus II: Small-Step Semantics          |                 |
+| [[file:schedule.org::#04-03][04-03]] | Workshop: An Evaluator                        | FP out, A7 due  |
 |-------+-----------------------------------------------+-----------------|
-| [[file:schedule.org::#04-08][04-08]] | Workshop: An Evaluator                        |                 |
-| [[file:schedule.org::#04-10][04-10]] | FR Calculus III: Type and Borrow System       | FP part 1 due   |
+| [[file:schedule.org::#04-08][04-08]] | FR Calculus III: Type and Borrow System       |                 |
+| [[file:schedule.org::#04-10][04-10]] | Workshop: A Type/Borrow Checker               | FP part 1 due   |
 |-------+-----------------------------------------------+-----------------|
-| [[file:schedule.org::#04-15][04-15]] | Workshop: A Type/Borrow Checker               |                 |
-| [[file:schedule.org::#04-17][04-17]] | FR Calculus IV: Extensions                    | FP part 2 due   |
+| [[file:schedule.org::#04-15][04-15]] | FR Calculus IV: Extensions                    |                 |
+| [[file:schedule.org::#04-17][04-17]] | Workshop: Extensions                          | FP part 2 due   |
 |-------+-----------------------------------------------+-----------------|
-| [[file:schedule.org::#04-24][04-24]] | Workshop: Extensions                          |                 |
-| [[file:schedule.org::#04-22][04-22]] | Soundness I: Progress and Preservation        | FP part 3 due   |
+| [[file:schedule.org::#04-22][04-22]] | Soundness I: Progress and Preservation        |                 |
+| [[file:schedule.org::#04-24][04-24]] | Workshop: Final Project Check-in              | FP part 3 due   |
 |-------+-----------------------------------------------+-----------------|
 | [[file:schedule.org::#04-29][04-29]] | Soundness II: Type and Borrow Safety          |                 |
 | [[file:schedule.org::#05-01][05-01]] | Soundness III: Termination of Borrow Checking | FP due          |

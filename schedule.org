@@ -282,33 +282,25 @@
 :PROPERTIES:
 :CUSTOM_ID: 04-01
 :END:
-*** Title: *Workshop: FR Syntax*
-*** Topics:
-+ Discuss the AST of FR in Rust
-+ Begin the process of building a parser for FR
-** THU 04-03 Lecture 18
-:PROPERTIES:
-:CUSTOM_ID: 04-03
-:END:
 *** Title: *Featherweight Rust: Small-Step Semantics*
 *** Topics:
 + Introduce the small-step semantics of FR
 + Focus on the mathematical structures we need to define this system
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 14-19)
-* Week 11: FR Borrow Checking
-** TUE 04-08 Lecture 19
+** THU 04-03 Lecture 18
 :PROPERTIES:
-:CUSTOM_ID: 04-08
+:CUSTOM_ID: 04-03
 :END:
 *** Title: *Workshop: An Evaluator*
 *** Topics:
 + Finish our discussion on the small-step semantics of FR
 + Look at the structure of an evaluator for FR
 + Start the process of builidng an evaluator
-** THU 04-10 Lecture 20
+* Week 11: FR Borrow Checking
+** TUE 04-08 Lecture 19
 :PROPERTIES:
-:CUSTOM_ID: 04-10
+:CUSTOM_ID: 04-08
 :END:
 *** Title: *Featherweight Rust: Type and Borrow System*
 *** Topics:
@@ -316,18 +308,18 @@
 + Focus on the mathematical structures we need to define this system
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 19-27)
-* Week 12: FR Extensions
-** TUE 04-15 Lecture 21
+** THU 04-10 Lecture 20
 :PROPERTIES:
-:CUSTOM_ID: 04-15
+:CUSTOM_ID: 04-10
 :END:
 *** Title: *Workshop: An Type/Borrow Checker*
 *** Topics:
 + Finish our discussion of the type/borrow system of FR
 + Start the process of building a type/borrow checker for FR
-** THU 04-17 Lecture 22
+* Week 12: FR Extensions
+** TUE 04-15 Lecture 21
 :PROPERTIES:
-:CUSTOM_ID: 04-17
+:CUSTOM_ID: 04-15
 :END:
 *** Title: *Featherweight Rust: Extensions*
 *** Topics:
@@ -335,19 +327,19 @@
 + Look briefly at other systems similar to FR
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 40-52)
-* Week 13: FR Soundness I
-** TUE 04-22 Lecture 23
+** THU 04-17 Lecture 22
 :PROPERTIES:
-:CUSTOM_ID: 04-22
+:CUSTOM_ID: 04-17
 :END:
 *** Title: *Workshop: Extensions*
 *** Topics:
 + Finish our discussion of possible extensions to FR
 + Look briefly at how to implement these extensions
 + Work on the final project
-** THU 04-24 Lecture 24
+* Week 13: FR Soundness I
+** TUE 04-22 Lecture 23
 :PROPERTIES:
-:CUSTOM_ID: 04-24
+:CUSTOM_ID: 04-22
 :END:
 *** Title: *Featherweight Rust: Progress and Preservation*
 *** Topics:
@@ -356,6 +348,15 @@
   white-paper proofs
 *** Reading:
 + [[https://dl.acm.org/doi/10.1145/3443420][LFR]] (pg. 27-31, 62-67)
+** THU 04-24 Lecture 24
+:PROPERTIES:
+:CUSTOM_ID: 04-24
+:END:
+*** Title: *Workshop: FR Syntax*
+*** Topics:
++ Discuss the AST of FR in Rust
++ Begin the process of building a parser for FR
+
 * Week 14: FR Soundness II
 ** TUE 04-29 Lecture 25
 :PROPERTIES:
