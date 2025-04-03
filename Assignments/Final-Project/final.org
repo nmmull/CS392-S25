@@ -1,0 +1,370 @@
+#+title: Final Project
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+#+OPTIONS: html-style:nil H:3 toc:1 todo:nil author:nil date:nil num:nil
+#+HTML_LINK_HOME: ../../material.html
+Welcome to the final project for /CAS CS 392: Rust in Practice and in
+Theory/.  As you know, we'll be building an interpreter for
+[[https://dl.acm.org/doi/10.1145/3443420][Featherweight Rust (FR)]], a subset of Rust defined and formalized by
+David J. Pearce.  I envisage this as something between a project spec
+and a tutorial.  I'll be adding to it for each part of the project,
+trying to gently guide you to the finish line.  I /won't/ be giving
+any starter code, I'd like this project to be something that you build
+from scratch.
+
+Each part of the project will generally be presented in two forms:
+1. *hard mode*, a high-level description with little detail and many
+   degrees of freedom;
+2. *easy mode*, a low-level description with more detail and fewer
+   degrees of freedom.
+The first form should be read as the actual project spec, what you're
+required to do. The second form should be read as a guide to the
+simplest way of satisfy the spec.  /The point being:/ if you want to
+make this a fully featured interpreter, then go for it. As long as you
+satisfy the spec.  If you're just looking to make it to the end, the
+guide should provide a more direct path there.
+
+Let's get started.
+
+* Part 0: Set up
+
+/At the beginning, there was a new crate./ Choose a "clever" name for
+a small subset of Rust.  If you don't want to be clever, you can use
+the name I'll be using for this page:[fn::I dunno, I guess salt is
+usually a precursor to rust.]
+
+#+begin_src bash
+cargo new salt
+#+end_src
+
+First we're gonna set up our files. We want our project to have the
+following structure:
+#+begin_src text
+.
+├── bin
+│   ├── interp.rs
+│   └── playground.rs
+├── lib.rs
+└── utils.rs
+#+end_src
+The files ~interp.rs~ and ~playground.rs~ should have empty ~main~
+functions, ~utils.rs~ should be an empty file, and ~lib.rs~ should
+contain the single line:
+#+begin_src rust
+pub mod utils;
+#+end_src
+A couple notes about this structure:
++ This crate has two executables. If we want to run the playground we
+  can use ~cargo run --bin playground~ and if we want to run the
+  interpreter, we can use ~cargo run --bin interp~.  This will be
+  useful when we want to quickly check how Rust behaves on some
+  program, and eventually when we want a file sitting around for
+  testing the whole pipeline.
++ The file ~utils.rs~ will contain code that's shared across the
+  project. You can put whatever you want in there (or get rid of it).
++ The file ~lib.rs~ is the entry point for all the code we write. By
+  the end of this project, it'll have just a couple lines, making
+  public the various parts of our interpreter.
+  #+begin_src rust
+    pub mod utils;  // PART 0
+    pub mod eval;   // PART 1
+    pub mod types;  // PART 2
+    pub mod lexer;  // PART 3
+    pub mod parser; // PART 3
+  #+end_src
+
+* Part 1: Semantics
+
+/Then there was an evaluator./ We'll start by implementing the
+semantics for FR. This means defining a couple things:
+
++ an enumeration for /expressions/ in FR (called /terms/ in the FR
+  paper);
++ a structure representing the /evaluation context/ (this is a
+  confluence of terms, it's not the same as an evaluation context in
+  the FR paper (Definition 3.5), it's just a structure with the
+  necessary data to perform evaluation);
++ a method for /evaluating/ expressions according to the FR spec.
+
+#+begin_quote
+*Important:* Keep in mind that in the next part we'll be implementing
+a type/borrow checker. The point of the type/borrow checker is to make
+sure we only evaluate /well-behaved/ expressions.  In practice this
+means ~unwrap~ to your hearts delight.[fn::Although you should keep in
+mind that using ~unwrap~ a lot can make code a bit harder to debug.]
+#+end_quote
+
+** Hard-Mode
+
+At a high-level, you need to implement the following according to the
+FR spec:
+#+begin_src rust
+  struct Expr     // TODO
+  struct Value    // TODO
+  struct Lifetime // TODO
+  struct Context  // TODO
+
+
+  impl Context {
+    fn eval_expr(&mut self, e : &Expr, l: Lifetime) -> Value { todo!() }
+  }
+#+end_src
+
+If that's all you need, then have at it. Feel free to put the code
+wherever it's clear.
+
+** Easy-Mode
+
+Create an empty file ~src/eval.rs~ and add the following line to the
+file ~src/lib.rs~:
+
+#+begin_src rust
+pub mod eval;
+#+end_src
+
+*** Programs
+
+Let's start by giving a slightly different grammar for FR:
+
+#+begin_src bnf
+  <expr>  ::= '{' { <stmt> '⨟' } [<expr>] '}'
+	    | 'Box::new' '(' <expr> ')'
+	    | <lval>
+	    | '&' ['mut'] <lval>
+	    | <int>
+
+  <stmt>  ::= <expr>
+	    | 'let' 'mut' <var> '=' <expr>
+	    | <lval> '=' <expr>
+
+  <lval>  ::= <var>
+	    | '*' <lval>
+
+  <prog>  ::=
+#+end_src
+
+The biggest different between this syntax and the given one is that we
+distinguish between expressions and statements.[fn::These are combined
+in to a notion of a /term/ in the FR paper.]
+
+From this grammar we get a natural AST (which we can put into the file
+~src/utils.rs~):
+
+#+begin_src rust
+  pub type Ident = String;
+  type Copyable = bool;
+  type Mutable = bool;
+
+  type Lifetime = Lifetime(usize); // THIS WILL CHANGE
+
+  pub struct Lval {
+      pub ident: Ident,
+      pub derefs: usize,
+  }
+
+  pub enum Expr {
+      Unit,
+      Int(i32),
+      Lval(Lval, Copyable),
+      Box(Box<Expr>),
+      Borrow(Lval, Mutable),
+      Block(Vec<Stmt>, Box<Expr>, Lifetime),
+  }
+
+  pub enum Stmt {
+      Assign(Lval, Expr),
+      LetMut(Ident, Expr),
+      Expr(Expr),
+  }
+#+end_src
+
+*** Program Store
+
+Next we need some machinary to define the notion of a /program
+store/. A quick reminder of definitions (see the FR paper (pg. 13-15)
+for more details):
+
++ A *location* is an abstract entity that is either /named/ or
+  /unnamed/. In reality, unnnamed locations still need unique
+  identifers, but they don't correspond to any variable name in the
+  program.
++ A *value* is:
+  + unit ($\epsilon$);
+  + an integer;
+  + a /reference/, which a location that is either owned
+    ($\ell^\bullet$) or borrowed ($\ell^\circ$).
++ A *partial value* is either a value or /undefined/ ($\bot$).
++ A *slot value* is a partial value together with a lifetime ($\langle v
+  \rangle^m$).
++ The *program store* ($\mathcal S$) is a map from locations to slots
+  values.
+
+We can do a pretty direct translation of these constructs, and put
+them in ~src/eval.rs~:
+#+begin_src rust
+  type Location = Ident;
+  type Owned = bool;
+
+  pub enum Value {
+      Unit,
+      Int(i32),
+      Ref(Location, Owned),
+  }
+
+  type Pvalue = Option<Value>;
+
+  pub struct Slot {
+      value: Pvalue,
+      lifetime: Lifetime,
+  }
+
+  struct Store(HashMap<Location, Slot>);
+#+end_src
+
+We'll take unnamed locations to be locations given fresh identifiers.
+
+The semantics of FR is presented against an interface of functions on
+program stores (~write~ returns the old value in the slot):
+
+#+begin_src rust
+  impl Store {
+      fn locate(&self, w: &Lval) -> &Location { todo!() }
+      fn read(&self, x: &Lval) -> &Slot { todo!() }
+      fn write(&mut self, x: &Lval, v: Pvalue) -> Pvalue { todo!() }
+      fn drop(&mut self, values: Vec<Pvalue>) { todo! () }
+  }
+#+end_src
+
+*** Evaluation
+
+Finally, the *evaluation context* is a structure with a program store,
+along with whatever other data we need in order to perform evaluation:
+
+#+begin_src rust
+  struct Context {
+      store: Store,
+      // TODO: anything else you need
+  }
+#+end_src
+
+All that's left to do is implement /two/ evaluation functions, one for
+expressions and one for statements:
+
+#+begin_src rust
+impl Context {
+    pub fn eval_expr(&mut self, expr: &Expr, l: Lifetime) -> Value { todo!() }
+    pub fn eval_stmt(&mut self, stmt: &Stmt, l: Lifetime) { todo!() }
+}
+#+end_src
+
+Evaluating an expression returns a value, whereas evaluating a
+statement only modifies the evaluation context (i.e., the program
+store).  This is a bit more natural compared to what is done in the FR
+paper, in which statements need to artificially be given values in
+order to define the semantics.
+
+The trick is that we won't implement the semantics given in the FR
+paper, but instead its equivalent /big-step/ semantics.
+
+I'm going to leave this as part of the challenge of the project, but
+hopefully a couple examples will get you thinking about how to come up
+with the right big-step semantics for FR.
+
+#+begin_quote
+*Example:* Take the rule $\text{R-Box}$ and it's associated rule in
+$\text{R-Sub}$:
+
+\begin{align*}
+\frac
+{\ell_n \not \in \mathbf{dom}(\mathcal S_1) \qquad \mathcal S_2 = \mathcal S_1 [\ell_n \mapsto \langle v \rangle^*] }
+{\langle \ \mathcal S_1 \vartriangleright \texttt{box} \ v \longrightarrow \mathcal S_2 \vartriangleright \ell_n^\bullet \ \rangle^l}
+\ (\text{R-Box})
+\end{align*}
+\begin{align*}
+\frac
+{\langle \ \mathcal S_1 \vartriangleright t_1 \longrightarrow \mathcal S_2 \vartriangleright t_2 \ \rangle^l}
+{\langle \ \mathcal S_1 \vartriangleright \texttt{box} \ t_1 \longrightarrow \mathcal S_2 \vartriangleright \texttt{box} \ t_2 \ \rangle^l}
+\ (\text{R-Sub})
+\end{align*}
+
+The rule $\text{R-Sub}$ states that we need to evaluate the argument
+of a box constructor before evaluating the box expression itself (the
+'$v$' in $\text{R-Box}$ is a value).  We can package this into a
+single big-step rule:
+
+\begin{align*}
+&\frac
+{\langle \ \mathcal S_1 \vartriangleright e \Downarrow \mathcal S_2 \vartriangleright v \ \rangle^l
+\qquad \ell_n \not \in \mathbf{dom}(\mathcal S_2)
+\qquad \mathcal S_3 = \mathcal S_2 [\ell_n \mapsto \langle v \rangle^*] }
+{\langle \ \mathcal S_1 \vartriangleright \texttt{box} \ e \Downarrow \mathcal S_3 \vartriangleright \ell_n^\bullet \ \rangle^l}
+\ (\text{R-Box-Big})
+\end{align*}
+
+Note that "$\ell_n \not \in \mathbf{dom}(\mathcal S_2)$" is just a
+freshness condition, expressing that $n$ is a fresh unique identifier.
+#+end_quote
+
+#+begin_quote
+*Example:* In the case of statements, consider the rules $\text{R-Declare}$ and
+its associated rule in $\text{R-Sub}$:
+
+\begin{align*}
+\frac
+{\mathcal S_2 = \mathcal S_1[\ell_x \mapsto \langle v \rangle^l]}
+{\langle \ \mathcal S_1 \vartriangleright \texttt{let mut} \ x \ \texttt{=} \ v \longrightarrow \mathcal S_2 \vartriangleright \epsilon \ \rangle^l}
+\ (\text{R-Declare})
+\end{align*}
+\begin{align*}
+\frac
+{\langle \ \mathcal S_1 \vartriangleright t_1 \longrightarrow \mathcal S_2 \vartriangleright t_2 \ \rangle^l}
+{\langle \ \mathcal S_1 \vartriangleright \texttt{let mut} \ x \ \texttt{=} \ t_1 \longrightarrow \mathcal S_2 \vartriangleright \texttt{let mut} \ x \ \texttt{=} \ t_2 \ \rangle^l}
+\ (\text{R-Sub})
+\end{align*}
+
+We can package this into a single big-step rule, except now there is
+no need to return a value, just a new store:
+
+\begin{align*}
+\frac
+{
+\langle \ \mathcal S_1 \vartriangleright e \Downarrow \mathcal S_2 \vartriangleright v \ \rangle^l \qquad
+\mathcal S_3 = \mathcal S_2[\ell_x \mapsto \langle v \rangle^l]
+}
+{\langle \ \mathcal S_1 \vartriangleright \texttt{let mut} \ x \ \texttt{=} \ v \Downarrow \mathcal S_3 \rangle^l}
+\ (\text{R-Declare-Big})
+\end{align*}
+#+end_quote
+
+The name of the game is determining how to do this translation for
+the remaining rules.  It's a bit more work conceptually, but I think a
+fair amount easier in the implementation.
+
+*** Remarks
++ One thing we're hand-waving here is our definition of ~Lifetime~.
+  The only thing that's required of lifetimes for the semantics is
+  that every block is labeled with a /unique/ lifetime.  This is so
+  the semantics of dropping is correct (we don't want to drop values
+  from the wrong block).
++ In the $\text{R-Box-Big}$ rule, you'll need to use the /global/
+  lifetime.  The easiest way to deal with this for now is to define an
+  method for ~Lifetime~:
+  #+begin_src rust
+    impl Lifetime {
+	pub fn global() -> Lifetime {
+	    Lifetime(0)
+	}
+    }
+  #+end_src
+  Then when we update the definition of ~Lifetime~ for our type/borrow
+  checker, we won't need to update the evaluator at all.
++ There are many small missing details even in this description of the
+  code.  It'll be worthwhile to create some methods, derive some
+  traits, the usual things we need when putting together a Rust
+  project.
++ One way you might want to extend your implementation to be more
+  useful is to carry metadata in the expression to make error messages
+  more useful.
++ A quick reminder that this is the first iteration of this course, so
+  /I don't really know what y'all are going to struggle with the
+  most./ Please ask questions, because it helps me out too!

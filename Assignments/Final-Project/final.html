@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-04-03 Thu 16:26 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Final Project</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../../material.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Final Project</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5cf4d9a">Part 0: Set up</a></li>
+<li><a href="#orge2780c7">Part 1: Semantics</a></li>
+</ul>
+</div>
+</div>
+<p>
+Welcome to the final project for <i>CAS CS 392: Rust in Practice and in
+Theory</i>.  As you know, we'll be building an interpreter for
+<a href="https://dl.acm.org/doi/10.1145/3443420">Featherweight Rust (FR)</a>, a subset of Rust defined and formalized by
+David J. Pearce.  I envisage this as something between a project spec
+and a tutorial.  I'll be adding to it for each part of the project,
+trying to gently guide you to the finish line.  I <i>won't</i> be giving
+any starter code, I'd like this project to be something that you build
+from scratch.
+</p>
+
+<p>
+Each part of the project will generally be presented in two forms:
+</p>
+<ol class="org-ol">
+<li><b>hard mode</b>, a high-level description with little detail and many
+degrees of freedom;</li>
+<li><b>easy mode</b>, a low-level description with more detail and fewer
+degrees of freedom.</li>
+</ol>
+<p>
+The first form should be read as the actual project spec, what you're
+required to do. The second form should be read as a guide to the
+simplest way of satisfy the spec.  <i>The point being:</i> if you want to
+make this a fully featured interpreter, then go for it. As long as you
+satisfy the spec.  If you're just looking to make it to the end, the
+guide should provide a more direct path there.
+</p>
+
+<p>
+Let's get started.
+</p>
+
+<div id="outline-container-org5cf4d9a" class="outline-2">
+<h2 id="org5cf4d9a">Part 0: Set up</h2>
+<div class="outline-text-2" id="text-org5cf4d9a">
+<p>
+<i>At the beginning, there was a new crate.</i> Choose a "clever" name for
+a small subset of Rust.  If you don't want to be clever, you can use
+the name I'll be using for this page:<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">cargo new salt
+</pre>
+</div>
+
+<p>
+First we're gonna set up our files. We want our project to have the
+following structure:
+</p>
+<div class="org-src-container">
+<pre class="src src-text">.
+&#9500;&#9472;&#9472; bin
+&#9474;&#160;&#160; &#9500;&#9472;&#9472; interp.rs
+&#9474;&#160;&#160; &#9492;&#9472;&#9472; playground.rs
+&#9500;&#9472;&#9472; lib.rs
+&#9492;&#9472;&#9472; utils.rs
+</pre>
+</div>
+<p>
+The files <code>interp.rs</code> and <code>playground.rs</code> should have empty <code>main</code>
+functions, <code>utils.rs</code> should be an empty file, and <code>lib.rs</code> should
+contain the single line:
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">utils</span>;
+</pre>
+</div>
+<p>
+A couple notes about this structure:
+</p>
+<ul class="org-ul">
+<li>This crate has two executables. If we want to run the playground we
+can use <code>cargo run --bin playground</code> and if we want to run the
+interpreter, we can use <code>cargo run --bin interp</code>.  This will be
+useful when we want to quickly check how Rust behaves on some
+program, and eventually when we want a file sitting around for
+testing the whole pipeline.</li>
+<li>The file <code>utils.rs</code> will contain code that's shared across the
+project. You can put whatever you want in there (or get rid of it).</li>
+<li><p>
+The file <code>lib.rs</code> is the entry point for all the code we write. By
+the end of this project, it'll have just a couple lines, making
+public the various parts of our interpreter.
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">utils</span>;  <span style="color: #b22222;">// </span><span style="color: #b22222;">PART 0</span>
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">eval</span>;   <span style="color: #b22222;">// </span><span style="color: #b22222;">PART 1</span>
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">types</span>;  <span style="color: #b22222;">// </span><span style="color: #b22222;">PART 2</span>
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">lexer</span>;  <span style="color: #b22222;">// </span><span style="color: #b22222;">PART 3</span>
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">parser</span>; <span style="color: #b22222;">// </span><span style="color: #b22222;">PART 3</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge2780c7" class="outline-2">
+<h2 id="orge2780c7">Part 1: Semantics</h2>
+<div class="outline-text-2" id="text-orge2780c7">
+<p>
+<i>Then there was an evaluator.</i> We'll start by implementing the
+semantics for FR. This means defining a couple things:
+</p>
+
+<ul class="org-ul">
+<li>an enumeration for <i>expressions</i> in FR (called <i>terms</i> in the FR
+paper);</li>
+<li>a structure representing the <i>evaluation context</i> (this is a
+confluence of terms, it's not the same as an evaluation context in
+the FR paper (Definition 3.5), it's just a structure with the
+necessary data to perform evaluation);</li>
+<li>a method for <i>evaluating</i> expressions according to the FR spec.</li>
+</ul>
+
+<blockquote>
+<p>
+<b>Important:</b> Keep in mind that in the next part we'll be implementing
+a type/borrow checker. The point of the type/borrow checker is to make
+sure we only evaluate <i>well-behaved</i> expressions.  In practice this
+means <code>unwrap</code> to your hearts delight.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>
+</p>
+</blockquote>
+</div>
+
+<div id="outline-container-orga95bba6" class="outline-3">
+<h3 id="orga95bba6">Hard-Mode</h3>
+<div class="outline-text-3" id="text-orga95bba6">
+<p>
+At a high-level, you need to implement the following according to the
+FR spec:
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Expr</span>     <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO</span>
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Value</span>    <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO</span>
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Lifetime</span> <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO</span>
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Context</span>  <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO</span>
+
+
+<span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Context</span> {
+  <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">eval_expr</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">e</span> : <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Expr</span>, <span style="color: #a0522d;">l</span>: <span style="color: #228b22;">Lifetime</span>) -&gt; <span style="color: #228b22;">Value</span> { <span style="color: #483d8b;">todo!</span>() }
+}
+</pre>
+</div>
+
+<p>
+If that's all you need, then have at it. Feel free to put the code
+wherever it's clear.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaab9df5" class="outline-3">
+<h3 id="orgaab9df5">Easy-Mode</h3>
+<div class="outline-text-3" id="text-orgaab9df5">
+<p>
+Create an empty file <code>src/eval.rs</code> and add the following line to the
+file <code>src/lib.rs</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">eval</span>;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org53cb4a6" class="outline-4">
+<h4 id="org53cb4a6">Programs</h4>
+<div class="outline-text-4" id="text-org53cb4a6">
+<p>
+Let's start by giving a slightly different grammar for FR:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0000ff;">expr</span>&gt;  <span style="color: #008b8b;">::=</span> '{' { &lt;<span style="color: #483d8b;">stmt</span>&gt; '&#10783;' } [&lt;<span style="color: #483d8b;">expr</span>&gt;] '}'
+          <span style="color: #ff0000; font-weight: bold;">|</span> 'Box::new' '(' &lt;<span style="color: #483d8b;">expr</span>&gt; ')'
+          <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">lval</span>&gt;
+          <span style="color: #ff0000; font-weight: bold;">|</span> '&amp;' ['mut'] &lt;<span style="color: #483d8b;">lval</span>&gt;
+          <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">int</span>&gt;
+
+&lt;<span style="color: #0000ff;">stmt</span>&gt;  <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">expr</span>&gt;
+          <span style="color: #ff0000; font-weight: bold;">|</span> 'let' 'mut' &lt;<span style="color: #483d8b;">var</span>&gt; '=' &lt;<span style="color: #483d8b;">expr</span>&gt;
+          <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #483d8b;">lval</span>&gt; '=' &lt;<span style="color: #483d8b;">expr</span>&gt;
+
+&lt;<span style="color: #0000ff;">lval</span>&gt;  <span style="color: #008b8b;">::=</span> &lt;<span style="color: #483d8b;">var</span>&gt;
+          <span style="color: #ff0000; font-weight: bold;">|</span> '*' &lt;<span style="color: #483d8b;">lval</span>&gt;
+
+&lt;<span style="color: #0000ff;">prog</span>&gt;  <span style="color: #008b8b;">::=</span>
+</pre>
+</div>
+
+<p>
+The biggest different between this syntax and the given one is that we
+distinguish between expressions and statements.<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
+</p>
+
+<p>
+From this grammar we get a natural AST (which we can put into the file
+<code>src/utils.rs</code>):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Ident</span> = <span style="color: #228b22;">String</span>;
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Copyable</span> = <span style="color: #228b22;">bool</span>;
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Mutable</span> = <span style="color: #228b22;">bool</span>;
+
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Lifetime</span> = <span style="color: #228b22;">Lifetime</span>(<span style="color: #228b22;">usize</span>); <span style="color: #b22222;">// </span><span style="color: #b22222;">THIS WILL CHANGE</span>
+
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Lval</span> {
+    <span style="color: #a020f0;">pub</span> <span style="color: #a0522d;">ident</span>: <span style="color: #228b22;">Ident</span>,
+    <span style="color: #a020f0;">pub</span> <span style="color: #a0522d;">derefs</span>: <span style="color: #228b22;">usize</span>,
+}
+
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Expr</span> {
+    <span style="color: #228b22;">Unit</span>,
+    <span style="color: #228b22;">Int</span>(<span style="color: #228b22;">i32</span>),
+    <span style="color: #228b22;">Lval</span>(<span style="color: #228b22;">Lval</span>, <span style="color: #228b22;">Copyable</span>),
+    <span style="color: #228b22;">Box</span>(<span style="color: #228b22;">Box</span>&lt;<span style="color: #228b22;">Expr</span>&gt;),
+    <span style="color: #228b22;">Borrow</span>(<span style="color: #228b22;">Lval</span>, <span style="color: #228b22;">Mutable</span>),
+    <span style="color: #228b22;">Block</span>(<span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">Stmt</span>&gt;, <span style="color: #228b22;">Box</span>&lt;<span style="color: #228b22;">Expr</span>&gt;, <span style="color: #228b22;">Lifetime</span>),
+}
+
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Stmt</span> {
+    <span style="color: #228b22;">Assign</span>(<span style="color: #228b22;">Lval</span>, <span style="color: #228b22;">Expr</span>),
+    <span style="color: #228b22;">LetMut</span>(<span style="color: #228b22;">Ident</span>, <span style="color: #228b22;">Expr</span>),
+    <span style="color: #228b22;">Expr</span>(<span style="color: #228b22;">Expr</span>),
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org509a4ca" class="outline-4">
+<h4 id="org509a4ca">Program Store</h4>
+<div class="outline-text-4" id="text-org509a4ca">
+<p>
+Next we need some machinary to define the notion of a <i>program
+store</i>. A quick reminder of definitions (see the FR paper (pg. 13-15)
+for more details):
+</p>
+
+<ul class="org-ul">
+<li>A <b>location</b> is an abstract entity that is either <i>named</i> or
+<i>unnamed</i>. In reality, unnnamed locations still need unique
+identifers, but they don't correspond to any variable name in the
+program.</li>
+<li>A <b>value</b> is:
+<ul class="org-ul">
+<li>unit (\(\epsilon\));</li>
+<li>an integer;</li>
+<li>a <i>reference</i>, which a location that is either owned
+(\(\ell^\bullet\)) or borrowed (\(\ell^\circ\)).</li>
+</ul></li>
+<li>A <b>partial value</b> is either a value or <i>undefined</i> (\(\bot\)).</li>
+<li>A <b>slot value</b> is a partial value together with a lifetime (\(\langle v
+  \rangle^m\)).</li>
+<li>The <b>program store</b> (\(\mathcal S\)) is a map from locations to slots
+values.</li>
+</ul>
+
+<p>
+We can do a pretty direct translation of these constructs, and put
+them in <code>src/eval.rs</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">type</span> <span style="color: #228b22;">Location</span> = <span style="color: #228b22;">Ident</span>;
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Owned</span> = <span style="color: #228b22;">bool</span>;
+
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Value</span> {
+    <span style="color: #228b22;">Unit</span>,
+    <span style="color: #228b22;">Int</span>(<span style="color: #228b22;">i32</span>),
+    <span style="color: #228b22;">Ref</span>(<span style="color: #228b22;">Location</span>, <span style="color: #228b22;">Owned</span>),
+}
+
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Pvalue</span> = <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">Value</span>&gt;;
+
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Slot</span> {
+    <span style="color: #a0522d;">value</span>: <span style="color: #228b22;">Pvalue</span>,
+    <span style="color: #a0522d;">lifetime</span>: <span style="color: #228b22;">Lifetime</span>,
+}
+
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Store</span>(<span style="color: #228b22;">HashMap</span>&lt;<span style="color: #228b22;">Location</span>, <span style="color: #228b22;">Slot</span>&gt;);
+</pre>
+</div>
+
+<p>
+We'll take unnamed locations to be locations given fresh identifiers.
+</p>
+
+<p>
+The semantics of FR is presented against an interface of functions on
+program stores (<code>write</code> returns the old value in the slot):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Store</span> {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">locate</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">w</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>) -&gt; <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Location</span> { <span style="color: #483d8b;">todo!</span>() }
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">read</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">x</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>) -&gt; <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Slot</span> { <span style="color: #483d8b;">todo!</span>() }
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">write</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">x</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>, <span style="color: #a0522d;">v</span>: <span style="color: #228b22;">Pvalue</span>) -&gt; <span style="color: #228b22;">Pvalue</span> { <span style="color: #483d8b;">todo!</span>() }
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">drop</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">values</span>: <span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">Pvalue</span>&gt;) { <span style="color: #483d8b;">todo!</span> () }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf356171" class="outline-4">
+<h4 id="orgf356171">Evaluation</h4>
+<div class="outline-text-4" id="text-orgf356171">
+<p>
+Finally, the <b>evaluation context</b> is a structure with a program store,
+along with whatever other data we need in order to perform evaluation:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Context</span> {
+    <span style="color: #a0522d;">store</span>: <span style="color: #228b22;">Store</span>,
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO: anything else you need</span>
+}
+</pre>
+</div>
+
+<p>
+All that's left to do is implement <i>two</i> evaluation functions, one for
+expressions and one for statements:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Context</span> {
+    <span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">eval_expr</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">expr</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Expr</span>, <span style="color: #a0522d;">l</span>: <span style="color: #228b22;">Lifetime</span>) -&gt; <span style="color: #228b22;">Value</span> { <span style="color: #483d8b;">todo!</span>() }
+    <span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">eval_stmt</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">stmt</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Stmt</span>, <span style="color: #a0522d;">l</span>: <span style="color: #228b22;">Lifetime</span>) { <span style="color: #483d8b;">todo!</span>() }
+}
+</pre>
+</div>
+
+<p>
+Evaluating an expression returns a value, whereas evaluating a
+statement only modifies the evaluation context (i.e., the program
+store).  This is a bit more natural compared to what is done in the FR
+paper, in which statements need to artificially be given values in
+order to define the semantics.
+</p>
+
+<p>
+The trick is that we won't implement the semantics given in the FR
+paper, but instead its equivalent <i>big-step</i> semantics.
+</p>
+
+<p>
+I'm going to leave this as part of the challenge of the project, but
+hopefully a couple examples will get you thinking about how to come up
+with the right big-step semantics for FR.
+</p>
+
+<blockquote>
+<p>
+<b>Example:</b> Take the rule \(\text{R-Box}\) and it's associated rule in
+\(\text{R-Sub}\):
+</p>
+
+\begin{align*}
+\frac
+{\ell_n \not \in \mathbf{dom}(\mathcal S_1) \qquad \mathcal S_2 = \mathcal S_1 [\ell_n \mapsto \langle v \rangle^*] }
+{\langle \ \mathcal S_1 \vartriangleright \texttt{box} \ v \longrightarrow \mathcal S_2 \vartriangleright \ell_n^\bullet \ \rangle^l}
+\ (\text{R-Box})
+\end{align*}
+\begin{align*}
+\frac
+{\langle \ \mathcal S_1 \vartriangleright t_1 \longrightarrow \mathcal S_2 \vartriangleright t_2 \ \rangle^l}
+{\langle \ \mathcal S_1 \vartriangleright \texttt{box} \ t_1 \longrightarrow \mathcal S_2 \vartriangleright \texttt{box} \ t_2 \ \rangle^l}
+\ (\text{R-Sub})
+\end{align*}
+
+<p>
+The rule \(\text{R-Sub}\) states that we need to evaluate the argument
+of a box constructor before evaluating the box expression itself (the
+'\(v\)' in \(\text{R-Box}\) is a value).  We can package this into a
+single big-step rule:
+</p>
+
+\begin{align*}
+&\frac
+{\langle \ \mathcal S_1 \vartriangleright e \Downarrow \mathcal S_2 \vartriangleright v \ \rangle^l
+\qquad \ell_n \not \in \mathbf{dom}(\mathcal S_2)
+\qquad \mathcal S_3 = \mathcal S_2 [\ell_n \mapsto \langle v \rangle^*] }
+{\langle \ \mathcal S_1 \vartriangleright \texttt{box} \ e \Downarrow \mathcal S_3 \vartriangleright \ell_n^\bullet \ \rangle^l}
+\ (\text{R-Box-Big})
+\end{align*}
+
+<p>
+Note that "\(\ell_n \not \in \mathbf{dom}(\mathcal S_2)\)" is just a
+freshness condition, expressing that \(n\) is a fresh unique identifier.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example:</b> In the case of statements, consider the rules \(\text{R-Declare}\) and
+its associated rule in \(\text{R-Sub}\):
+</p>
+
+\begin{align*}
+\frac
+{\mathcal S_2 = \mathcal S_1[\ell_x \mapsto \langle v \rangle^l]}
+{\langle \ \mathcal S_1 \vartriangleright \texttt{let mut} \ x \ \texttt{=} \ v \longrightarrow \mathcal S_2 \vartriangleright \epsilon \ \rangle^l}
+\ (\text{R-Declare})
+\end{align*}
+\begin{align*}
+\frac
+{\langle \ \mathcal S_1 \vartriangleright t_1 \longrightarrow \mathcal S_2 \vartriangleright t_2 \ \rangle^l}
+{\langle \ \mathcal S_1 \vartriangleright \texttt{let mut} \ x \ \texttt{=} \ t_1 \longrightarrow \mathcal S_2 \vartriangleright \texttt{let mut} \ x \ \texttt{=} \ t_2 \ \rangle^l}
+\ (\text{R-Sub})
+\end{align*}
+
+<p>
+We can package this into a single big-step rule, except now there is
+no need to return a value, just a new store:
+</p>
+
+\begin{align*}
+\frac
+{
+\langle \ \mathcal S_1 \vartriangleright e \Downarrow \mathcal S_2 \vartriangleright v \ \rangle^l \qquad
+\mathcal S_3 = \mathcal S_2[\ell_x \mapsto \langle v \rangle^l]
+}
+{\langle \ \mathcal S_1 \vartriangleright \texttt{let mut} \ x \ \texttt{=} \ v \Downarrow \mathcal S_3 \rangle^l}
+\ (\text{R-Declare-Big})
+\end{align*}
+</blockquote>
+
+<p>
+The name of the game is determining how to do this translation for
+the remaining rules.  It's a bit more work conceptually, but I think a
+fair amount easier in the implementation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb9e468d" class="outline-4">
+<h4 id="orgb9e468d">Remarks</h4>
+<div class="outline-text-4" id="text-orgb9e468d">
+<ul class="org-ul">
+<li>One thing we're hand-waving here is our definition of <code>Lifetime</code>.
+The only thing that's required of lifetimes for the semantics is
+that every block is labeled with a <i>unique</i> lifetime.  This is so
+the semantics of dropping is correct (we don't want to drop values
+from the wrong block).</li>
+<li><p>
+In the \(\text{R-Box-Big}\) rule, you'll need to use the <i>global</i>
+lifetime.  The easiest way to deal with this for now is to define an
+method for <code>Lifetime</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Lifetime</span> {
+    <span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">global</span>() -&gt; <span style="color: #228b22;">Lifetime</span> {
+        <span style="color: #228b22;">Lifetime</span>(0)
+    }
+}
+</pre>
+</div>
+<p>
+Then when we update the definition of <code>Lifetime</code> for our type/borrow
+checker, we won't need to update the evaluator at all.
+</p></li>
+<li>There are many small missing details even in this description of the
+code.  It'll be worthwhile to create some methods, derive some
+traits, the usual things we need when putting together a Rust
+project.</li>
+<li>One way you might want to extend your implementation to be more
+useful is to carry metadata in the expression to make error messages
+more useful.</li>
+<li>A quick reminder that this is the first iteration of this course, so
+<i>I don't really know what y'all are going to struggle with the
+most.</i> Please ask questions, because it helps me out too!</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">I dunno, I guess salt is
+usually a precursor to rust.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Although you should keep in
+mind that using <code>unwrap</code> a lot can make code a bit harder to debug.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">These are combined
+in to a notion of a <i>term</i> in the FR paper.</p></div></div>
+
+
+</div>
+</div></div>
+</body>
+</html>
