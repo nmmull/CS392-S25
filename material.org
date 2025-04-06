@@ -43,6 +43,8 @@
 *** [[file:Slides/15-stlc-workshop.pdf][pdf]] [[file:Code/ltlc.zip][ltlc.zip]]
 ** Featherweight Rust: An Introduction
 *** [[file:Slides/16-fr-intro.pdf][pdf]]
+** Featherweight Rust: Semantics
+*** [[file:Slides/17-fr-semantics-ii.pdf][pdf]]
 * Midterm
 ** [[file:Assignments/Mock-Midterm/mock-midterm.zip][mock-midterm.zip]]
 ** [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
