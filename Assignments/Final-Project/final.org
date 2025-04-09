@@ -38,7 +38,7 @@ cargo new salt
 #+end_src
 
 First we're gonna set up our files. We want our project to have the
-following structure:
+following structure in the directory ~salt/src~:
 #+begin_src text
 .
 ├── bin

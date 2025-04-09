@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-03 Thu 16:26 -->
+<!-- 2025-04-07 Mon 11:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Final Project</title>
@@ -49,8 +49,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5cf4d9a">Part 0: Set up</a></li>
-<li><a href="#orge2780c7">Part 1: Semantics</a></li>
+<li><a href="#org120590b">Part 0: Set up</a></li>
+<li><a href="#orgb40f46c">Part 1: Semantics</a></li>
 </ul>
 </div>
 </div>
@@ -87,9 +87,9 @@ guide should provide a more direct path there.
 Let's get started.
 </p>
 
-<div id="outline-container-org5cf4d9a" class="outline-2">
-<h2 id="org5cf4d9a">Part 0: Set up</h2>
-<div class="outline-text-2" id="text-org5cf4d9a">
+<div id="outline-container-org120590b" class="outline-2">
+<h2 id="org120590b">Part 0: Set up</h2>
+<div class="outline-text-2" id="text-org120590b">
 <p>
 <i>At the beginning, there was a new crate.</i> Choose a "clever" name for
 a small subset of Rust.  If you don't want to be clever, you can use
@@ -103,7 +103,7 @@ the name I'll be using for this page:<sup><a id="fnr.1" class="footref" href="#f
 
 <p>
 First we're gonna set up our files. We want our project to have the
-following structure:
+following structure in the directory <code>salt/src</code>:
 </p>
 <div class="org-src-container">
 <pre class="src src-text">.
@@ -152,9 +152,9 @@ public the various parts of our interpreter.
 </div>
 </div>
 
-<div id="outline-container-orge2780c7" class="outline-2">
-<h2 id="orge2780c7">Part 1: Semantics</h2>
-<div class="outline-text-2" id="text-orge2780c7">
+<div id="outline-container-orgb40f46c" class="outline-2">
+<h2 id="orgb40f46c">Part 1: Semantics</h2>
+<div class="outline-text-2" id="text-orgb40f46c">
 <p>
 <i>Then there was an evaluator.</i> We'll start by implementing the
 semantics for FR. This means defining a couple things:
@@ -180,9 +180,9 @@ means <code>unwrap</code> to your hearts delight.<sup><a id="fnr.2" class="footr
 </blockquote>
 </div>
 
-<div id="outline-container-orga95bba6" class="outline-3">
-<h3 id="orga95bba6">Hard-Mode</h3>
-<div class="outline-text-3" id="text-orga95bba6">
+<div id="outline-container-org63b9221" class="outline-3">
+<h3 id="org63b9221">Hard-Mode</h3>
+<div class="outline-text-3" id="text-org63b9221">
 <p>
 At a high-level, you need to implement the following according to the
 FR spec:
@@ -207,9 +207,9 @@ wherever it's clear.
 </div>
 </div>
 
-<div id="outline-container-orgaab9df5" class="outline-3">
-<h3 id="orgaab9df5">Easy-Mode</h3>
-<div class="outline-text-3" id="text-orgaab9df5">
+<div id="outline-container-orgffd24e8" class="outline-3">
+<h3 id="orgffd24e8">Easy-Mode</h3>
+<div class="outline-text-3" id="text-orgffd24e8">
 <p>
 Create an empty file <code>src/eval.rs</code> and add the following line to the
 file <code>src/lib.rs</code>:
@@ -221,9 +221,9 @@ file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-org53cb4a6" class="outline-4">
-<h4 id="org53cb4a6">Programs</h4>
-<div class="outline-text-4" id="text-org53cb4a6">
+<div id="outline-container-orgc05d469" class="outline-4">
+<h4 id="orgc05d469">Programs</h4>
+<div class="outline-text-4" id="text-orgc05d469">
 <p>
 Let's start by giving a slightly different grammar for FR:
 </p>
@@ -287,9 +287,9 @@ From this grammar we get a natural AST (which we can put into the file
 </div>
 </div>
 
-<div id="outline-container-org509a4ca" class="outline-4">
-<h4 id="org509a4ca">Program Store</h4>
-<div class="outline-text-4" id="text-org509a4ca">
+<div id="outline-container-org72421e2" class="outline-4">
+<h4 id="org72421e2">Program Store</h4>
+<div class="outline-text-4" id="text-org72421e2">
 <p>
 Next we need some machinary to define the notion of a <i>program
 store</i>. A quick reminder of definitions (see the FR paper (pg. 13-15)
@@ -361,9 +361,9 @@ program stores (<code>write</code> returns the old value in the slot):
 </div>
 </div>
 
-<div id="outline-container-orgf356171" class="outline-4">
-<h4 id="orgf356171">Evaluation</h4>
-<div class="outline-text-4" id="text-orgf356171">
+<div id="outline-container-org468a01f" class="outline-4">
+<h4 id="org468a01f">Evaluation</h4>
+<div class="outline-text-4" id="text-org468a01f">
 <p>
 Finally, the <b>evaluation context</b> is a structure with a program store,
 along with whatever other data we need in order to perform evaluation:
@@ -493,9 +493,9 @@ fair amount easier in the implementation.
 </div>
 </div>
 
-<div id="outline-container-orgb9e468d" class="outline-4">
-<h4 id="orgb9e468d">Remarks</h4>
-<div class="outline-text-4" id="text-orgb9e468d">
+<div id="outline-container-org68a6c43" class="outline-4">
+<h4 id="org68a6c43">Remarks</h4>
+<div class="outline-text-4" id="text-org68a6c43">
 <ul class="org-ul">
 <li>One thing we're hand-waving here is our definition of <code>Lifetime</code>.
 The only thing that's required of lifetimes for the semantics is

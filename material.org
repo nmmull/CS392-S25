@@ -44,7 +44,9 @@
 ** Featherweight Rust: An Introduction
 *** [[file:Slides/16-fr-intro.pdf][pdf]]
 ** Featherweight Rust: Semantics
-*** [[file:Slides/17-fr-semantics-ii.pdf][pdf]]
+*** [[file:Slides/18-fr-semantics-ii.pdf][pdf]]
+** Featherweight Rust: Type/Borrow Checking
+*** [[file:Slides/19-fr-types.pdf][pdf (1)]]
 * Midterm
 ** [[file:Assignments/Mock-Midterm/mock-midterm.zip][mock-midterm.zip]]
 ** [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
