@@ -155,7 +155,7 @@ From this grammar we get a natural AST (which we can put into the file
   type Copyable = bool;
   type Mutable = bool;
 
-  type Lifetime = Lifetime(usize); // THIS WILL CHANGE
+  struct Lifetime(usize); // THIS WILL CHANGE
 
   pub struct Lval {
       pub ident: Ident,
