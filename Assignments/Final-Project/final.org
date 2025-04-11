@@ -99,10 +99,10 @@ mind that using ~unwrap~ a lot can make code a bit harder to debug.]
 At a high-level, you need to implement the following according to the
 FR spec:
 #+begin_src rust
-  struct Expr     // TODO
-  struct Value    // TODO
-  struct Lifetime // TODO
-  struct Context  // TODO
+  struct Expr;     // TODO
+  struct Value;    // TODO
+  struct Lifetime; // TODO
+  struct Context;  // TODO
 
 
   impl Context {
@@ -155,7 +155,7 @@ From this grammar we get a natural AST (which we can put into the file
   type Copyable = bool;
   type Mutable = bool;
 
-  struct Lifetime(usize); // THIS WILL CHANGE
+  struct Lifetime(usize);
 
   pub struct Lval {
       pub ident: Ident,
@@ -368,3 +368,201 @@ fair amount easier in the implementation.
 + A quick reminder that this is the first iteration of this course, so
   /I don't really know what y'all are going to struggle with the
   most./ Please ask questions, because it helps me out too!
+
+* Part 2: Types
+
+/But we have to type/borrow check our programs before we evaluate./ We
+take a step back to build a type/borrow checker.  This part will be a
+fair amount more involved than the last. We need to define:
+
++ an enumeration for /types/ in FR, which may become /partial/ during type-checking;
++ a structure for representing the /type-checking context/, which will
+  include a typing environment and auxiliary data for managing
+  lifetime information;
++ a method for /type-checking/ a FR expression according to the FR spec.
+
+** Hard Mode
+
+At a high-level, you need to implement the following according to the FR spec:
+
+#+begin_src rust
+  enum Type;      // TODO
+  struct Context; // TODO
+  enum Error;     // TODO
+
+  impl Context {
+      fn type_expr(&mut self, expr: &mut Expr) -> Result<Type, Error> {
+	  todo!()
+      }
+  }
+#+end_src
+Note that ~type_expr~ takes a /mutable/ reference to an
+expression. This is because our surface-level syntax doesn't include
+annotations which label l-values as /copyable/.  In the parsing stage,
+we'll label everything as /movable/, and during the type-checking
+phase, /we'll relabel l-values with copyable types./
+
+** Easy Mode
+
+Create a empty file ~lib/types.rs~ and include the following line to
+the file ~src/lib.rs~:
+
+#+begin_src rust
+pub mod types;
+#+end_src
+
+*** Types
+
+We start with an enumeration for types. This will already be a
+departure from the FR specification; it will be more convenient if our
+notion of type /includes/ partial types:
+
+#+begin_src rust
+  enum Type {
+      Unit,
+      Int,
+      Box(Box<Type>),
+      Ref(Lval, Mutable),
+      Undefined(Box<Type>),
+  }
+#+end_src
+
+We will think of the ~Undefined~ constructor as a way of "walling off"
+part of a type as undefined.[fn::This enumeration has a lot of
+ill-defined partial types, e.g., a partial type is required to have a
+most one undefined part in the core calculus. We'll ignore this, but
+it's worth keeping in mind.]
+
+*** The Typing Environment
+
+The /typing environment/ is a mapping from identifiers to slotted
+types (i.e., (partial) types labeled with lifetimes), very similar to
+our program store from the previous part:
+
+#+begin_src rust
+  struct Slot {
+    tipe: Type,
+    lifetime: Lifetime,
+  }
+
+  struct Env(HashMap<Ident, Slot>);
+#+end_src
+
+For now, *you are /not/ required to give meaningful type errors.* We
+can set up an enumeration for errors with a single constructor (which
+can be easily extended should you want to implement more reasonable
+type error messages):
+
+#+begin_src rust
+  enum Error {
+      Dummy,
+  }
+
+  type TypeResult<T> = Result<T, Error>;
+#+end_src
+
+The environment should implement functions that appear in the
+spec.
+
+#+begin_src rust
+  impl Env {
+      fn type_lval(&self, lval: &Lval) -> TypeResult<Slot> { todo!() }
+
+      // Returns the type under the boxes of a type, given that the
+      // underlying type is defined
+      fn contained(&self, var: &Ident) -> Option<&Type> { todo!() }
+
+      fn read_prohibited(&self, lval: &Lval) -> bool { todo!() }
+
+      fn write_prohibited(&self, lval: &Lval) -> bool { todo!() }
+
+      // "move" is a keyword in Rust
+      fn moove(&mut self, lval: &Lval) { todo!() }
+
+      // so is "mut"
+      fn muut(&self, lval: &Lval) -> bool { todo!() }
+
+      fn compatible(&self, t1: &Type, t2: &Type) -> bool
+
+      fn write(&mut self, w: &Lval, tipe: Type) { todo!() }
+
+      fn drop(&mut self, l: Lifetime) { todo!() }
+  }
+#+end_src
+
+Most of the functions take a /mutable/ reference to ~self~. This is
+all we really mean when we say that we're implementing a
+/flow-sensitive/ type system: the typing environment changes
+throughout the process of type checking. This also means you have to
+make sure that you check premises in the correct order!
+
+*** Alternative Definitions
+
+A lot of these functions are straightforward translations of the
+definitions given in the spec.  There are couple worth expanding on:
+
+#+begin_quote
+*Definition.* /(Type Containment)/ The /type contained in/ a partial type (a.k.a. the
+contained type) is defined inductively as follows:
+
++ the type contained in $\epsilon$ (i.e., the unit type) is $\epsilon$;
++ the type contained in ~int~ is ~int~;
++ the type contained in ~&[mut] w~ is ~&[mut] w~;
++ the type contained in $\square \tau$ is the type contained in
+  $\tau$;
++ otherwise, the contained type is undefined.
+
+That is, the contained type is the full type under any number
+of partial boxes, given that it is defined.
+
+The /type contained in/ the identifier $x$ with respect to the typing
+environment $\Gamma$ is the type contained in $\sigma$ where
+$\Gamma(x) = \langle \sigma \rangle^l$, given that $x \in
+\mathsf{dom}(\Gamma)$ and $\sigma$ contains a type. It's undefined
+otherwise.
+
+That is, the contained type of an identifier is the contained type of
+its partial type in the typing environment, if it's defined.
+#+end_quote
+
+#+begin_quote
+*Definition.* /(Strong Update)/ We define the (partial) /strong
+update/ function and the (partial) /write/ function as follows:
+
+\begin{align*}
+\mathsf{update}(\Gamma, \epsilon ,  \tau_1, \tau_2) &= (\Gamma, \tau_2) \\
+\mathsf{update}(\Gamma, *\pi ,  \square \tau_1, \tau_2) &= (\Gamma', \square \tau_1') &(\Gamma', \tau_1') = \mathsf{update}(\Gamma, \pi ,  \tau_1, \tau_2) \\
+\mathsf{update}(\Gamma, *\pi ,  \&\mathsf{mut} \ u, \tau_2) &= (\Gamma', \&\mathsf{mut} \ u) &\Gamma' = \mathsf{write}(\Gamma, \pi u, \tau_2)
+\end{align*}
+
+\begin{align*}
+\mathsf{write}(\Gamma, w, \tau) &= \Gamma'[x \mapsto \langle \sigma' \rangle^l] \text{  where} \\
+w &= \pi \ | \ x \\
+\Gamma(x) &= \langle \sigma \rangle^l \\
+(\Gamma', \sigma') &= \mathsf{update}(\Gamma, \pi,  \sigma, \tau)
+\end{align*}
+#+end_quote
+
+~write~ is by far the most difficult functions in the above interface
+to implement, particularly if you want to avoid unnecessary
+cloning. As a hint, think about how strong update can be implemented
+using a mutable reference to a type, which can be used to write the
+given argument ~tipe~.
+
+*** Remarks
+
++ Because we're implementing strong updates, we are ignoring all
+  issues regarding type/environment strengthing/joins.
++ Many of the above functions depend on working with /paths/. This is,
+  in part, why we defined l-values as we did, with a ~usize~
+  representing the number of dereferences on a variable. You can use
+  this number as a path.
++ The functions ~moove~ and ~write~, in theory, have the potential to
+  fail, but don't return ~TypeResult<()>~. This is because they should
+  /not/ fail given that the other premises hold. As discussed during
+  lecture, this will require checking that types are not partial in
+  some cases.
+
+*This concludes the /first part/ of Part 2.*[fn::A confusing phrase, I
+ know.] The second part of Part 2 will be released next week and will
+ deal with the actual type/borrow checker.
