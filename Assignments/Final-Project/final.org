@@ -449,9 +449,7 @@ our program store from the previous part:
 #+end_src
 
 For now, *you are /not/ required to give meaningful type errors.* We
-can set up an enumeration for errors with a single constructor (which
-can be easily extended should you want to implement more reasonable
-type error messages):
+can set up an enumeration for errors with a single constructor:
 
 #+begin_src rust
   enum Error {

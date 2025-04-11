@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-10 Thu 20:13 -->
+<!-- 2025-04-10 Thu 20:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Final Project</title>
@@ -49,9 +49,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgda31087">Part 0: Set up</a></li>
-<li><a href="#orge5a4ff0">Part 1: Semantics</a></li>
-<li><a href="#org68cb970">Part 2: Types</a></li>
+<li><a href="#orgc91dee1">Part 0: Set up</a></li>
+<li><a href="#orgac26923">Part 1: Semantics</a></li>
+<li><a href="#org9b6b075">Part 2: Types</a></li>
 </ul>
 </div>
 </div>
@@ -88,9 +88,9 @@ guide should provide a more direct path there.
 Let's get started.
 </p>
 
-<div id="outline-container-orgda31087" class="outline-2">
-<h2 id="orgda31087">Part 0: Set up</h2>
-<div class="outline-text-2" id="text-orgda31087">
+<div id="outline-container-orgc91dee1" class="outline-2">
+<h2 id="orgc91dee1">Part 0: Set up</h2>
+<div class="outline-text-2" id="text-orgc91dee1">
 <p>
 <i>At the beginning, there was a new crate.</i> Choose a "clever" name for
 a small subset of Rust.  If you don't want to be clever, you can use
@@ -153,9 +153,9 @@ public the various parts of our interpreter.
 </div>
 </div>
 
-<div id="outline-container-orge5a4ff0" class="outline-2">
-<h2 id="orge5a4ff0">Part 1: Semantics</h2>
-<div class="outline-text-2" id="text-orge5a4ff0">
+<div id="outline-container-orgac26923" class="outline-2">
+<h2 id="orgac26923">Part 1: Semantics</h2>
+<div class="outline-text-2" id="text-orgac26923">
 <p>
 <i>Then there was an evaluator.</i> We'll start by implementing the
 semantics for FR. This means defining a couple things:
@@ -181,9 +181,9 @@ means <code>unwrap</code> to your hearts delight.<sup><a id="fnr.2" class="footr
 </blockquote>
 </div>
 
-<div id="outline-container-org1dae623" class="outline-3">
-<h3 id="org1dae623">Hard-Mode</h3>
-<div class="outline-text-3" id="text-org1dae623">
+<div id="outline-container-org7224c06" class="outline-3">
+<h3 id="org7224c06">Hard-Mode</h3>
+<div class="outline-text-3" id="text-org7224c06">
 <p>
 At a high-level, you need to implement the following according to the
 FR spec:
@@ -208,9 +208,9 @@ wherever it's clear.
 </div>
 </div>
 
-<div id="outline-container-org69f476c" class="outline-3">
-<h3 id="org69f476c">Easy-Mode</h3>
-<div class="outline-text-3" id="text-org69f476c">
+<div id="outline-container-org07e70e5" class="outline-3">
+<h3 id="org07e70e5">Easy-Mode</h3>
+<div class="outline-text-3" id="text-org07e70e5">
 <p>
 Create an empty file <code>src/eval.rs</code> and add the following line to the
 file <code>src/lib.rs</code>:
@@ -222,9 +222,9 @@ file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-orgfdded22" class="outline-4">
-<h4 id="orgfdded22">Programs</h4>
-<div class="outline-text-4" id="text-orgfdded22">
+<div id="outline-container-org44fd837" class="outline-4">
+<h4 id="org44fd837">Programs</h4>
+<div class="outline-text-4" id="text-org44fd837">
 <p>
 Let's start by giving a slightly different grammar for FR:
 </p>
@@ -288,9 +288,9 @@ From this grammar we get a natural AST (which we can put into the file
 </div>
 </div>
 
-<div id="outline-container-orged4d33f" class="outline-4">
-<h4 id="orged4d33f">Program Store</h4>
-<div class="outline-text-4" id="text-orged4d33f">
+<div id="outline-container-orgca8521d" class="outline-4">
+<h4 id="orgca8521d">Program Store</h4>
+<div class="outline-text-4" id="text-orgca8521d">
 <p>
 Next we need some machinary to define the notion of a <i>program
 store</i>. A quick reminder of definitions (see the FR paper (pg. 13-15)
@@ -362,9 +362,9 @@ program stores (<code>write</code> returns the old value in the slot):
 </div>
 </div>
 
-<div id="outline-container-org30c2fec" class="outline-4">
-<h4 id="org30c2fec">Evaluation</h4>
-<div class="outline-text-4" id="text-org30c2fec">
+<div id="outline-container-org1f95dd1" class="outline-4">
+<h4 id="org1f95dd1">Evaluation</h4>
+<div class="outline-text-4" id="text-org1f95dd1">
 <p>
 Finally, the <b>evaluation context</b> is a structure with a program store,
 along with whatever other data we need in order to perform evaluation:
@@ -494,9 +494,9 @@ fair amount easier in the implementation.
 </div>
 </div>
 
-<div id="outline-container-orgb9fe5cc" class="outline-4">
-<h4 id="orgb9fe5cc">Remarks</h4>
-<div class="outline-text-4" id="text-orgb9fe5cc">
+<div id="outline-container-orge007509" class="outline-4">
+<h4 id="orge007509">Remarks</h4>
+<div class="outline-text-4" id="text-orge007509">
 <ul class="org-ul">
 <li>One thing we're hand-waving here is our definition of <code>Lifetime</code>.
 The only thing that's required of lifetimes for the semantics is
@@ -536,9 +536,9 @@ most.</i> Please ask questions, because it helps me out too!</li>
 </div>
 </div>
 
-<div id="outline-container-org68cb970" class="outline-2">
-<h2 id="org68cb970">Part 2: Types</h2>
-<div class="outline-text-2" id="text-org68cb970">
+<div id="outline-container-org9b6b075" class="outline-2">
+<h2 id="org9b6b075">Part 2: Types</h2>
+<div class="outline-text-2" id="text-org9b6b075">
 <p>
 <i>But we have to type/borrow check our programs before we evaluate.</i> We
 take a step back to build a type/borrow checker.  This part will be a
@@ -554,9 +554,9 @@ lifetime information;</li>
 </ul>
 </div>
 
-<div id="outline-container-orgdd2b27f" class="outline-3">
-<h3 id="orgdd2b27f">Hard Mode</h3>
-<div class="outline-text-3" id="text-orgdd2b27f">
+<div id="outline-container-org750c0c3" class="outline-3">
+<h3 id="org750c0c3">Hard Mode</h3>
+<div class="outline-text-3" id="text-org750c0c3">
 <p>
 At a high-level, you need to implement the following according to the FR spec:
 </p>
@@ -583,9 +583,9 @@ phase, <i>we'll relabel l-values with copyable types.</i>
 </div>
 </div>
 
-<div id="outline-container-org87b8043" class="outline-3">
-<h3 id="org87b8043">Easy Mode</h3>
-<div class="outline-text-3" id="text-org87b8043">
+<div id="outline-container-org509c0d9" class="outline-3">
+<h3 id="org509c0d9">Easy Mode</h3>
+<div class="outline-text-3" id="text-org509c0d9">
 <p>
 Create a empty file <code>lib/types.rs</code> and include the following line to
 the file <code>src/lib.rs</code>:
@@ -597,9 +597,9 @@ the file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-org234a789" class="outline-4">
-<h4 id="org234a789">Types</h4>
-<div class="outline-text-4" id="text-org234a789">
+<div id="outline-container-org2c89233" class="outline-4">
+<h4 id="org2c89233">Types</h4>
+<div class="outline-text-4" id="text-org2c89233">
 <p>
 We start with an enumeration for types. This will already be a
 departure from the FR specification; it will be more convenient if our
@@ -624,9 +624,9 @@ part of a type as undefined.<sup><a id="fnr.4" class="footref" href="#fn.4" role
 </div>
 </div>
 
-<div id="outline-container-org257621a" class="outline-4">
-<h4 id="org257621a">The Typing Environment</h4>
-<div class="outline-text-4" id="text-org257621a">
+<div id="outline-container-orgc288736" class="outline-4">
+<h4 id="orgc288736">The Typing Environment</h4>
+<div class="outline-text-4" id="text-orgc288736">
 <p>
 The <i>typing environment</i> is a mapping from identifiers to slotted
 types (i.e., (partial) types labeled with lifetimes), very similar to
@@ -645,9 +645,7 @@ our program store from the previous part:
 
 <p>
 For now, <b>you are <i>not</i> required to give meaningful type errors.</b> We
-can set up an enumeration for errors with a single constructor (which
-can be easily extended should you want to implement more reasonable
-type error messages):
+can set up an enumeration for errors with a single constructor:
 </p>
 
 <div class="org-src-container">
@@ -701,9 +699,9 @@ make sure that you check premises in the correct order!
 </div>
 </div>
 
-<div id="outline-container-org305e021" class="outline-4">
-<h4 id="org305e021">Alternative Definitions</h4>
-<div class="outline-text-4" id="text-org305e021">
+<div id="outline-container-org36ee1e1" class="outline-4">
+<h4 id="org36ee1e1">Alternative Definitions</h4>
+<div class="outline-text-4" id="text-org36ee1e1">
 <p>
 A lot of these functions are straightforward translations of the
 definitions given in the spec.  There are couple worth expanding on:
@@ -773,9 +771,9 @@ given argument <code>tipe</code>.
 </div>
 </div>
 
-<div id="outline-container-org270cb60" class="outline-4">
-<h4 id="org270cb60">Remarks</h4>
-<div class="outline-text-4" id="text-org270cb60">
+<div id="outline-container-org0e1dfb5" class="outline-4">
+<h4 id="org0e1dfb5">Remarks</h4>
+<div class="outline-text-4" id="text-org0e1dfb5">
 <ul class="org-ul">
 <li>Because we're implementing strong updates, we are ignoring all
 issues regarding type/environment strengthing/joins.</li>
