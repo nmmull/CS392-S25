@@ -151,18 +151,18 @@ From this grammar we get a natural AST (which we can put into the file
 ~src/utils.rs~):
 
 #+begin_src rust
-  pub type Ident = String;
-  type Copyable = bool;
-  type Mutable = bool;
+  type Ident = String;
+  enum Copyable {Yes, No}
+  enum Mutable {Yes, No}
 
   struct Lifetime(usize);
 
-  pub struct Lval {
-      pub ident: Ident,
-      pub derefs: usize,
+  struct Lval {
+      ident: Ident,
+      derefs: usize,
   }
 
-  pub enum Expr {
+  enum Expr {
       Unit,
       Int(i32),
       Lval(Lval, Copyable),
@@ -171,7 +171,7 @@ From this grammar we get a natural AST (which we can put into the file
       Block(Vec<Stmt>, Box<Expr>, Lifetime),
   }
 
-  pub enum Stmt {
+  enum Stmt {
       Assign(Lval, Expr),
       LetMut(Ident, Expr),
       Expr(Expr),
@@ -202,10 +202,11 @@ for more details):
 We can do a pretty direct translation of these constructs, and put
 them in ~src/eval.rs~:
 #+begin_src rust
-  type Location = Ident;
-  type Owned = bool;
+  Location = Ident;
+  enum Owned {Yes, No}
 
-  pub enum Value {
+
+  enum Value {
       Unit,
       Int(i32),
       Ref(Location, Owned),
@@ -213,7 +214,7 @@ them in ~src/eval.rs~:
 
   type Pvalue = Option<Value>;
 
-  pub struct Slot {
+  struct Slot {
       value: Pvalue,
       lifetime: Lifetime,
   }
@@ -464,6 +465,8 @@ spec.
 
 #+begin_src rust
   impl Env {
+      fn insert(&mut self, var: &str, tipe: Type, lifetime: Lifetime) { todo!() }
+
       fn type_lval(&self, lval: &Lval) -> TypeResult<Slot> { todo!() }
 
       // Returns the type under the boxes of a type, given that the
@@ -475,14 +478,14 @@ spec.
       fn write_prohibited(&self, lval: &Lval) -> bool { todo!() }
 
       // "move" is a keyword in Rust
-      fn moove(&mut self, lval: &Lval) { todo!() }
+      fn moove(&mut self, lval: &Lval) -> TypeResult<()> { todo!() }
 
       // so is "mut"
       fn muut(&self, lval: &Lval) -> bool { todo!() }
 
-      fn compatible(&self, t1: &Type, t2: &Type) -> bool
+      fn compatible(&self, t1: &Type, t2: &Type) -> bool { todo!() }
 
-      fn write(&mut self, w: &Lval, tipe: Type) { todo!() }
+      fn write(&mut self, w: &Lval, tipe: Type) -> TypeResult<()> { todo!() }
 
       fn drop(&mut self, l: Lifetime) { todo!() }
   }
@@ -555,11 +558,13 @@ given argument ~tipe~.
   in part, why we defined l-values as we did, with a ~usize~
   representing the number of dereferences on a variable. You can use
   this number as a path.
-+ The functions ~moove~ and ~write~, in theory, have the potential to
++ +The functions ~moove~ and ~write~, in theory, have the potential to
   fail, but don't return ~TypeResult<()>~. This is because they should
   /not/ fail given that the other premises hold. As discussed during
   lecture, this will require checking that types are not partial in
-  some cases.
+  some cases.+ That was a lie, my apologies. We do need to return
+  errors for moves and writes, e.g., in the cases there is an attempt
+  to move or write through an immutable reference.
 
 *This concludes the /first part/ of Part 2.*[fn::A confusing phrase, I
  know.] The second part of Part 2 will be released next week and will

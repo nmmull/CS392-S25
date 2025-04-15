@@ -52,3 +52,5 @@
 ** [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
 * Final Project
 ** [[file:Assignments/Final-Project/final.org][landing page]]
+** [[file:Assignments/Final-Project/part_1_tests.rs][part 1 tests]]
+** [[file:Assignments/Final-Project/part_2_1_tests.rs][part 2.1 tests]]

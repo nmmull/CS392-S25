@@ -22,7 +22,7 @@ want to add derived traits):
 
   enum Sexpr<T> {
       Atom(T),
-      List(Box<Vec<Sexpr<T>>>),
+      List(Vec<Sexpr<T>>),
   }
 
   enum ParseErrorKind {

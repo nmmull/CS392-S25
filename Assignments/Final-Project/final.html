@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-10 Thu 20:28 -->
+<!-- 2025-04-15 Tue 09:29 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Final Project</title>
@@ -49,9 +49,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc91dee1">Part 0: Set up</a></li>
-<li><a href="#orgac26923">Part 1: Semantics</a></li>
-<li><a href="#org9b6b075">Part 2: Types</a></li>
+<li><a href="#orgef417eb">Part 0: Set up</a></li>
+<li><a href="#org523e31d">Part 1: Semantics</a></li>
+<li><a href="#orga1b9c48">Part 2: Types</a></li>
 </ul>
 </div>
 </div>
@@ -88,9 +88,9 @@ guide should provide a more direct path there.
 Let's get started.
 </p>
 
-<div id="outline-container-orgc91dee1" class="outline-2">
-<h2 id="orgc91dee1">Part 0: Set up</h2>
-<div class="outline-text-2" id="text-orgc91dee1">
+<div id="outline-container-orgef417eb" class="outline-2">
+<h2 id="orgef417eb">Part 0: Set up</h2>
+<div class="outline-text-2" id="text-orgef417eb">
 <p>
 <i>At the beginning, there was a new crate.</i> Choose a "clever" name for
 a small subset of Rust.  If you don't want to be clever, you can use
@@ -153,9 +153,9 @@ public the various parts of our interpreter.
 </div>
 </div>
 
-<div id="outline-container-orgac26923" class="outline-2">
-<h2 id="orgac26923">Part 1: Semantics</h2>
-<div class="outline-text-2" id="text-orgac26923">
+<div id="outline-container-org523e31d" class="outline-2">
+<h2 id="org523e31d">Part 1: Semantics</h2>
+<div class="outline-text-2" id="text-org523e31d">
 <p>
 <i>Then there was an evaluator.</i> We'll start by implementing the
 semantics for FR. This means defining a couple things:
@@ -181,9 +181,9 @@ means <code>unwrap</code> to your hearts delight.<sup><a id="fnr.2" class="footr
 </blockquote>
 </div>
 
-<div id="outline-container-org7224c06" class="outline-3">
-<h3 id="org7224c06">Hard-Mode</h3>
-<div class="outline-text-3" id="text-org7224c06">
+<div id="outline-container-org70526ec" class="outline-3">
+<h3 id="org70526ec">Hard-Mode</h3>
+<div class="outline-text-3" id="text-org70526ec">
 <p>
 At a high-level, you need to implement the following according to the
 FR spec:
@@ -208,9 +208,9 @@ wherever it's clear.
 </div>
 </div>
 
-<div id="outline-container-org07e70e5" class="outline-3">
-<h3 id="org07e70e5">Easy-Mode</h3>
-<div class="outline-text-3" id="text-org07e70e5">
+<div id="outline-container-orga198220" class="outline-3">
+<h3 id="orga198220">Easy-Mode</h3>
+<div class="outline-text-3" id="text-orga198220">
 <p>
 Create an empty file <code>src/eval.rs</code> and add the following line to the
 file <code>src/lib.rs</code>:
@@ -222,9 +222,9 @@ file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-org44fd837" class="outline-4">
-<h4 id="org44fd837">Programs</h4>
-<div class="outline-text-4" id="text-org44fd837">
+<div id="outline-container-org4cddc33" class="outline-4">
+<h4 id="org4cddc33">Programs</h4>
+<div class="outline-text-4" id="text-org4cddc33">
 <p>
 Let's start by giving a slightly different grammar for FR:
 </p>
@@ -258,18 +258,18 @@ From this grammar we get a natural AST (which we can put into the file
 </p>
 
 <div class="org-src-container">
-<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Ident</span> = <span style="color: #228b22;">String</span>;
-<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Copyable</span> = <span style="color: #228b22;">bool</span>;
-<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Mutable</span> = <span style="color: #228b22;">bool</span>;
+<pre class="src src-rust"><span style="color: #a020f0;">type</span> <span style="color: #228b22;">Ident</span> = <span style="color: #228b22;">String</span>;
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Copyable</span> {<span style="color: #228b22;">Yes</span>, <span style="color: #228b22;">No</span>}
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Mutable</span> {<span style="color: #228b22;">Yes</span>, <span style="color: #228b22;">No</span>}
 
 <span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Lifetime</span>(<span style="color: #228b22;">usize</span>);
 
-<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Lval</span> {
-    <span style="color: #a020f0;">pub</span> <span style="color: #a0522d;">ident</span>: <span style="color: #228b22;">Ident</span>,
-    <span style="color: #a020f0;">pub</span> <span style="color: #a0522d;">derefs</span>: <span style="color: #228b22;">usize</span>,
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Lval</span> {
+    <span style="color: #a0522d;">ident</span>: <span style="color: #228b22;">Ident</span>,
+    <span style="color: #a0522d;">derefs</span>: <span style="color: #228b22;">usize</span>,
 }
 
-<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Expr</span> {
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Expr</span> {
     <span style="color: #228b22;">Unit</span>,
     <span style="color: #228b22;">Int</span>(<span style="color: #228b22;">i32</span>),
     <span style="color: #228b22;">Lval</span>(<span style="color: #228b22;">Lval</span>, <span style="color: #228b22;">Copyable</span>),
@@ -278,7 +278,7 @@ From this grammar we get a natural AST (which we can put into the file
     <span style="color: #228b22;">Block</span>(<span style="color: #228b22;">Vec</span>&lt;<span style="color: #228b22;">Stmt</span>&gt;, <span style="color: #228b22;">Box</span>&lt;<span style="color: #228b22;">Expr</span>&gt;, <span style="color: #228b22;">Lifetime</span>),
 }
 
-<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Stmt</span> {
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Stmt</span> {
     <span style="color: #228b22;">Assign</span>(<span style="color: #228b22;">Lval</span>, <span style="color: #228b22;">Expr</span>),
     <span style="color: #228b22;">LetMut</span>(<span style="color: #228b22;">Ident</span>, <span style="color: #228b22;">Expr</span>),
     <span style="color: #228b22;">Expr</span>(<span style="color: #228b22;">Expr</span>),
@@ -288,9 +288,9 @@ From this grammar we get a natural AST (which we can put into the file
 </div>
 </div>
 
-<div id="outline-container-orgca8521d" class="outline-4">
-<h4 id="orgca8521d">Program Store</h4>
-<div class="outline-text-4" id="text-orgca8521d">
+<div id="outline-container-org8126794" class="outline-4">
+<h4 id="org8126794">Program Store</h4>
+<div class="outline-text-4" id="text-org8126794">
 <p>
 Next we need some machinary to define the notion of a <i>program
 store</i>. A quick reminder of definitions (see the FR paper (pg. 13-15)
@@ -321,10 +321,11 @@ We can do a pretty direct translation of these constructs, and put
 them in <code>src/eval.rs</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-rust"><span style="color: #a020f0;">type</span> <span style="color: #228b22;">Location</span> = <span style="color: #228b22;">Ident</span>;
-<span style="color: #a020f0;">type</span> <span style="color: #228b22;">Owned</span> = <span style="color: #228b22;">bool</span>;
+<pre class="src src-rust"><span style="color: #228b22;">Location</span> = <span style="color: #228b22;">Ident</span>;
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Owned</span> {<span style="color: #228b22;">Yes</span>, <span style="color: #228b22;">No</span>}
 
-<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Value</span> {
+
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Value</span> {
     <span style="color: #228b22;">Unit</span>,
     <span style="color: #228b22;">Int</span>(<span style="color: #228b22;">i32</span>),
     <span style="color: #228b22;">Ref</span>(<span style="color: #228b22;">Location</span>, <span style="color: #228b22;">Owned</span>),
@@ -332,7 +333,7 @@ them in <code>src/eval.rs</code>:
 
 <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Pvalue</span> = <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">Value</span>&gt;;
 
-<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Slot</span> {
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Slot</span> {
     <span style="color: #a0522d;">value</span>: <span style="color: #228b22;">Pvalue</span>,
     <span style="color: #a0522d;">lifetime</span>: <span style="color: #228b22;">Lifetime</span>,
 }
@@ -362,9 +363,9 @@ program stores (<code>write</code> returns the old value in the slot):
 </div>
 </div>
 
-<div id="outline-container-org1f95dd1" class="outline-4">
-<h4 id="org1f95dd1">Evaluation</h4>
-<div class="outline-text-4" id="text-org1f95dd1">
+<div id="outline-container-org8254118" class="outline-4">
+<h4 id="org8254118">Evaluation</h4>
+<div class="outline-text-4" id="text-org8254118">
 <p>
 Finally, the <b>evaluation context</b> is a structure with a program store,
 along with whatever other data we need in order to perform evaluation:
@@ -494,9 +495,9 @@ fair amount easier in the implementation.
 </div>
 </div>
 
-<div id="outline-container-orge007509" class="outline-4">
-<h4 id="orge007509">Remarks</h4>
-<div class="outline-text-4" id="text-orge007509">
+<div id="outline-container-orgffe548e" class="outline-4">
+<h4 id="orgffe548e">Remarks</h4>
+<div class="outline-text-4" id="text-orgffe548e">
 <ul class="org-ul">
 <li>One thing we're hand-waving here is our definition of <code>Lifetime</code>.
 The only thing that's required of lifetimes for the semantics is
@@ -536,9 +537,9 @@ most.</i> Please ask questions, because it helps me out too!</li>
 </div>
 </div>
 
-<div id="outline-container-org9b6b075" class="outline-2">
-<h2 id="org9b6b075">Part 2: Types</h2>
-<div class="outline-text-2" id="text-org9b6b075">
+<div id="outline-container-orga1b9c48" class="outline-2">
+<h2 id="orga1b9c48">Part 2: Types</h2>
+<div class="outline-text-2" id="text-orga1b9c48">
 <p>
 <i>But we have to type/borrow check our programs before we evaluate.</i> We
 take a step back to build a type/borrow checker.  This part will be a
@@ -554,9 +555,9 @@ lifetime information;</li>
 </ul>
 </div>
 
-<div id="outline-container-org750c0c3" class="outline-3">
-<h3 id="org750c0c3">Hard Mode</h3>
-<div class="outline-text-3" id="text-org750c0c3">
+<div id="outline-container-org36db11a" class="outline-3">
+<h3 id="org36db11a">Hard Mode</h3>
+<div class="outline-text-3" id="text-org36db11a">
 <p>
 At a high-level, you need to implement the following according to the FR spec:
 </p>
@@ -583,9 +584,9 @@ phase, <i>we'll relabel l-values with copyable types.</i>
 </div>
 </div>
 
-<div id="outline-container-org509c0d9" class="outline-3">
-<h3 id="org509c0d9">Easy Mode</h3>
-<div class="outline-text-3" id="text-org509c0d9">
+<div id="outline-container-org6cbd818" class="outline-3">
+<h3 id="org6cbd818">Easy Mode</h3>
+<div class="outline-text-3" id="text-org6cbd818">
 <p>
 Create a empty file <code>lib/types.rs</code> and include the following line to
 the file <code>src/lib.rs</code>:
@@ -597,9 +598,9 @@ the file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-org2c89233" class="outline-4">
-<h4 id="org2c89233">Types</h4>
-<div class="outline-text-4" id="text-org2c89233">
+<div id="outline-container-org389d9b8" class="outline-4">
+<h4 id="org389d9b8">Types</h4>
+<div class="outline-text-4" id="text-org389d9b8">
 <p>
 We start with an enumeration for types. This will already be a
 departure from the FR specification; it will be more convenient if our
@@ -624,9 +625,9 @@ part of a type as undefined.<sup><a id="fnr.4" class="footref" href="#fn.4" role
 </div>
 </div>
 
-<div id="outline-container-orgc288736" class="outline-4">
-<h4 id="orgc288736">The Typing Environment</h4>
-<div class="outline-text-4" id="text-orgc288736">
+<div id="outline-container-org950ff35" class="outline-4">
+<h4 id="org950ff35">The Typing Environment</h4>
+<div class="outline-text-4" id="text-org950ff35">
 <p>
 The <i>typing environment</i> is a mapping from identifiers to slotted
 types (i.e., (partial) types labeled with lifetimes), very similar to
@@ -664,6 +665,8 @@ spec.
 
 <div class="org-src-container">
 <pre class="src src-rust"><span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Env</span> {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">insert</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">var</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">str</span>, <span style="color: #a0522d;">tipe</span>: <span style="color: #228b22;">Type</span>, <span style="color: #a0522d;">lifetime</span>: <span style="color: #228b22;">Lifetime</span>) { <span style="color: #483d8b;">todo!</span>() }
+
     <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">type_lval</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">lval</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>) -&gt; <span style="color: #228b22;">TypeResult</span>&lt;<span style="color: #228b22;">Slot</span>&gt; { <span style="color: #483d8b;">todo!</span>() }
 
     <span style="color: #b22222;">// </span><span style="color: #b22222;">Returns the type under the boxes of a type, given that the</span>
@@ -675,14 +678,14 @@ spec.
     <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">write_prohibited</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">lval</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>) -&gt; <span style="color: #228b22;">bool</span> { <span style="color: #483d8b;">todo!</span>() }
 
     <span style="color: #b22222;">// </span><span style="color: #b22222;">"move" is a keyword in Rust</span>
-    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">moove</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">lval</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>) { <span style="color: #483d8b;">todo!</span>() }
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">moove</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">lval</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>) -&gt; <span style="color: #228b22;">TypeResult</span>&lt;()&gt; { <span style="color: #483d8b;">todo!</span>() }
 
     <span style="color: #b22222;">// </span><span style="color: #b22222;">so is "mut"</span>
     <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">muut</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">lval</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>) -&gt; <span style="color: #228b22;">bool</span> { <span style="color: #483d8b;">todo!</span>() }
 
-    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">compatible</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">t1</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Type</span>, <span style="color: #a0522d;">t2</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Type</span>) -&gt; <span style="color: #228b22;">bool</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">compatible</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">t1</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Type</span>, <span style="color: #a0522d;">t2</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Type</span>) -&gt; <span style="color: #228b22;">bool</span> { <span style="color: #483d8b;">todo!</span>() }
 
-    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">write</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">w</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>, <span style="color: #a0522d;">tipe</span>: <span style="color: #228b22;">Type</span>) { <span style="color: #483d8b;">todo!</span>() }
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">write</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">w</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Lval</span>, <span style="color: #a0522d;">tipe</span>: <span style="color: #228b22;">Type</span>) -&gt; <span style="color: #228b22;">TypeResult</span>&lt;()&gt; { <span style="color: #483d8b;">todo!</span>() }
 
     <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">drop</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">l</span>: <span style="color: #228b22;">Lifetime</span>) { <span style="color: #483d8b;">todo!</span>() }
 }
@@ -699,9 +702,9 @@ make sure that you check premises in the correct order!
 </div>
 </div>
 
-<div id="outline-container-org36ee1e1" class="outline-4">
-<h4 id="org36ee1e1">Alternative Definitions</h4>
-<div class="outline-text-4" id="text-org36ee1e1">
+<div id="outline-container-orge61a3ea" class="outline-4">
+<h4 id="orge61a3ea">Alternative Definitions</h4>
+<div class="outline-text-4" id="text-orge61a3ea">
 <p>
 A lot of these functions are straightforward translations of the
 definitions given in the spec.  There are couple worth expanding on:
@@ -771,9 +774,9 @@ given argument <code>tipe</code>.
 </div>
 </div>
 
-<div id="outline-container-org0e1dfb5" class="outline-4">
-<h4 id="org0e1dfb5">Remarks</h4>
-<div class="outline-text-4" id="text-org0e1dfb5">
+<div id="outline-container-orgb342a4e" class="outline-4">
+<h4 id="orgb342a4e">Remarks</h4>
+<div class="outline-text-4" id="text-orgb342a4e">
 <ul class="org-ul">
 <li>Because we're implementing strong updates, we are ignoring all
 issues regarding type/environment strengthing/joins.</li>
@@ -781,11 +784,13 @@ issues regarding type/environment strengthing/joins.</li>
 in part, why we defined l-values as we did, with a <code>usize</code>
 representing the number of dereferences on a variable. You can use
 this number as a path.</li>
-<li>The functions <code>moove</code> and <code>write</code>, in theory, have the potential to
+<li><del>The functions <code>moove</code> and <code>write</code>, in theory, have the potential to
 fail, but don't return <code>TypeResult&lt;()&gt;</code>. This is because they should
 <i>not</i> fail given that the other premises hold. As discussed during
 lecture, this will require checking that types are not partial in
-some cases.</li>
+some cases.</del> That was a lie, my apologies. We do need to return
+errors for moves and writes, e.g., in the cases there is an attempt
+to move or write through an immutable reference.</li>
 </ul>
 
 <p>
