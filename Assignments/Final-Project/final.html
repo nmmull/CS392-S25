@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-15 Tue 09:29 -->
+<!-- 2025-04-18 Fri 09:20 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Final Project</title>
@@ -49,9 +49,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgef417eb">Part 0: Set up</a></li>
-<li><a href="#org523e31d">Part 1: Semantics</a></li>
-<li><a href="#orga1b9c48">Part 2: Types</a></li>
+<li><a href="#org202cb97">Part 0: Set up</a></li>
+<li><a href="#org9882069">Part 1: Semantics</a></li>
+<li><a href="#orgbbd946d">Part 2: Types</a></li>
 </ul>
 </div>
 </div>
@@ -88,9 +88,9 @@ guide should provide a more direct path there.
 Let's get started.
 </p>
 
-<div id="outline-container-orgef417eb" class="outline-2">
-<h2 id="orgef417eb">Part 0: Set up</h2>
-<div class="outline-text-2" id="text-orgef417eb">
+<div id="outline-container-org202cb97" class="outline-2">
+<h2 id="org202cb97">Part 0: Set up</h2>
+<div class="outline-text-2" id="text-org202cb97">
 <p>
 <i>At the beginning, there was a new crate.</i> Choose a "clever" name for
 a small subset of Rust.  If you don't want to be clever, you can use
@@ -153,9 +153,9 @@ public the various parts of our interpreter.
 </div>
 </div>
 
-<div id="outline-container-org523e31d" class="outline-2">
-<h2 id="org523e31d">Part 1: Semantics</h2>
-<div class="outline-text-2" id="text-org523e31d">
+<div id="outline-container-org9882069" class="outline-2">
+<h2 id="org9882069">Part 1: Semantics</h2>
+<div class="outline-text-2" id="text-org9882069">
 <p>
 <i>Then there was an evaluator.</i> We'll start by implementing the
 semantics for FR. This means defining a couple things:
@@ -181,9 +181,9 @@ means <code>unwrap</code> to your hearts delight.<sup><a id="fnr.2" class="footr
 </blockquote>
 </div>
 
-<div id="outline-container-org70526ec" class="outline-3">
-<h3 id="org70526ec">Hard-Mode</h3>
-<div class="outline-text-3" id="text-org70526ec">
+<div id="outline-container-org0cf899d" class="outline-3">
+<h3 id="org0cf899d">Hard-Mode</h3>
+<div class="outline-text-3" id="text-org0cf899d">
 <p>
 At a high-level, you need to implement the following according to the
 FR spec:
@@ -208,9 +208,9 @@ wherever it's clear.
 </div>
 </div>
 
-<div id="outline-container-orga198220" class="outline-3">
-<h3 id="orga198220">Easy-Mode</h3>
-<div class="outline-text-3" id="text-orga198220">
+<div id="outline-container-orga22177f" class="outline-3">
+<h3 id="orga22177f">Easy-Mode</h3>
+<div class="outline-text-3" id="text-orga22177f">
 <p>
 Create an empty file <code>src/eval.rs</code> and add the following line to the
 file <code>src/lib.rs</code>:
@@ -222,9 +222,9 @@ file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-org4cddc33" class="outline-4">
-<h4 id="org4cddc33">Programs</h4>
-<div class="outline-text-4" id="text-org4cddc33">
+<div id="outline-container-orgac4d32a" class="outline-4">
+<h4 id="orgac4d32a">Programs</h4>
+<div class="outline-text-4" id="text-orgac4d32a">
 <p>
 Let's start by giving a slightly different grammar for FR:
 </p>
@@ -288,9 +288,9 @@ From this grammar we get a natural AST (which we can put into the file
 </div>
 </div>
 
-<div id="outline-container-org8126794" class="outline-4">
-<h4 id="org8126794">Program Store</h4>
-<div class="outline-text-4" id="text-org8126794">
+<div id="outline-container-org2136d5c" class="outline-4">
+<h4 id="org2136d5c">Program Store</h4>
+<div class="outline-text-4" id="text-org2136d5c">
 <p>
 Next we need some machinary to define the notion of a <i>program
 store</i>. A quick reminder of definitions (see the FR paper (pg. 13-15)
@@ -363,9 +363,9 @@ program stores (<code>write</code> returns the old value in the slot):
 </div>
 </div>
 
-<div id="outline-container-org8254118" class="outline-4">
-<h4 id="org8254118">Evaluation</h4>
-<div class="outline-text-4" id="text-org8254118">
+<div id="outline-container-orge32eb57" class="outline-4">
+<h4 id="orge32eb57">Evaluation</h4>
+<div class="outline-text-4" id="text-orge32eb57">
 <p>
 Finally, the <b>evaluation context</b> is a structure with a program store,
 along with whatever other data we need in order to perform evaluation:
@@ -495,9 +495,9 @@ fair amount easier in the implementation.
 </div>
 </div>
 
-<div id="outline-container-orgffe548e" class="outline-4">
-<h4 id="orgffe548e">Remarks</h4>
-<div class="outline-text-4" id="text-orgffe548e">
+<div id="outline-container-org30ba551" class="outline-4">
+<h4 id="org30ba551">Remarks</h4>
+<div class="outline-text-4" id="text-org30ba551">
 <ul class="org-ul">
 <li>One thing we're hand-waving here is our definition of <code>Lifetime</code>.
 The only thing that's required of lifetimes for the semantics is
@@ -537,9 +537,9 @@ most.</i> Please ask questions, because it helps me out too!</li>
 </div>
 </div>
 
-<div id="outline-container-orga1b9c48" class="outline-2">
-<h2 id="orga1b9c48">Part 2: Types</h2>
-<div class="outline-text-2" id="text-orga1b9c48">
+<div id="outline-container-orgbbd946d" class="outline-2">
+<h2 id="orgbbd946d">Part 2: Types</h2>
+<div class="outline-text-2" id="text-orgbbd946d">
 <p>
 <i>But we have to type/borrow check our programs before we evaluate.</i> We
 take a step back to build a type/borrow checker.  This part will be a
@@ -555,9 +555,9 @@ lifetime information;</li>
 </ul>
 </div>
 
-<div id="outline-container-org36db11a" class="outline-3">
-<h3 id="org36db11a">Hard Mode</h3>
-<div class="outline-text-3" id="text-org36db11a">
+<div id="outline-container-org68b6c86" class="outline-3">
+<h3 id="org68b6c86">Hard Mode</h3>
+<div class="outline-text-3" id="text-org68b6c86">
 <p>
 At a high-level, you need to implement the following according to the FR spec:
 </p>
@@ -584,9 +584,9 @@ phase, <i>we'll relabel l-values with copyable types.</i>
 </div>
 </div>
 
-<div id="outline-container-org6cbd818" class="outline-3">
-<h3 id="org6cbd818">Easy Mode</h3>
-<div class="outline-text-3" id="text-org6cbd818">
+<div id="outline-container-org81d8345" class="outline-3">
+<h3 id="org81d8345">Easy Mode</h3>
+<div class="outline-text-3" id="text-org81d8345">
 <p>
 Create a empty file <code>lib/types.rs</code> and include the following line to
 the file <code>src/lib.rs</code>:
@@ -598,9 +598,9 @@ the file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-org389d9b8" class="outline-4">
-<h4 id="org389d9b8">Types</h4>
-<div class="outline-text-4" id="text-org389d9b8">
+<div id="outline-container-org7bc5b08" class="outline-4">
+<h4 id="org7bc5b08">Types</h4>
+<div class="outline-text-4" id="text-org7bc5b08">
 <p>
 We start with an enumeration for types. This will already be a
 departure from the FR specification; it will be more convenient if our
@@ -625,9 +625,9 @@ part of a type as undefined.<sup><a id="fnr.4" class="footref" href="#fn.4" role
 </div>
 </div>
 
-<div id="outline-container-org950ff35" class="outline-4">
-<h4 id="org950ff35">The Typing Environment</h4>
-<div class="outline-text-4" id="text-org950ff35">
+<div id="outline-container-orga3a52b2" class="outline-4">
+<h4 id="orga3a52b2">Typing Environment</h4>
+<div class="outline-text-4" id="text-orga3a52b2">
 <p>
 The <i>typing environment</i> is a mapping from identifiers to slotted
 types (i.e., (partial) types labeled with lifetimes), very similar to
@@ -702,9 +702,9 @@ make sure that you check premises in the correct order!
 </div>
 </div>
 
-<div id="outline-container-orge61a3ea" class="outline-4">
-<h4 id="orge61a3ea">Alternative Definitions</h4>
-<div class="outline-text-4" id="text-orge61a3ea">
+<div id="outline-container-org5baf9a4" class="outline-4">
+<h4 id="org5baf9a4">Alternative Definitions</h4>
+<div class="outline-text-4" id="text-org5baf9a4">
 <p>
 A lot of these functions are straightforward translations of the
 definitions given in the spec.  There are couple worth expanding on:
@@ -712,7 +712,7 @@ definitions given in the spec.  There are couple worth expanding on:
 
 <blockquote>
 <p>
-<b>Definition.</b> <i>(Type Containment)</i> The <i>type contained in</i> a partial type (a.k.a. the
+<b>Definition:</b> <i>(Type Containment)</i> The <i>type contained in</i> a partial type (a.k.a. the
 contained type) is defined inductively as follows:
 </p>
 
@@ -746,7 +746,7 @@ its partial type in the typing environment, if it's defined.
 
 <blockquote>
 <p>
-<b>Definition.</b> <i>(Strong Update)</i> We define the (partial) <i>strong
+<b>Definition:</b> <i>(Strong Update)</i> We define the (partial) <i>strong
 update</i> function and the (partial) <i>write</i> function as follows:
 </p>
 
@@ -774,9 +774,9 @@ given argument <code>tipe</code>.
 </div>
 </div>
 
-<div id="outline-container-orgb342a4e" class="outline-4">
-<h4 id="orgb342a4e">Remarks</h4>
-<div class="outline-text-4" id="text-orgb342a4e">
+<div id="outline-container-orgb704cbe" class="outline-4">
+<h4 id="orgb704cbe">Remarks (Part 2.1)</h4>
+<div class="outline-text-4" id="text-orgb704cbe">
 <ul class="org-ul">
 <li>Because we're implementing strong updates, we are ignoring all
 issues regarding type/environment strengthing/joins.</li>
@@ -792,11 +792,101 @@ some cases.</del> That was a lie, my apologies. We do need to return
 errors for moves and writes, e.g., in the cases there is an attempt
 to move or write through an immutable reference.</li>
 </ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgcab916e" class="outline-4">
+<h4 id="orgcab916e">Typing Context</h4>
+<div class="outline-text-4" id="text-orgcab916e">
+<p>
+As with evaluation, we need more than an environment to perform
+type/borrow checking. We'll create a typing context to maintain this
+information.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Context</span> {
+    <span style="color: #a0522d;">env</span>: <span style="color: #228b22;">Env</span>,
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO: anything else you need</span>
+}
+</pre>
+</div>
 
 <p>
-<b>This concludes the <i>first part</i> of Part 2.</b><sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> The second part of Part 2 will be released next week and will
- deal with the actual type/borrow checker.
+This typing context should implement the following interface:
 </p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Context</span> {
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">l &#8805; m, the ordering relation on liftimes (Note (2) pg. 13)</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">lifetime_contains</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">l</span>: <span style="color: #228b22;">Lifetime</span>, <span style="color: #a0522d;">m</span>: <span style="color: #228b22;">Lifetime</span>) -&gt; <span style="color: #228b22;">bool</span> { <span style="color: #483d8b;">todo!</span>() }
+
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">&#915; &#8866; T &#8805; l (Definition 3.21)</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">well_formed</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">tipe</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Type</span>, <span style="color: #a0522d;">l</span>: <span style="color: #228b22;">Lifetime</span>) -&gt; <span style="color: #228b22;">bool</span> { <span style="color: #483d8b;">todo!</span>() }
+
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">type_expr</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">expr</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #228b22;">Expr</span>) -&gt; <span style="color: #228b22;">TypeResult</span>&lt;<span style="color: #228b22;">Type</span>&gt; { <span style="color: #483d8b;">todo!</span>() }
+
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">type_stmt</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">stmt</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #228b22;">Stmt</span>) -&gt; <span style="color: #228b22;">TypeResult</span>&lt;()&gt; { <span style="color: #483d8b;">todo!</span>() }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3301cba" class="outline-4">
+<h4 id="org3301cba">Type Errors</h4>
+<div class="outline-text-4" id="text-org3301cba">
+<p>
+Now that we're putting together the full type/borrow checker, we're
+gonna fill in our type errors. There are a lot of ways that the
+type/borrow checker can fail. If you're following along with the
+structure we've defined here, I'd recommend the following enumeration
+for type errors:
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Error</span> {
+    <span style="color: #228b22;">UnknownVar</span>(<span style="color: #228b22;">String</span>),
+    <span style="color: #228b22;">CannotDeref</span>(<span style="color: #228b22;">Type</span>),
+    <span style="color: #228b22;">MovedOut</span>(<span style="color: #228b22;">Lval</span>),
+    <span style="color: #228b22;">MoveBehindRef</span>(<span style="color: #228b22;">Lval</span>),
+    <span style="color: #228b22;">UpdateBehindImmRef</span>(<span style="color: #228b22;">Lval</span>),
+    <span style="color: #228b22;">CopyAfterMutBorrow</span>(<span style="color: #228b22;">Lval</span>),
+    <span style="color: #228b22;">MoveAfterBorrow</span>(<span style="color: #228b22;">Lval</span>),
+    <span style="color: #228b22;">MutBorrowBehindImmRef</span>(<span style="color: #228b22;">Lval</span>),
+    <span style="color: #228b22;">MutBorrowAfterBorrow</span>(<span style="color: #228b22;">Lval</span>),
+    <span style="color: #228b22;">BorrowAfterMutBorrow</span>(<span style="color: #228b22;">Lval</span>),
+    <span style="color: #228b22;">Shadowing</span>(<span style="color: #228b22;">String</span>),
+    <span style="color: #228b22;">IncompatibleTypes</span>(<span style="color: #228b22;">Type</span>, <span style="color: #228b22;">Type</span>),
+    <span style="color: #228b22;">LifetimeTooShort</span>(<span style="color: #228b22;">Expr</span>),
+    <span style="color: #228b22;">AssignAfterBorrow</span>(<span style="color: #228b22;">Lval</span>),
+}
+</pre>
+</div>
+
+<p>
+Feel free to add more error kinds if you'd like.  Each one roughly
+captures failing a side condition in a typing rule.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1f0efd8" class="outline-4">
+<h4 id="org1f0efd8">Remarks (Part 2.2)</h4>
+<div class="outline-text-4" id="text-org1f0efd8">
+<ul class="org-ul">
+<li>You'll need some information to keep track of what lifetimes you're
+contained in during type/borrow checking. I'd recommend a stack of
+lifetimes. (<b>Important:</b> Contrary to what I eluded to previously,
+we're going to keep identifying each lifetime with a <code>usize</code>.)</li>
+<li>It may be useful to keep around the <code>Dummy</code> constructor in <code>Error</code>
+as you work through the type/borrow checker and fill in the actual
+errors later.</li>
+<li>Remember that you should update the expression itself in the case
+that you see an l-value that is copyable. In the parsing phase, we'll
+mark everything as movable.</li>
+<li>The coding here is a bit shorter than that of Part 2.1, but is more
+error prone. Work through the rules carefully.</li>
+</ul>
 </div>
 </div>
 </div>
@@ -818,9 +908,6 @@ in to a notion of a <i>term</i> in the FR paper.</p></div></div>
 ill-defined partial types, e.g., a partial type is required to have a
 most one undefined part in the core calculus. We'll ignore this, but
 it's worth keeping in mind.</p></div></div>
-
-<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">A confusing phrase, I
- know.</p></div></div>
 
 
 </div>

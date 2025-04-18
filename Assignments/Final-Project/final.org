@@ -434,7 +434,7 @@ ill-defined partial types, e.g., a partial type is required to have a
 most one undefined part in the core calculus. We'll ignore this, but
 it's worth keeping in mind.]
 
-*** The Typing Environment
+*** Typing Environment
 
 The /typing environment/ is a mapping from identifiers to slotted
 types (i.e., (partial) types labeled with lifetimes), very similar to
@@ -503,7 +503,7 @@ A lot of these functions are straightforward translations of the
 definitions given in the spec.  There are couple worth expanding on:
 
 #+begin_quote
-*Definition.* /(Type Containment)/ The /type contained in/ a partial type (a.k.a. the
+*Definition:* /(Type Containment)/ The /type contained in/ a partial type (a.k.a. the
 contained type) is defined inductively as follows:
 
 + the type contained in $\epsilon$ (i.e., the unit type) is $\epsilon$;
@@ -527,7 +527,7 @@ its partial type in the typing environment, if it's defined.
 #+end_quote
 
 #+begin_quote
-*Definition.* /(Strong Update)/ We define the (partial) /strong
+*Definition:* /(Strong Update)/ We define the (partial) /strong
 update/ function and the (partial) /write/ function as follows:
 
 \begin{align*}
@@ -550,8 +550,7 @@ cloning. As a hint, think about how strong update can be implemented
 using a mutable reference to a type, which can be used to write the
 given argument ~tipe~.
 
-*** Remarks
-
+*** Remarks (Part 2.1)
 + Because we're implementing strong updates, we are ignoring all
   issues regarding type/environment strengthing/joins.
 + Many of the above functions depend on working with /paths/. This is,
@@ -566,6 +565,75 @@ given argument ~tipe~.
   errors for moves and writes, e.g., in the cases there is an attempt
   to move or write through an immutable reference.
 
-*This concludes the /first part/ of Part 2.*[fn::A confusing phrase, I
- know.] The second part of Part 2 will be released next week and will
- deal with the actual type/borrow checker.
+
+*** Typing Context
+
+As with evaluation, we need more than an environment to perform
+type/borrow checking. We'll create a typing context to maintain this
+information.
+
+#+begin_src rust
+  pub struct Context {
+      env: Env,
+      // TODO: anything else you need
+  }
+#+end_src
+
+This typing context should implement the following interface:
+#+begin_src rust
+  impl Context {
+      // l ≥ m, the ordering relation on liftimes (Note (2) pg. 13)
+      fn lifetime_contains(&self, l: Lifetime, m: Lifetime) -> bool { todo!() }
+
+      // Γ ⊢ T ≥ l (Definition 3.21)
+      fn well_formed(&self, tipe: &Type, l: Lifetime) -> bool { todo!() }
+
+      fn type_expr(&mut self, expr: &mut Expr) -> TypeResult<Type> { todo!() }
+
+      fn type_stmt(&mut self, stmt: &mut Stmt) -> TypeResult<()> { todo!() }
+  }
+#+end_src
+
+*** Type Errors
+
+Now that we're putting together the full type/borrow checker, we're
+gonna fill in our type errors. There are a lot of ways that the
+type/borrow checker can fail. If you're following along with the
+structure we've defined here, I'd recommend the following enumeration
+for type errors:
+#+begin_src rust
+  enum Error {
+      UnknownVar(String),
+      CannotDeref(Type),
+      MovedOut(Lval),
+      MoveBehindRef(Lval),
+      UpdateBehindImmRef(Lval),
+      CopyAfterMutBorrow(Lval),
+      MoveAfterBorrow(Lval),
+      MutBorrowBehindImmRef(Lval),
+      MutBorrowAfterBorrow(Lval),
+      BorrowAfterMutBorrow(Lval),
+      Shadowing(String),
+      IncompatibleTypes(Type, Type),
+      LifetimeTooShort(Expr),
+      AssignAfterBorrow(Lval),
+  }
+#+end_src
+
+Feel free to add more error kinds if you'd like.  Each one roughly
+captures failing a side condition in a typing rule.
+
+*** Remarks (Part 2.2)
+
++ You'll need some information to keep track of what lifetimes you're
+  contained in during type/borrow checking. I'd recommend a stack of
+  lifetimes. (*Important:* Contrary to what I eluded to previously,
+  we're going to keep identifying each lifetime with a ~usize~.)
++ It may be useful to keep around the ~Dummy~ constructor in ~Error~
+  as you work through the type/borrow checker and fill in the actual
+  errors later.
++ Remember that you should update the expression itself in the case
+  that you see an l-value that is copyable. In the parsing phase, we'll
+  mark everything as movable.
++ The coding here is a bit shorter than that of Part 2.1, but is more
+  error prone. Work through the rules carefully.
