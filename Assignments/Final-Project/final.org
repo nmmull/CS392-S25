@@ -405,7 +405,7 @@ phase, /we'll relabel l-values with copyable types./
 
 ** Easy Mode
 
-Create a empty file ~lib/types.rs~ and include the following line to
+Create a empty file ~src/types.rs~ and include the following line to
 the file ~src/lib.rs~:
 
 #+begin_src rust
@@ -637,3 +637,362 @@ captures failing a side condition in a typing rule.
   mark everything as movable.
 + The coding here is a bit shorter than that of Part 2.1, but is more
   error prone. Work through the rules carefully.
+
+* Part 3: Syntax
+
+/I can't say we saved the best for last./ To have a working
+interpreter, we need a parser. Nothing to it but that. This means
+defining:
+
++ a lexer and an enumeration for tokens in our language;
++ a method for parsing expressions in our language to the expression
+  enumeration from the first part of this project.
+
+** Hard Mode
+
+Pretty straightforward, you need:
+
+#+begin_src rust
+  struct Parser; // TODO
+  enum Error;    // TODO
+
+  impl Parser {
+      fn parse(&mut self) -> Result<Expr, Error> { todo!() }
+  }
+#+end_src
+
+where the input string is something of the form:
+
+#+begin_src rust
+  fn main() {
+      // CODE
+      ...
+  }
+#+end_src
+
+and you return the expression in which you read the bracketed part as a
+block-expression.
+
+** Easy Mode
+
+Create two empty files ~src/lexer.rs~ and ~src/parser.rs~.  Then add
+the lines:
+
+#+begin_src rust
+  pub mod lexer;
+  pub mod parser;
+#+end_src
+
+to the file ~src/lib.rs~.
+
+*** Lexer
+We can start with an token enumeration in the lexer file:
+
+#+begin_src rust
+  pub enum Token {
+      Lparen,
+      Rparen,
+      Lbracket,
+      Rbracket,
+      Eq,
+      Ampersand,
+      Star,
+      Comma,
+      Semicolon,
+      Fn,
+      Let,
+      Mut,
+      Box,
+      Int(i32),
+      Var(String),
+  }
+#+end_src
+
+It is useful to delineate the lexemes in a single constant array:
+
+#+begin_src rust
+  const LEXEMES : [(&str, Token); 13] = [
+      ("(", Token::Lparen),
+      (")", Token::Rparen),
+      ("{", Token::Lbracket),
+      ("}", Token::Rbracket),
+      ("=", Token::Eq),
+      ("&", Token::Ampersand),
+      ("*", Token::Star),
+      (",", Token::Comma),
+      (";", Token::Semicolon),
+      ("fn", Token::Fn),
+      ("let", Token::Let),
+      ("mut", Token::Mut),
+      ("Box::new", Token::Box),
+  ];
+#+end_src
+
+We'll assume ASCII (no unicode). We can then use a similar
+structured lexer to what was used in our assignment on S-expressions:
+
+#+begin_src rust
+  struct Lexer<'a> {
+      contents: Lines<'a>,
+      curr_line_num: usize,
+      curr_col_num: usize,
+      curr_line: &'a str,
+  }
+
+  enum Error {
+      Unknown(usize, usize),
+  }
+
+  type LexResult = Result<Token, Error>;
+#+end_src
+
+/Hint:/ It's easiest to assume that ~curr_line~ is ~""~ if ~contents~ is
+empty.  I would then recommend the following interface for the lexer:
+
+#+begin_src rust
+  impl<'a> Lexer<'a> {
+      fn unknown(&self) -> Error {
+	  Error::Unknown(self.curr_line_num, self.curr_col_num)
+      }
+
+      // remove `i` characters and remove any leading whitespace from the
+      // result (including empty lines)
+      fn consume(&mut self, i: usize) { todo!() }
+
+      fn symbol_or_keyword(&mut self) -> LexResult { todo!() }
+	  for (lexeme, token) in LEXEMES {
+	      if self.curr_line.starts_with(lexeme) {
+		  self.consume(lexeme.len());
+		  return Ok(token);
+	      }
+	  }
+	  Err(self.unknown())
+      }
+
+      // similar to `symbol_or_keyword` but for variables
+      fn variable(&mut self) -> LexResult { todo!() }
+
+      // similar to `symbol_or_keyword` for but integer literals
+      fn int(&mut self) -> LexResult { todo!() }
+  }
+#+end_src
+
+Finally, you should make ~Lexer~ and iterator:
+
+#+begin_src rust
+  impl<'a> Iterator for Lexer<'a> {
+      type Item = LexResult;
+      fn next(&mut self) -> Option<LexResult> { todo!() }
+  }
+#+end_src
+
+*** Parser
+
+As we've done in the past, we'll give our parser a peekable version of
+our lexer.  /Hint:/ You may want to add to this structure...
+
+#+begin_src rust
+  pub struct Parser<'a> {
+      lexer: Peekable<Lexer<'a>>,
+      // TODO: anything else you need
+  }
+
+  pub enum Error {
+      EndOfFile,
+      Lexer(lexer::Error),
+      Unexpected(lexer::Token),
+  }
+
+  type ParseResult<T> = Result<T, Error>;
+#+end_src
+
+Here's a little interface for ~Parser~ that I found useful:
+
+#+begin_src rust
+impl<'a> Parser<'a> {
+    fn next_token(&mut self) -> ParseResult<Token> {
+	match self.lexer.next() {
+	    Some(Ok(token)) => Ok(token),
+	    Some(Err(err)) => Err(Error::Lexer(err)),
+	    None => Err(Error::EndOfFile),
+	}
+    }
+
+    fn next_token_match(&mut self, t: Token) -> ParseResult<Token> {
+	let token = self.next_token()?;
+	if token != t {
+	    Err(Error::Unexpected(token))
+	} else {
+	    Ok(token)
+	}
+    }
+
+    fn next_token_var(&mut self) -> ParseResult<String> {
+	let token = self.next_token()?;
+	match token {
+	    Token::Var(ident) => Ok(ident.clone()),
+	    _ => Err(Error::Unexpected(token))
+	}
+    }
+
+    fn peek_token(&mut self) -> Result<&Token, Error> {
+	let token = self.lexer.peek();
+	match token {
+	    Some(Ok(token)) => Ok(token),
+	    _ => Err(Error::EndOfFile),
+	}
+    }
+}
+#+end_src
+
+What remains is to implement the ~parse~ function.
+
+#+begin_src rust
+  impl<'a> Parser<'a> {
+      fn parse_block(&mut self) -> ParseResult<Expr> { todo!() }
+
+      fn parse(&mut self) -> ParseResult<Expr> {
+	  self.next_token_match(Token::Fn)?;
+	  let main = self.next_token()?;
+	  match main {
+	      Token::Var(ident) if ident == "main" => {
+		  self.next_token_match(Token::Lparen)?;
+		  self.next_token_match(Token::Rparen)?;
+		  let out = self.parse_block();
+		  if self.peek_token().is_err() {
+		      return out
+		  }
+		  Err(Error::Unexpected(self.next_token()?))
+	      }
+	      _ => Err(Error::Unexpected(main))
+	  }
+      }
+  }
+#+end_src
+
+This function should take a program of the form:
+#+begin_src rust
+  fn main() {
+      ...
+  }
+#+end_src
+and return the expression in which you read the bracketed part as a
+block-expression.
+
+Again, as we've done the past, you should approach this in a
+recursive-descent fashion, writing mini-parsers for each individual
+construct.  With the interface above, this can be quite clean, e.g.:
+
+#+begin_src rust
+  fn parse_box(&mut self) -> ParseResult<Expr> {
+      self.next_token_match(Token::Box)?;
+      self.next_token_match(Token::Lparen)?;
+      let e = self.parse_expr()?;
+      self.next_token_match(Token::Rparen)?;
+      Ok(Expr::Box(Box::new(e)))
+  }
+#+end_src
+
+*** Remarks
++ Don't forget to handle comments in the lexer!
++ Remember that every l-value expression should be parsed as /not/
+  copyable.  These should be made copyable in type/borrow checker.
++ You'll probably want to add a field to the ~Parser~ to help you deal
+  with lifetime annotations on blocks. The only thing that's required
+  is that every block has a /distinct/ lifetime annotation (which is
+  also distinct from the global lifetime), since the ordering of
+  lifetimes is dealt with in the type/borrow checker.
+
+* Part 4: Assertions
+
+We ended up not covering extensions as much as I would have liked. If
+you managed to implement an extension, great! If not, no worries. But
+there's one extensions that it incredibly useful just for making sure
+your code works as expected: /assertions/.
+
+This is an "extra credit" part of the project, *but if you're working
+in a group, you MUST complete this part*.
+
+*The task:* go back through the project and add what you need in order
+to interpret code of the following form:
+
+#+begin_src rust
+  fn main() {
+      let mut x = Box::new(2);
+      let mut y = Box::new(2);
+      let mut z = &y;
+      assert_eq!(*x, **z);
+  }
+#+end_src
+
+Formally speaking this means adding:
++ a constructor to the expression enumeration;
++ a token to the lexer;
++ a case to the parser;
++ a case to the type checker; note that ~assert_eq!(e1, e2)~ is an
+  expression of unit type; in order to simplify things, we will
+  require that ~e1~ and ~e2~ have integer type;
++ a constructor to the type error enumeration for ill-typed assertions
++ a case to the evaluator; ~assert_eq!(e1, e2)~ should reflect to
+  an assertion /within/ Rust, i.e., you should evaluate ~e1~ and ~e2~
+  and then assert within Rust that their corresponding integer values
+  are equal.
+
+* Part 5: Everything
+
+All that's left is to fill in our ~bin/interp.rs~ file so that we can
+run our interpreter.  We'll play this part a bit fast and loose:
+
+#+begin_src rust
+  use std::env;
+  use std::fs::File;
+  use std::io::{Read, Error, ErrorKind};
+  use salt::parser::Parser;
+  use salt::eval;
+  use salt::types;
+  use salt::utils::*;
+
+  fn main() -> Result<(), Box<dyn std::error::Error>> {
+      let filename = {
+	  let mut args = env::args();
+	  args.next();
+	  args.next().ok_or(Error::new(ErrorKind::NotFound, "usage: cargo run --bin interp <filename>"))?
+      };
+
+      let mut contents = String::new();
+      File::open(filename)?.read_to_string(&mut contents)?;
+
+      let mut e = Parser::new(&contents[..])
+	  .parse()
+	  .map_err(|err| Error::new(ErrorKind::Other, format!("{:?}", err)))?;
+
+      types::Context::default()
+	  .type_expr(&mut e)
+	  .map_err(|err| Error::new(ErrorKind::Other, format!("{:?}", err)))?;
+
+      eval::Context::default()
+	  .eval_expr(&e, Lifetime::global());
+
+      Ok(())
+  }
+#+end_src
+
+You may have to go back and derive ~Debug~ for some structures in
+order for this to work.
+
+/And that's all folks./ I hope you enjoyed building an interpreter of
+Rust in Rust. At this point, you will almost certainly uncover some
+unexpected bugs. Play around with some examples, see if you can handle
+some of the more interesting programs we've seen throughout the
+course!
+
+Remember that we set things up to have that playground file in our
+crate. This means we can run:
+
+#+begin_src bash
+  cargo run --bin interp playground.rs
+  cargo run --bin playground
+#+end_src
+
+and compare what Rust does to what our interpreter does.  This should
+help out in testing out examples.

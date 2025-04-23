@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-18 Fri 09:20 -->
+<!-- 2025-04-23 Wed 15:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Final Project</title>
@@ -49,9 +49,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org202cb97">Part 0: Set up</a></li>
-<li><a href="#org9882069">Part 1: Semantics</a></li>
-<li><a href="#orgbbd946d">Part 2: Types</a></li>
+<li><a href="#org1b34be8">Part 0: Set up</a></li>
+<li><a href="#orge9ba90d">Part 1: Semantics</a></li>
+<li><a href="#org9c646bf">Part 2: Types</a></li>
+<li><a href="#orgddced6a">Part 3: Syntax</a></li>
+<li><a href="#org0774245">Part 4: Assertions</a></li>
+<li><a href="#org66d44bc">Part 5: Everything</a></li>
 </ul>
 </div>
 </div>
@@ -88,9 +91,9 @@ guide should provide a more direct path there.
 Let's get started.
 </p>
 
-<div id="outline-container-org202cb97" class="outline-2">
-<h2 id="org202cb97">Part 0: Set up</h2>
-<div class="outline-text-2" id="text-org202cb97">
+<div id="outline-container-org1b34be8" class="outline-2">
+<h2 id="org1b34be8">Part 0: Set up</h2>
+<div class="outline-text-2" id="text-org1b34be8">
 <p>
 <i>At the beginning, there was a new crate.</i> Choose a "clever" name for
 a small subset of Rust.  If you don't want to be clever, you can use
@@ -153,9 +156,9 @@ public the various parts of our interpreter.
 </div>
 </div>
 
-<div id="outline-container-org9882069" class="outline-2">
-<h2 id="org9882069">Part 1: Semantics</h2>
-<div class="outline-text-2" id="text-org9882069">
+<div id="outline-container-orge9ba90d" class="outline-2">
+<h2 id="orge9ba90d">Part 1: Semantics</h2>
+<div class="outline-text-2" id="text-orge9ba90d">
 <p>
 <i>Then there was an evaluator.</i> We'll start by implementing the
 semantics for FR. This means defining a couple things:
@@ -181,9 +184,9 @@ means <code>unwrap</code> to your hearts delight.<sup><a id="fnr.2" class="footr
 </blockquote>
 </div>
 
-<div id="outline-container-org0cf899d" class="outline-3">
-<h3 id="org0cf899d">Hard-Mode</h3>
-<div class="outline-text-3" id="text-org0cf899d">
+<div id="outline-container-orgaed19f1" class="outline-3">
+<h3 id="orgaed19f1">Hard-Mode</h3>
+<div class="outline-text-3" id="text-orgaed19f1">
 <p>
 At a high-level, you need to implement the following according to the
 FR spec:
@@ -208,9 +211,9 @@ wherever it's clear.
 </div>
 </div>
 
-<div id="outline-container-orga22177f" class="outline-3">
-<h3 id="orga22177f">Easy-Mode</h3>
-<div class="outline-text-3" id="text-orga22177f">
+<div id="outline-container-org238719a" class="outline-3">
+<h3 id="org238719a">Easy-Mode</h3>
+<div class="outline-text-3" id="text-org238719a">
 <p>
 Create an empty file <code>src/eval.rs</code> and add the following line to the
 file <code>src/lib.rs</code>:
@@ -222,9 +225,9 @@ file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-orgac4d32a" class="outline-4">
-<h4 id="orgac4d32a">Programs</h4>
-<div class="outline-text-4" id="text-orgac4d32a">
+<div id="outline-container-org24a0030" class="outline-4">
+<h4 id="org24a0030">Programs</h4>
+<div class="outline-text-4" id="text-org24a0030">
 <p>
 Let's start by giving a slightly different grammar for FR:
 </p>
@@ -288,9 +291,9 @@ From this grammar we get a natural AST (which we can put into the file
 </div>
 </div>
 
-<div id="outline-container-org2136d5c" class="outline-4">
-<h4 id="org2136d5c">Program Store</h4>
-<div class="outline-text-4" id="text-org2136d5c">
+<div id="outline-container-orgf6b66bd" class="outline-4">
+<h4 id="orgf6b66bd">Program Store</h4>
+<div class="outline-text-4" id="text-orgf6b66bd">
 <p>
 Next we need some machinary to define the notion of a <i>program
 store</i>. A quick reminder of definitions (see the FR paper (pg. 13-15)
@@ -363,9 +366,9 @@ program stores (<code>write</code> returns the old value in the slot):
 </div>
 </div>
 
-<div id="outline-container-orge32eb57" class="outline-4">
-<h4 id="orge32eb57">Evaluation</h4>
-<div class="outline-text-4" id="text-orge32eb57">
+<div id="outline-container-orgafa8f79" class="outline-4">
+<h4 id="orgafa8f79">Evaluation</h4>
+<div class="outline-text-4" id="text-orgafa8f79">
 <p>
 Finally, the <b>evaluation context</b> is a structure with a program store,
 along with whatever other data we need in order to perform evaluation:
@@ -495,9 +498,9 @@ fair amount easier in the implementation.
 </div>
 </div>
 
-<div id="outline-container-org30ba551" class="outline-4">
-<h4 id="org30ba551">Remarks</h4>
-<div class="outline-text-4" id="text-org30ba551">
+<div id="outline-container-orga47cd14" class="outline-4">
+<h4 id="orga47cd14">Remarks</h4>
+<div class="outline-text-4" id="text-orga47cd14">
 <ul class="org-ul">
 <li>One thing we're hand-waving here is our definition of <code>Lifetime</code>.
 The only thing that's required of lifetimes for the semantics is
@@ -537,9 +540,9 @@ most.</i> Please ask questions, because it helps me out too!</li>
 </div>
 </div>
 
-<div id="outline-container-orgbbd946d" class="outline-2">
-<h2 id="orgbbd946d">Part 2: Types</h2>
-<div class="outline-text-2" id="text-orgbbd946d">
+<div id="outline-container-org9c646bf" class="outline-2">
+<h2 id="org9c646bf">Part 2: Types</h2>
+<div class="outline-text-2" id="text-org9c646bf">
 <p>
 <i>But we have to type/borrow check our programs before we evaluate.</i> We
 take a step back to build a type/borrow checker.  This part will be a
@@ -555,9 +558,9 @@ lifetime information;</li>
 </ul>
 </div>
 
-<div id="outline-container-org68b6c86" class="outline-3">
-<h3 id="org68b6c86">Hard Mode</h3>
-<div class="outline-text-3" id="text-org68b6c86">
+<div id="outline-container-orgb95d6ca" class="outline-3">
+<h3 id="orgb95d6ca">Hard Mode</h3>
+<div class="outline-text-3" id="text-orgb95d6ca">
 <p>
 At a high-level, you need to implement the following according to the FR spec:
 </p>
@@ -584,11 +587,11 @@ phase, <i>we'll relabel l-values with copyable types.</i>
 </div>
 </div>
 
-<div id="outline-container-org81d8345" class="outline-3">
-<h3 id="org81d8345">Easy Mode</h3>
-<div class="outline-text-3" id="text-org81d8345">
+<div id="outline-container-orgf91d943" class="outline-3">
+<h3 id="orgf91d943">Easy Mode</h3>
+<div class="outline-text-3" id="text-orgf91d943">
 <p>
-Create a empty file <code>lib/types.rs</code> and include the following line to
+Create a empty file <code>src/types.rs</code> and include the following line to
 the file <code>src/lib.rs</code>:
 </p>
 
@@ -598,9 +601,9 @@ the file <code>src/lib.rs</code>:
 </div>
 </div>
 
-<div id="outline-container-org7bc5b08" class="outline-4">
-<h4 id="org7bc5b08">Types</h4>
-<div class="outline-text-4" id="text-org7bc5b08">
+<div id="outline-container-org8b8e8ea" class="outline-4">
+<h4 id="org8b8e8ea">Types</h4>
+<div class="outline-text-4" id="text-org8b8e8ea">
 <p>
 We start with an enumeration for types. This will already be a
 departure from the FR specification; it will be more convenient if our
@@ -625,9 +628,9 @@ part of a type as undefined.<sup><a id="fnr.4" class="footref" href="#fn.4" role
 </div>
 </div>
 
-<div id="outline-container-orga3a52b2" class="outline-4">
-<h4 id="orga3a52b2">Typing Environment</h4>
-<div class="outline-text-4" id="text-orga3a52b2">
+<div id="outline-container-org32f3643" class="outline-4">
+<h4 id="org32f3643">Typing Environment</h4>
+<div class="outline-text-4" id="text-org32f3643">
 <p>
 The <i>typing environment</i> is a mapping from identifiers to slotted
 types (i.e., (partial) types labeled with lifetimes), very similar to
@@ -702,9 +705,9 @@ make sure that you check premises in the correct order!
 </div>
 </div>
 
-<div id="outline-container-org5baf9a4" class="outline-4">
-<h4 id="org5baf9a4">Alternative Definitions</h4>
-<div class="outline-text-4" id="text-org5baf9a4">
+<div id="outline-container-orge8bb1db" class="outline-4">
+<h4 id="orge8bb1db">Alternative Definitions</h4>
+<div class="outline-text-4" id="text-orge8bb1db">
 <p>
 A lot of these functions are straightforward translations of the
 definitions given in the spec.  There are couple worth expanding on:
@@ -774,9 +777,9 @@ given argument <code>tipe</code>.
 </div>
 </div>
 
-<div id="outline-container-orgb704cbe" class="outline-4">
-<h4 id="orgb704cbe">Remarks (Part 2.1)</h4>
-<div class="outline-text-4" id="text-orgb704cbe">
+<div id="outline-container-org8efb426" class="outline-4">
+<h4 id="org8efb426">Remarks (Part 2.1)</h4>
+<div class="outline-text-4" id="text-org8efb426">
 <ul class="org-ul">
 <li>Because we're implementing strong updates, we are ignoring all
 issues regarding type/environment strengthing/joins.</li>
@@ -796,9 +799,9 @@ to move or write through an immutable reference.</li>
 </div>
 
 
-<div id="outline-container-orgcab916e" class="outline-4">
-<h4 id="orgcab916e">Typing Context</h4>
-<div class="outline-text-4" id="text-orgcab916e">
+<div id="outline-container-org982d250" class="outline-4">
+<h4 id="org982d250">Typing Context</h4>
+<div class="outline-text-4" id="text-org982d250">
 <p>
 As with evaluation, we need more than an environment to perform
 type/borrow checking. We'll create a typing context to maintain this
@@ -833,9 +836,9 @@ This typing context should implement the following interface:
 </div>
 </div>
 
-<div id="outline-container-org3301cba" class="outline-4">
-<h4 id="org3301cba">Type Errors</h4>
-<div class="outline-text-4" id="text-org3301cba">
+<div id="outline-container-org9837eb6" class="outline-4">
+<h4 id="org9837eb6">Type Errors</h4>
+<div class="outline-text-4" id="text-org9837eb6">
 <p>
 Now that we're putting together the full type/borrow checker, we're
 gonna fill in our type errors. There are a lot of ways that the
@@ -870,9 +873,9 @@ captures failing a side condition in a typing rule.
 </div>
 </div>
 
-<div id="outline-container-org1f0efd8" class="outline-4">
-<h4 id="org1f0efd8">Remarks (Part 2.2)</h4>
-<div class="outline-text-4" id="text-org1f0efd8">
+<div id="outline-container-orgbd0f4b4" class="outline-4">
+<h4 id="orgbd0f4b4">Remarks (Part 2.2)</h4>
+<div class="outline-text-4" id="text-orgbd0f4b4">
 <ul class="org-ul">
 <li>You'll need some information to keep track of what lifetimes you're
 contained in during type/borrow checking. I'd recommend a stack of
@@ -889,6 +892,465 @@ error prone. Work through the rules carefully.</li>
 </ul>
 </div>
 </div>
+</div>
+</div>
+
+<div id="outline-container-orgddced6a" class="outline-2">
+<h2 id="orgddced6a">Part 3: Syntax</h2>
+<div class="outline-text-2" id="text-orgddced6a">
+<p>
+<i>I can't say we saved the best for last.</i> To have a working
+interpreter, we need a parser. Nothing to it but that. This means
+defining:
+</p>
+
+<ul class="org-ul">
+<li>a lexer and an enumeration for tokens in our language;</li>
+<li>a method for parsing expressions in our language to the expression
+enumeration from the first part of this project.</li>
+</ul>
+</div>
+
+<div id="outline-container-org39e54f6" class="outline-3">
+<h3 id="org39e54f6">Hard Mode</h3>
+<div class="outline-text-3" id="text-org39e54f6">
+<p>
+Pretty straightforward, you need:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Parser</span>; <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO</span>
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Error</span>;    <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO</span>
+
+<span style="color: #a020f0;">impl</span> <span style="color: #228b22;">Parser</span> {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">parse</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">Result</span>&lt;<span style="color: #228b22;">Expr</span>, <span style="color: #228b22;">Error</span>&gt; { <span style="color: #483d8b;">todo!</span>() }
+}
+</pre>
+</div>
+
+<p>
+where the input string is something of the form:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">main</span>() {
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">CODE</span>
+    ...
+}
+</pre>
+</div>
+
+<p>
+and you return the expression in which you read the bracketed part as a
+block-expression.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8d5e3a4" class="outline-3">
+<h3 id="org8d5e3a4">Easy Mode</h3>
+<div class="outline-text-3" id="text-org8d5e3a4">
+<p>
+Create two empty files <code>src/lexer.rs</code> and <code>src/parser.rs</code>.  Then add
+the lines:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">lexer</span>;
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">mod</span> <span style="color: #008b8b;">parser</span>;
+</pre>
+</div>
+
+<p>
+to the file <code>src/lib.rs</code>.
+</p>
+</div>
+
+<div id="outline-container-org8ba8072" class="outline-4">
+<h4 id="org8ba8072">Lexer</h4>
+<div class="outline-text-4" id="text-org8ba8072">
+<p>
+We can start with an token enumeration in the lexer file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Token</span> {
+    <span style="color: #228b22;">Lparen</span>,
+    <span style="color: #228b22;">Rparen</span>,
+    <span style="color: #228b22;">Lbracket</span>,
+    <span style="color: #228b22;">Rbracket</span>,
+    <span style="color: #228b22;">Eq</span>,
+    <span style="color: #228b22;">Ampersand</span>,
+    <span style="color: #228b22;">Star</span>,
+    <span style="color: #228b22;">Comma</span>,
+    <span style="color: #228b22;">Semicolon</span>,
+    <span style="color: #228b22;">Fn</span>,
+    <span style="color: #228b22;">Let</span>,
+    <span style="color: #228b22;">Mut</span>,
+    <span style="color: #228b22;">Box</span>,
+    <span style="color: #228b22;">Int</span>(<span style="color: #228b22;">i32</span>),
+    <span style="color: #228b22;">Var</span>(<span style="color: #228b22;">String</span>),
+}
+</pre>
+</div>
+
+<p>
+It is useful to delineate the lexemes in a single constant array:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">const</span> <span style="color: #a0522d;">LEXEMES</span> : [(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">str</span>, <span style="color: #228b22;">Token</span>); 13] = [
+    (<span style="color: #8b2252;">"("</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Lparen</span>),
+    (<span style="color: #8b2252;">")"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Rparen</span>),
+    (<span style="color: #8b2252;">"{"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Lbracket</span>),
+    (<span style="color: #8b2252;">"}"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Rbracket</span>),
+    (<span style="color: #8b2252;">"="</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Eq</span>),
+    (<span style="color: #8b2252;">"&amp;"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Ampersand</span>),
+    (<span style="color: #8b2252;">"*"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Star</span>),
+    (<span style="color: #8b2252;">","</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Comma</span>),
+    (<span style="color: #8b2252;">";"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Semicolon</span>),
+    (<span style="color: #8b2252;">"fn"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Fn</span>),
+    (<span style="color: #8b2252;">"let"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Let</span>),
+    (<span style="color: #8b2252;">"mut"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Mut</span>),
+    (<span style="color: #8b2252;">"Box::new"</span>, <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Box</span>),
+];
+</pre>
+</div>
+
+<p>
+We'll assume ASCII (no unicode). We can then use a similar
+structured lexer to what was used in our assignment on S-expressions:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Lexer</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a0522d;">contents</span>: <span style="color: #228b22;">Lines</span>&lt;'<span style="color: #a0522d;">a</span>&gt;,
+    <span style="color: #a0522d;">curr_line_num</span>: <span style="color: #228b22;">usize</span>,
+    <span style="color: #a0522d;">curr_col_num</span>: <span style="color: #228b22;">usize</span>,
+    <span style="color: #a0522d;">curr_line</span>: <span style="color: #000000; background-color: #ffffff;">&amp;</span>'<span style="color: #a0522d;">a</span> <span style="color: #228b22;">str</span>,
+}
+
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Error</span> {
+    <span style="color: #228b22;">Unknown</span>(<span style="color: #228b22;">usize</span>, <span style="color: #228b22;">usize</span>),
+}
+
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">LexResult</span> = <span style="color: #228b22;">Result</span>&lt;<span style="color: #228b22;">Token</span>, <span style="color: #228b22;">Error</span>&gt;;
+</pre>
+</div>
+
+<p>
+<i>Hint:</i> It's easiest to assume that <code>curr_line</code> is <code>""</code> if <code>contents</code> is
+empty.  I would then recommend the following interface for the lexer:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span>&lt;'<span style="color: #a0522d;">a</span>&gt; <span style="color: #228b22;">Lexer</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">unknown</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">Error</span> {
+        <span style="color: #228b22;">Error</span>::<span style="color: #228b22;">Unknown</span>(<span style="color: #a020f0;">self</span>.curr_line_num, <span style="color: #a020f0;">self</span>.curr_col_num)
+    }
+
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">remove `i` characters and remove any leading whitespace from the</span>
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">result (including empty lines)</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">consume</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">i</span>: <span style="color: #228b22;">usize</span>) { <span style="color: #483d8b;">todo!</span>() }
+
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">symbol_or_keyword</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">LexResult</span> { <span style="color: #483d8b;">todo!</span>() }
+        <span style="color: #a020f0;">for</span> (lexeme, token) <span style="color: #a020f0;">in</span> <span style="color: #228b22;">LEXEMES</span> {
+            <span style="color: #a020f0;">if</span> <span style="color: #a020f0;">self</span>.curr_line.starts_with(lexeme) {
+                <span style="color: #a020f0;">self</span>.consume(lexeme.len());
+                <span style="color: #a020f0;">return</span> <span style="color: #228b22;">Ok</span>(token);
+            }
+        }
+        <span style="color: #228b22;">Err</span>(<span style="color: #a020f0;">self</span>.unknown())
+    }
+
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">similar to `symbol_or_keyword` but for variables</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">variable</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">LexResult</span> { <span style="color: #483d8b;">todo!</span>() }
+
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">similar to `symbol_or_keyword` for but integer literals</span>
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">int</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">LexResult</span> { <span style="color: #483d8b;">todo!</span>() }
+}
+</pre>
+</div>
+
+<p>
+Finally, you should make <code>Lexer</code> and iterator:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span>&lt;'<span style="color: #a0522d;">a</span>&gt; <span style="color: #228b22;">Iterator</span> <span style="color: #a020f0;">for</span> <span style="color: #228b22;">Lexer</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a020f0;">type</span> <span style="color: #228b22;">Item</span> = <span style="color: #228b22;">LexResult</span>;
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">next</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">Option</span>&lt;<span style="color: #228b22;">LexResult</span>&gt; { <span style="color: #483d8b;">todo!</span>() }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org84942b0" class="outline-4">
+<h4 id="org84942b0">Parser</h4>
+<div class="outline-text-4" id="text-org84942b0">
+<p>
+As we've done in the past, we'll give our parser a peekable version of
+our lexer.  <i>Hint:</i> You may want to add to this structure&#x2026;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Parser</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a0522d;">lexer</span>: <span style="color: #228b22;">Peekable</span>&lt;<span style="color: #228b22;">Lexer</span>&lt;'<span style="color: #a0522d;">a</span>&gt;&gt;,
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">TODO: anything else you need</span>
+}
+
+<span style="color: #a020f0;">pub</span> <span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Error</span> {
+    <span style="color: #228b22;">EndOfFile</span>,
+    <span style="color: #228b22;">Lexer</span>(<span style="color: #008b8b;">lexer</span>::<span style="color: #228b22;">Error</span>),
+    <span style="color: #228b22;">Unexpected</span>(<span style="color: #008b8b;">lexer</span>::<span style="color: #228b22;">Token</span>),
+}
+
+<span style="color: #a020f0;">type</span> <span style="color: #228b22;">ParseResult</span>&lt;<span style="color: #228b22;">T</span>&gt; = <span style="color: #228b22;">Result</span>&lt;<span style="color: #228b22;">T</span>, <span style="color: #228b22;">Error</span>&gt;;
+</pre>
+</div>
+
+<p>
+Here's a little interface for <code>Parser</code> that I found useful:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span>&lt;'<span style="color: #a0522d;">a</span>&gt; <span style="color: #228b22;">Parser</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">next_token</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">ParseResult</span>&lt;<span style="color: #228b22;">Token</span>&gt; {
+        <span style="color: #a020f0;">match</span> <span style="color: #a020f0;">self</span>.lexer.next() {
+            <span style="color: #228b22;">Some</span>(<span style="color: #228b22;">Ok</span>(token)) =&gt; <span style="color: #228b22;">Ok</span>(token),
+            <span style="color: #228b22;">Some</span>(<span style="color: #228b22;">Err</span>(err)) =&gt; <span style="color: #228b22;">Err</span>(<span style="color: #228b22;">Error</span>::<span style="color: #228b22;">Lexer</span>(err)),
+            <span style="color: #228b22;">None</span> =&gt; <span style="color: #228b22;">Err</span>(<span style="color: #228b22;">Error</span>::<span style="color: #228b22;">EndOfFile</span>),
+        }
+    }
+
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">next_token_match</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>, <span style="color: #a0522d;">t</span>: <span style="color: #228b22;">Token</span>) -&gt; <span style="color: #228b22;">ParseResult</span>&lt;<span style="color: #228b22;">Token</span>&gt; {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">token</span> = <span style="color: #a020f0;">self</span>.next_token()<span style="color: #483d8b; font-weight: bold;">?</span>;
+        <span style="color: #a020f0;">if</span> token != t {
+            <span style="color: #228b22;">Err</span>(<span style="color: #228b22;">Error</span>::<span style="color: #228b22;">Unexpected</span>(token))
+        } <span style="color: #a020f0;">else</span> {
+            <span style="color: #228b22;">Ok</span>(token)
+        }
+    }
+
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">next_token_var</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">ParseResult</span>&lt;<span style="color: #228b22;">String</span>&gt; {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">token</span> = <span style="color: #a020f0;">self</span>.next_token()<span style="color: #483d8b; font-weight: bold;">?</span>;
+        <span style="color: #a020f0;">match</span> token {
+            <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Var</span>(ident) =&gt; <span style="color: #228b22;">Ok</span>(ident.clone()),
+            _ =&gt; <span style="color: #228b22;">Err</span>(<span style="color: #228b22;">Error</span>::<span style="color: #228b22;">Unexpected</span>(token))
+        }
+    }
+
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">peek_token</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">Result</span>&lt;<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #228b22;">Token</span>, <span style="color: #228b22;">Error</span>&gt; {
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">token</span> = <span style="color: #a020f0;">self</span>.lexer.peek();
+        <span style="color: #a020f0;">match</span> token {
+            <span style="color: #228b22;">Some</span>(<span style="color: #228b22;">Ok</span>(token)) =&gt; <span style="color: #228b22;">Ok</span>(token),
+            _ =&gt; <span style="color: #228b22;">Err</span>(<span style="color: #228b22;">Error</span>::<span style="color: #228b22;">EndOfFile</span>),
+        }
+    }
+}
+</pre>
+</div>
+
+<p>
+What remains is to implement the <code>parse</code> function.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">impl</span>&lt;'<span style="color: #a0522d;">a</span>&gt; <span style="color: #228b22;">Parser</span>&lt;'<span style="color: #a0522d;">a</span>&gt; {
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">parse_block</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">ParseResult</span>&lt;<span style="color: #228b22;">Expr</span>&gt; { <span style="color: #483d8b;">todo!</span>() }
+
+    <span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">parse</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">ParseResult</span>&lt;<span style="color: #228b22;">Expr</span>&gt; {
+        <span style="color: #a020f0;">self</span>.next_token_match(<span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Fn</span>)<span style="color: #483d8b; font-weight: bold;">?</span>;
+        <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">main</span> = <span style="color: #a020f0;">self</span>.next_token()<span style="color: #483d8b; font-weight: bold;">?</span>;
+        <span style="color: #a020f0;">match</span> main {
+            <span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Var</span>(ident) <span style="color: #a020f0;">if</span> ident == <span style="color: #8b2252;">"main"</span> =&gt; {
+                <span style="color: #a020f0;">self</span>.next_token_match(<span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Lparen</span>)<span style="color: #483d8b; font-weight: bold;">?</span>;
+                <span style="color: #a020f0;">self</span>.next_token_match(<span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Rparen</span>)<span style="color: #483d8b; font-weight: bold;">?</span>;
+                <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">out</span> = <span style="color: #a020f0;">self</span>.parse_block();
+                <span style="color: #a020f0;">if</span> <span style="color: #a020f0;">self</span>.peek_token().is_err() {
+                    <span style="color: #a020f0;">return</span> out
+                }
+                <span style="color: #228b22;">Err</span>(<span style="color: #228b22;">Error</span>::<span style="color: #228b22;">Unexpected</span>(<span style="color: #a020f0;">self</span>.next_token()<span style="color: #483d8b; font-weight: bold;">?</span>))
+            }
+            _ =&gt; <span style="color: #228b22;">Err</span>(<span style="color: #228b22;">Error</span>::<span style="color: #228b22;">Unexpected</span>(main))
+        }
+    }
+}
+</pre>
+</div>
+
+<p>
+This function should take a program of the form:
+</p>
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">main</span>() {
+    ...
+}
+</pre>
+</div>
+<p>
+and return the expression in which you read the bracketed part as a
+block-expression.
+</p>
+
+<p>
+Again, as we've done the past, you should approach this in a
+recursive-descent fashion, writing mini-parsers for each individual
+construct.  With the interface above, this can be quite clean, e.g.:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">parse_box</span>(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> <span style="color: #a020f0;">self</span>) -&gt; <span style="color: #228b22;">ParseResult</span>&lt;<span style="color: #228b22;">Expr</span>&gt; {
+    <span style="color: #a020f0;">self</span>.next_token_match(<span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Box</span>)<span style="color: #483d8b; font-weight: bold;">?</span>;
+    <span style="color: #a020f0;">self</span>.next_token_match(<span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Lparen</span>)<span style="color: #483d8b; font-weight: bold;">?</span>;
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">e</span> = <span style="color: #a020f0;">self</span>.parse_expr()<span style="color: #483d8b; font-weight: bold;">?</span>;
+    <span style="color: #a020f0;">self</span>.next_token_match(<span style="color: #228b22;">Token</span>::<span style="color: #228b22;">Rparen</span>)<span style="color: #483d8b; font-weight: bold;">?</span>;
+    <span style="color: #228b22;">Ok</span>(<span style="color: #228b22;">Expr</span>::<span style="color: #228b22;">Box</span>(<span style="color: #228b22;">Box</span>::new(e)))
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org21f7d15" class="outline-4">
+<h4 id="org21f7d15">Remarks</h4>
+<div class="outline-text-4" id="text-org21f7d15">
+<ul class="org-ul">
+<li>Don't forget to handle comments in the lexer!</li>
+<li>Remember that every l-value expression should be parsed as <i>not</i>
+copyable.  These should be made copyable in type/borrow checker.</li>
+<li>You'll probably want to add a field to the <code>Parser</code> to help you deal
+with lifetime annotations on blocks. The only thing that's required
+is that every block has a <i>distinct</i> lifetime annotation (which is
+also distinct from the global lifetime), since the ordering of
+lifetimes is dealt with in the type/borrow checker.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0774245" class="outline-2">
+<h2 id="org0774245">Part 4: Assertions</h2>
+<div class="outline-text-2" id="text-org0774245">
+<p>
+We ended up not covering extensions as much as I would have liked. If
+you managed to implement an extension, great! If not, no worries. But
+there's one extensions that it incredibly useful just for making sure
+your code works as expected: <i>assertions</i>.
+</p>
+
+<p>
+This is an "extra credit" part of the project, <b>but if you're working
+in a group, you MUST complete this part</b>.
+</p>
+
+<p>
+<b>The task:</b> go back through the project and add what you need in order
+to interpret code of the following form:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">main</span>() {
+    <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">x</span> = <span style="color: #228b22;">Box</span>::new(2);
+    <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">y</span> = <span style="color: #228b22;">Box</span>::new(2);
+    <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">z</span> = <span style="color: #000000; background-color: #ffffff;">&amp;</span>y;
+    <span style="color: #483d8b;">assert_eq!</span>(*x, **z);
+}
+</pre>
+</div>
+
+<p>
+Formally speaking this means adding:
+</p>
+<ul class="org-ul">
+<li>a constructor to the expression enumeration;</li>
+<li>a token to the lexer;</li>
+<li>a case to the parser;</li>
+<li>a case to the type checker; note that <code>assert_eq!(e1, e2)</code> is an
+expression of unit type; in order to simplify things, we will
+require that <code>e1</code> and <code>e2</code> have integer type;</li>
+<li>a constructor to the type error enumeration for ill-typed assertions</li>
+<li>a case to the evaluator; <code>assert_eq!(e1, e2)</code> should reflect to
+an assertion <i>within</i> Rust, i.e., you should evaluate <code>e1</code> and <code>e2</code>
+and then assert within Rust that their corresponding integer values
+are equal.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org66d44bc" class="outline-2">
+<h2 id="org66d44bc">Part 5: Everything</h2>
+<div class="outline-text-2" id="text-org66d44bc">
+<p>
+All that's left is to fill in our <code>bin/interp.rs</code> file so that we can
+run our interpreter.  We'll play this part a bit fast and loose:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #a020f0;">use</span> <span style="color: #008b8b;">std</span>::env;
+<span style="color: #a020f0;">use</span> <span style="color: #008b8b;">std</span>::<span style="color: #008b8b;">fs</span>::<span style="color: #228b22;">File</span>;
+<span style="color: #a020f0;">use</span> <span style="color: #008b8b;">std</span>::<span style="color: #008b8b;">io</span>::{<span style="color: #228b22;">Read</span>, <span style="color: #228b22;">Error</span>, <span style="color: #228b22;">ErrorKind</span>};
+<span style="color: #a020f0;">use</span> <span style="color: #008b8b;">salt</span>::<span style="color: #008b8b;">parser</span>::<span style="color: #228b22;">Parser</span>;
+<span style="color: #a020f0;">use</span> <span style="color: #008b8b;">salt</span>::eval;
+<span style="color: #a020f0;">use</span> <span style="color: #008b8b;">salt</span>::types;
+<span style="color: #a020f0;">use</span> <span style="color: #008b8b;">salt</span>::<span style="color: #008b8b;">utils</span>::*;
+
+<span style="color: #a020f0;">fn</span> <span style="color: #0000ff;">main</span>() -&gt; <span style="color: #228b22;">Result</span>&lt;(), <span style="color: #228b22;">Box</span>&lt;<span style="color: #a020f0;">dyn</span> <span style="color: #008b8b;">std</span>::<span style="color: #008b8b;">error</span>::<span style="color: #228b22;">Error</span>&gt;&gt; {
+    <span style="color: #a020f0;">let</span> <span style="color: #a0522d;">filename</span> = {
+        <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">args</span> = <span style="color: #008b8b;">env</span>::args();
+        args.next();
+        args.next().ok_or(<span style="color: #228b22;">Error</span>::new(<span style="color: #228b22;">ErrorKind</span>::<span style="color: #228b22;">NotFound</span>, <span style="color: #8b2252;">"usage: cargo run --bin interp &lt;filename&gt;"</span>))<span style="color: #483d8b; font-weight: bold;">?</span>
+    };
+
+    <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">contents</span> = <span style="color: #228b22;">String</span>::new();
+    <span style="color: #228b22;">File</span>::open(filename)<span style="color: #483d8b; font-weight: bold;">?</span>.read_to_string(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> contents)<span style="color: #483d8b; font-weight: bold;">?</span>;
+
+    <span style="color: #a020f0;">let</span> <span style="color: #a020f0;">mut</span> <span style="color: #a0522d;">e</span> = <span style="color: #228b22;">Parser</span>::new(<span style="color: #000000; background-color: #ffffff;">&amp;</span>contents[..])
+        .parse()
+        .map_err(|err| <span style="color: #228b22;">Error</span>::new(<span style="color: #228b22;">ErrorKind</span>::<span style="color: #228b22;">Other</span>, <span style="color: #483d8b;">format!</span>(<span style="color: #8b2252;">"</span><span style="color: #8b2252; font-style: italic;">{:?}</span><span style="color: #8b2252;">"</span>, err)))<span style="color: #483d8b; font-weight: bold;">?</span>;
+
+    <span style="color: #008b8b;">types</span>::<span style="color: #228b22;">Context</span>::default()
+        .type_expr(<span style="color: #000000; background-color: #ffffff;">&amp;</span><span style="color: #a020f0;">mut</span> e)
+        .map_err(|err| <span style="color: #228b22;">Error</span>::new(<span style="color: #228b22;">ErrorKind</span>::<span style="color: #228b22;">Other</span>, <span style="color: #483d8b;">format!</span>(<span style="color: #8b2252;">"</span><span style="color: #8b2252; font-style: italic;">{:?}</span><span style="color: #8b2252;">"</span>, err)))<span style="color: #483d8b; font-weight: bold;">?</span>;
+
+    <span style="color: #008b8b;">eval</span>::<span style="color: #228b22;">Context</span>::default()
+        .eval_expr(<span style="color: #000000; background-color: #ffffff;">&amp;</span>e, <span style="color: #228b22;">Lifetime</span>::global());
+
+    <span style="color: #228b22;">Ok</span>(())
+}
+</pre>
+</div>
+
+<p>
+You may have to go back and derive <code>Debug</code> for some structures in
+order for this to work.
+</p>
+
+<p>
+<i>And that's all folks.</i> I hope you enjoyed building an interpreter of
+Rust in Rust. At this point, you will almost certainly uncover some
+unexpected bugs. Play around with some examples, see if you can handle
+some of the more interesting programs we've seen throughout the
+course!
+</p>
+
+<p>
+Remember that we set things up to have that playground file in our
+crate. This means we can run:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">cargo run --bin interp playground.rs
+cargo run --bin playground
+</pre>
+</div>
+
+<p>
+and compare what Rust does to what our interpreter does.  This should
+help out in testing out examples.
+</p>
 </div>
 </div>
 <div id="footnotes">
