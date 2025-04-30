@@ -51,6 +51,8 @@
 *** [[file:Slides/22-fr-extensions.pdf][pdf]]
 ** Featherweight Rust: Progress and Preservation
 *** [[file:Slides/23-fr-prog-pres.pdf][pdf]]
+** Featherweight Rust: Type/Borrow Safety
+*** [[file:Slides/25-fr-safety.pdf][pdf]]
 * Midterm
 ** [[file:Assignments/Mock-Midterm/mock-midterm.zip][mock-midterm.zip]]
 ** [[file:Assignments/Midterm/midterm.zip][midterm.zip]]
